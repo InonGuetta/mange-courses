@@ -91,7 +91,6 @@ const favoritesSlice = createSlice({
         },
     },
 
-
     extraReducers: (builder) => {
         builder
 
@@ -145,7 +144,7 @@ export const selectFavoriteIds = (state) => state.favorites.favoriteCourseIds;
 export const selectFavoriteCourses = (state) => {
     const favIds = state.favorites.favoriteCourseIds;
     const courses = state.courses.coursesList;
-    const set = new Set (favIds);
+    const set = new Set(favIds);
     return courses.filter((c) => set.has(c.id));
 };
 
