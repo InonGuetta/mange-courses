@@ -78,7 +78,6 @@ export const deleteCourse = createAsyncThunk(
             let data = null;
             try {
                 data = await res.json();
-                // תסביר את השורה כאן למטה 
             } catch (_) { }
 
             if (!res.ok) return rejectWithValue(data?.message || "Delete course failed");
@@ -95,6 +94,11 @@ const initialState = {
     error: null,
     coursesList: [],
     selectedCourseId: null,
+
+    // למה הוספת את זה 
+    query: "",
+    filters: null,
+    sort: { by: "title", dir: "asc" }
 };
 
 const coursesSlice = createSlice({
@@ -105,13 +109,27 @@ const coursesSlice = createSlice({
         setSelectedCourseId(state, action) {
             state.selectedCourseId = action.payload;
         },
-
         clearCoursesError(state) {
             state.error = null;
         },
-
         setCourses(state, action) {
             state.coursesList = action.payload;
+        },
+
+
+        setQuery(state, action) {
+            state.query = action.payload ?? "";
+        },
+        setFilters(state, action) {
+            state.sort = action.payload ?? null;
+        },
+        setSort(state, action) {
+            state.sort = action.payload ?? null;
+        },
+        clearSearch(state){
+            state.query = "";
+            state.filters = null;
+            state.sort = null;
         },
     },
 

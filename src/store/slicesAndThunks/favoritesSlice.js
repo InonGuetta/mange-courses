@@ -74,7 +74,7 @@ export const removeFavorite = createAsyncThunk(
 );
 
 const initialState = {
-    state: "idle",
+    status: "idle",
     error: null,
     favoriteCourseIds: [],
 };

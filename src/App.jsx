@@ -16,7 +16,6 @@ function App() {
       <Navbar />
 
       <Routes>
-        {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/" element={<Navigate to="/courses" replace />} />
         <Route path="/courses" element={<AllCoursePage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
