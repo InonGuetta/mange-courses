@@ -13,9 +13,6 @@ export default function AllCoursePage() {
     const courses = useSelector(selectVisibleCourses);
     const users = useSelector(selectVisibleUsers);
 
-    console.log("AllCoursePage - courses:", courses);
-    console.log("AllCoursePage - users:", users);
-
     useEffect(() => {
         dispatch(fetchCourses());
         dispatch(fetchUsers());
@@ -96,6 +93,8 @@ export default function AllCoursePage() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+
         </Container>
     );
 }
