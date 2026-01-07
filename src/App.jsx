@@ -1,13 +1,43 @@
-import { useState } from 'react'
+// import { useState } from 'react'
+
+// function App() {
+//   const [count, setCount] = useState(0)
+
+//   return (
+//     <>
+//     <h1>hello wolrd</h1>
+//     </>
+//   )
+// }
+
+// export default App
+
+
+// import { useState } from 'react'
+import { Routes, Route, Navigate } from "react-router-dom";
+import Navbar from './components/layout/navbar/Navbar';
+
+import AllCoursePage from './components/pages/AllCoursesPage';
+// import FavoritesPage from './components/pages/FavoritesPage';
+import MyCoursesPage from './components/pages/MyCoursesPage';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  // const [count, setCount] = useState(0)
   return (
     <>
-    <h1>hello wolrd</h1>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Navigate to="/courses" replace />} />
+        <Route path="/courses" element={<AllCoursePage />} />
+        {/* <Route path="/favorites" element={<FavoritesPage />} /> */}
+        <Route path="/my-courses" element={<MyCoursesPage />} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+
+      </Routes>
     </>
-  )
+  );
 }
 
 export default App
