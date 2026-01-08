@@ -1,8 +1,5 @@
-// import {} from "";
-
 export default function MyCoursesPage() {
     return <>
-        <h1>hello from MyCoursesPage</h1>
-        
+        <h1>hello from MyCoursesPage</h1>       
     </>
 }

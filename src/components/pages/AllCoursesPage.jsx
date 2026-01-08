@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
+
 import { fetchCourses } from "../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../store/slicesAndThunks/usersSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
@@ -12,9 +13,6 @@ export default function AllCoursePage() {
     const dispatch = useDispatch();
     const courses = useSelector(selectVisibleCourses);
     const users = useSelector(selectVisibleUsers);
-
-    console.log("AllCoursePage - courses:", courses);
-    console.log("AllCoursePage - users:", users);
 
     useEffect(() => {
         dispatch(fetchCourses());

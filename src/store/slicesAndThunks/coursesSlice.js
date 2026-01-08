@@ -4,11 +4,11 @@ export const fetchCourses = createAsyncThunk(
     "courses/fetchCourses",
     async (_, { rejectWithValue }) => {
         try {
-            const res = await fetch("/api/courses");
+            const res = await fetch("/api/courses/get-all-courses");
             const data = await res.json();
 
             if (!res.ok) return rejectWithValue(data?.message || "Fetch courses failed");
-            return data
+            return data.courses;
         } catch (err) {
             return rejectWithValue(err?.message || "Network error");
         }
