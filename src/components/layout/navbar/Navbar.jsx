@@ -14,13 +14,14 @@ export default function Navbar() {
         pathname === "/courses" ? 0 :
             pathname === "/favorites" ? 1 :
                 pathname === "/my-courses" ? 2 :
+                    pathname ==="/sign-in" ? 3:
                     false;
 
     return <>
         <AppBar position="sticky" elevation={2}>
             <Toolbar sx={{ gap: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                    hello world
+                    MANAGE COURSES
                 </Typography>
 
                 <Box sx={{ flexGrow: 1 }} />
@@ -33,6 +34,7 @@ export default function Navbar() {
                     <Tab label="All Courses" component={Link} to="/courses" />
                     <Tab label="Favorites" component={Link} to="/favorites" />
                     <Tab label="My Courses" component={Link} to="/my-courses" />
+                    <Tab label="Sign In" component={Link} to="/sign-in" />
                 </Tabs>
             </Toolbar>
         </AppBar>

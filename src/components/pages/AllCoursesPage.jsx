@@ -8,10 +8,10 @@ import { fetchUsers } from "../../store/slicesAndThunks/usersSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../store/selectors/coursesSelectors";
 
-
+ 
 export default function AllCoursePage() {
     const dispatch = useDispatch();
-    const courses = useSelector(selectVisibleCourses);
+    const courses = useSelector(selectVisibleCourses); 
     const users = useSelector(selectVisibleUsers);
 
     useEffect(() => {
