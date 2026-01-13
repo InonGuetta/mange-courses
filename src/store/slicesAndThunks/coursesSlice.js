@@ -78,7 +78,6 @@ export const deleteCourse = createAsyncThunk(
             let data = null;
             try {
                 data = await res.json();
-                // תסביר את השורה כאן למטה 
             } catch (_) { }
 
             if (!res.ok) return rejectWithValue(data?.message || "Delete course failed");
