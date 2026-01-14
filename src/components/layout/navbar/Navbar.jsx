@@ -6,19 +6,26 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 
 import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
     const { pathname } = useLocation();
+    const [bgColor, setBgColor] = useState("rgba(0, 0, 255, 1)");
+
+    useEffect(() => {
+        const gradient = `linear-gradient(135deg, #549df0, #438dd7, #3e84cb, #2664ab , #164983)`;
+        setBgColor(gradient);
+    }, []);
 
     const value =
         pathname === "/courses" ? 0 :
             pathname === "/favorites" ? 1 :
                 pathname === "/my-courses" ? 2 :
-                    pathname ==="/sign-in" ? 3:
-                    false;
+                    pathname === "/sign-in" ? 3 :
+                        false;
 
     return <>
-        <AppBar position="sticky" elevation={2}>
+        <AppBar position="sticky" elevation={2} sx={{ background: bgColor, transition: "background 0.3s ease" }}>
             <Toolbar sx={{ gap: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 800 }}>
                     MANAGE COURSES

@@ -49,20 +49,24 @@ export default function MyCoursesPage() {
                 </Button>
             </Box>
 
-            <TableContainer component={Paper} elevation={2}>
-                <Table sx={{ minWidth: 650 }}>
+            <TableContainer component={Paper} elevation={6} sx={{ borderRadius: 4, boxShadow: '0 8px 32px 0 rgba(30,90,168,0.15)', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(2px)' }}>
+                <Table sx={{ minWidth: 700, borderRadius: 4, overflow: 'hidden' }}>
                     <TableHead>
-                        <TableRow sx={{ bgcolor: 'primary.main' }}>
-                            <TableCell sx={{ color: 'white', fontWeight: 600 }}>id</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 600 }}>courses name</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 600 }}>course detail</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 600 }}>teacher name</TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 600 }}>student name</TableCell>
+                        <TableRow sx={{
+                            background: 'linear-gradient(90deg, #e3eaf6 0%, #b6c7e3 100%)',
+                            boxShadow: '0 2px 8px 0 rgba(100,120,180,0.10)'
+                        }}>
+                            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>id</TableCell>
+                            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>courses name</TableCell>
+                            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>course detail</TableCell>
+                            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>teacher name</TableCell>
+                            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>student name</TableCell>
+                            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>add favorite</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {myCourses && myCourses.length > 0 ? (
-                            myCourses.map((item) => {
+                            myCourses.map((item, idx) => {
                                 const student = users.find((u) => String(u.id) === String(item.student_id));
                                 const studentName = student ? (student.name ?? student.studentName ?? `ID: ${item.student_id}`) : `ID: ${item.student_id}`;
                                 const course = courses.find((c) => String(c.id) === String(item.course_id));
@@ -77,21 +81,23 @@ export default function MyCoursesPage() {
                                     <TableRow
                                         key={item.id}
                                         sx={{
-                                            '&:nth-of-type(odd)': {
-                                                bgcolor: 'action.hover',
-                                            },
+                                            backgroundColor: idx % 2 === 0 ? '#FFFFFF' : '#F3F6FB',
+                                            transition: 'background 0.2s, transform 0.15s',
                                             '&:hover': {
-                                                bgcolor: 'action.selected',
-                                            }
+                                                backgroundColor: '#E8F0FF',
+                                                transform: 'scale(1.012)',
+                                                boxShadow: '0 4px 16px 0 rgba(30,90,168,0.10)',
+                                            },
+                                            borderBottom: '2px solid #D9E2F2',
+                                            borderRadius: 2,
                                         }}
                                     >
-                                        <TableCell component="th" scope="row">
-                                            {item.id}
-                                        </TableCell>
-                                        <TableCell>{courseName}</TableCell>
-                                        <TableCell>{courseDetail}</TableCell>
-                                        <TableCell>{teacherName}</TableCell>
-                                        <TableCell>{studentName}</TableCell>
+                                        <TableCell component="th" scope="row" sx={{ py: 2, fontWeight: 600, color: '#1F2937', fontSize: 16, border: 'none' }}>{item.id}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{courseName}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{courseDetail}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{teacherName}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{studentName}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>👍</TableCell>
                                     </TableRow>
                                 );
                             })
