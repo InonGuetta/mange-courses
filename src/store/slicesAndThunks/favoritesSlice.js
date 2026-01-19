@@ -1,30 +1,19 @@
-import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 
 export const fetchFavorites = createAsyncThunk(
     "favorites/fetchFavorites",
-    async (_, { getState, rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const token = getState().auth?.token;
-
-            const res = await fetch("/api/favorites", {
-                headers: {
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-            });
-
+            const res = await fetch("/api/favorite/get-all-favorites");
             const data = await res.json();
-            if (!res.ok) return rejectWithValue(data?.message || "Fetch favorites failed");
-
-            const courseIds = Array.isArray(data)
-                ? data.map((x) => x.courseId ?? x)
-                : (data?.favorites || []).map((x) => x.courseId ?? x);
-
-            return courseIds;
+            if (!res.ok) return rejectWithValue(data?.message || "Fetch Favorite failed");
+            return data.favorites;
         } catch (err) {
             return rejectWithValue(err?.message || "Network error");
         }
     }
-);
+)
 
 export const addFavorite = createAsyncThunk(
     "favorites/addFavorite",
@@ -94,14 +83,13 @@ const favoritesSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-
             .addCase(fetchFavorites.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
             })
             .addCase(fetchFavorites.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.favoriteCourseIds = Array.from(new Set(action.payload || []));
+                state.favorite = action.payload;
             })
             .addCase(fetchFavorites.rejected, (state, action) => {
                 state.status = "failed";
@@ -145,7 +133,7 @@ export const selectFavoriteIds = (state) => state.favorites.favoriteCourseIds;
 export const selectFavoriteCourses = (state) => {
     const favIds = state.favorites.favoriteCourseIds;
     const courses = state.courses.coursesList;
-    const set = new Set (favIds);
+    const set = new Set(favIds);
     return courses.filter((c) => set.has(c.id));
 };
 

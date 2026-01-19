@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+
 import { fetchMyCourses } from "../../store/slicesAndThunks/myCoursesSlice";
 import { fetchUsers } from "../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../store/slicesAndThunks/coursesSlice";
@@ -67,19 +70,11 @@ export default function MyCoursesPage() {
                     <TableBody>
                         {myCourses && myCourses.length > 0 ? (
                             myCourses.map((item, idx) => {
-                                const student = users.find((u) => String(u.id) === String(item.student_id));
-                                const studentName = student ? (student.name ?? student.studentName ?? `ID: ${item.student_id}`) : `ID: ${item.student_id}`;
-                                const course = courses.find((c) => String(c.id) === String(item.course_id));
-                                const courseName = course ? (course.name_course ?? course.courseName ?? `ID: ${item.course_id}`) : `ID: ${item.course_id}`;
-
-                                const courseTeacherId = course ? (course.teacher_id ?? course.courseTeacher ?? `ID ${item.course_id}`) : `ID ${item.course_id}`;
-                                const teacher = users.find((u) => String(u.id) === String(courseTeacherId));
-                                const teacherName = teacher ? (teacher.name ?? teacher.teacherName ?? `ID: ${courseTeacherId}`) : `ID: ${courseTeacherId}`;
-                                const courseDetail = course ? (course.detail ?? course.detailCourse ?? `ID ${item.detail}`) : `ID ${item.detail}`;
-
+                                const course = courses.find(c => String(c.id) === String(item.course_id));
+                                const teacher = course && users.find(u => String(u.id) === String(course.teacher_id ));
+                                const student = users.find(u => String(u.id) === String(item.student_id));
                                 return (
-                                    <TableRow
-                                        key={item.id}
+                                    <TableRow key={item.id}
                                         sx={{
                                             backgroundColor: idx % 2 === 0 ? '#FFFFFF' : '#F3F6FB',
                                             transition: 'background 0.2s, transform 0.15s',
@@ -93,11 +88,11 @@ export default function MyCoursesPage() {
                                         }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ py: 2, fontWeight: 600, color: '#1F2937', fontSize: 16, border: 'none' }}>{item.id}</TableCell>
-                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{courseName}</TableCell>
-                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{courseDetail}</TableCell>
-                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{teacherName}</TableCell>
-                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{studentName}</TableCell>
-                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>👍</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{course?.name_course ?? item.course_id}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{course?.detail ?? item.detail}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{teacher?.name ?? teacher?.teacherName ?? `ID: ${course?.teacher_id ?? course?.courseTeacher ?? item.course_id}`}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{student?.name ?? student?.studentName ?? `ID: ${item.student_id}`}</TableCell>
+                                        <TableCell sx={{ py: 2, color: '#4d2af9', fontSize: 16, border: 'none'}}><ThumbUpOffAltIcon /></TableCell>
                                     </TableRow>
                                 );
                             })

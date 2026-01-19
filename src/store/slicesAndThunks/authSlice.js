@@ -5,7 +5,6 @@ const TOKEN_KEY = "token";
 const initialState = {
     status: "idle",
     error: null,
-
     token: localStorage.getItem(TOKEN_KEY) || null,
     user: null,
 };
@@ -69,7 +68,6 @@ export const logout = createAsyncThunk(
                 });
             }
         } catch (_) {
-            // אין צורך לעשות פה ניקוי שהרי הוא מתנקה לוקאלית בכל מקרה 
         }
         return data
     }
@@ -101,7 +99,6 @@ const authSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-            // extrareducer of login 
             .addCase(login.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
@@ -118,7 +115,6 @@ const authSlice = createSlice({
                 state.error = action.payload || "Login failed";
             })
 
-            // extrareducer of fetchMe
             .addCase(fetchMe.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
@@ -132,7 +128,6 @@ const authSlice = createSlice({
                 state.error = action.payload || "Fetch me failed";
             })
 
-            // extrareducer of logout 
             .addCase(logout.fulfilled, (state) => {
                 state.token = null;
                 state.user = null;
@@ -145,11 +140,9 @@ const authSlice = createSlice({
 
 export const { clearError, setCredentials, clearAuth} = authSlice.actions;
 
-// the selectors
 export const selectAuth = (state) => state.auth;
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectRole = (state) => state.auth.user?.role || null;
 export const selectIsAuthenticated = (state) => Boolean(state.auth.token);
 
-// exports
 export default authSlice.reducer;

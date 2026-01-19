@@ -4,6 +4,7 @@ import authReducer from "./slicesAndThunks/authSlice.js";
 import coursesReducer from './slicesAndThunks/coursesSlice.js';
 import favoritesReducer from './slicesAndThunks/favoritesSlice.js';
 import myCoursesReducer from './slicesAndThunks/myCoursesSlice.js';
+import uiReducer from './slicesAndThunks/uiSlice.js';
 
 
 export const store = configureStore({
@@ -13,5 +14,6 @@ export const store = configureStore({
         courses: coursesReducer,
         favorites: favoritesReducer,
         myCourses: myCoursesReducer,
+        ui: uiReducer,
     },
 });

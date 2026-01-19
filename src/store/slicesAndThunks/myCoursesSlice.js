@@ -18,6 +18,28 @@ export const fetchMyCourses = createAsyncThunk(
     }
 )
 
+// export const addMyCourses = createAsyncThunk(
+//     "myCourses/addMyCourses",
+//     async (newAddMyCourses, { getState, rejectWithValue }) => {
+//         try {
+//             const token = getState().auth.token;
+
+//             const res = await fetch("api/student-courses/add-student-to-course/:course_id", {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+//             }
+//             })
+
+
+//         } catch (err) {
+//             return rejectWithValue(err?.message || "Network error")
+//         }
+//     }
+// )
+
 const initialState = {
     status: "idle",
     error: null,

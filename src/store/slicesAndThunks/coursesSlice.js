@@ -20,8 +20,9 @@ export const createCourse = createAsyncThunk(
     async (newCourse, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth?.token;
+            console.log("Creating course with data:", newCourse);
 
-            const res = await fetch("/api/courses", {
+            const res = await fetch("/api/courses/create-course", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,9 +32,11 @@ export const createCourse = createAsyncThunk(
             });
 
             const data = await res.json();
+            console.log("Create course response:", { status: res.status, data });
             if (!res.ok) return rejectWithValue(data?.message || "Create course failed");
             return data;
         } catch (err) {
+            console.error("Create course error:", err);
             return rejectWithValue(err?.message || "Network error");
         }
     }
@@ -68,7 +71,7 @@ export const deleteCourse = createAsyncThunk(
         try {
             const token = getState().auth?.token;
 
-            const res = await fetch(`/api/courses/${id}`, {
+            const res = await fetch(`/api/courses/delete-course/${id}`, {
                 method: "DELETE",
                 headers: {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
