@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, IconButton, Tooltip } from "@mui/material";
@@ -13,7 +13,9 @@ import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../store/selectors/coursesSelectors";
 import AddCourseDialog from "../features/addCourseFeature";
 import DeleteCourseDialog from "../features/deleteCourseFeature";
-import { openAddDialog as openAddDialogAction, closeAddDialog as closeAddDialogAction } from '../../store/slicesAndThunks/uiSlice';
+import EditCourseDialog from "../features/editCourseFeature";
+import { openAddDialog as openAddDialogAction, closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction
+} from '../../store/slicesAndThunks/uiSlice';
 
 
 export default function AllCoursePage() {
@@ -21,8 +23,10 @@ export default function AllCoursePage() {
     const courses = useSelector(selectVisibleCourses);
     const users = useSelector(selectVisibleUsers);
     const openAddDialog = useSelector(state => state.ui.openAddDialog);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [courseToDelete, setCourseToDelete] = useState(null);
+    const deleteDialogOpen = useSelector(state => state.ui.deleteDialogOpen);
+    const courseToDelete = useSelector(state => state.ui.courseToDelete);
+    const editDialogOpen = useSelector(state => state.ui.editDialogOpen);
+    const courseToEdit = useSelector(state => state.ui.courseToEdit);
 
     useEffect(() => {
         dispatch(fetchCourses());
@@ -46,13 +50,11 @@ export default function AllCoursePage() {
 
 
     const handleOpenDeleteDialog = (course) => {
-        setCourseToDelete(course);
-        setDeleteDialogOpen(true);
+        dispatch(openDeleteDialogAction(course));
     };
 
     const handleCloseDeleteDialog = () => {
-        setDeleteDialogOpen(false);
-        setCourseToDelete(null);
+        dispatch(closeDeleteDialogAction());
     };
 
     const handleConfirmDelete = () => {
@@ -61,6 +63,16 @@ export default function AllCoursePage() {
         }
         handleCloseDeleteDialog();
         dispatch(fetchCourses());
+    };
+
+    const handleOpenEditDialog = (course) => {
+        dispatch(openEditDialogAction(course));
+    };
+
+    const handleCloseEditDialog = () => {
+        dispatch(closeEditDialogAction());
+        dispatch(fetchCourses());
+        dispatch(fetchUsers());
     };
 
     return (
@@ -72,24 +84,27 @@ export default function AllCoursePage() {
                 </Typography>
 
                 <Box
-                    sx={{position: 'fixed',top: { xs: 'auto', md: "25em" },right: { xs: 24, md: 64 },zIndex: 1201,display: 'flex',flexDirection: 'column',alignItems: 'flex-end',gap: '1.5rem',cursor: 'pointer','&:hover': { cursor: 'pointer' },
+                    sx={{
+                        position: 'fixed', top: { xs: 'auto', md: "25em" }, right: { xs: 24, md: 64 }, zIndex: 1201, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1.5rem', cursor: 'pointer', '&:hover': { cursor: 'pointer' },
                     }}
                 >
                     <AddIcon
                         variant="contained"
                         size="large"
                         onClick={handleOpenAddDialog}
-                        sx={{width: 72,height: 72,color: "white",boxShadow: 6,gap: "30px",borderRadius: '50%',fontSize: 48,bgcolor: 'success.main','&:hover': { bgcolor: 'success.dark' },fontSize: 48,
+                        sx={{
+                            width: 72, height: 72, color: "white", boxShadow: 6, gap: "30px", borderRadius: '50%', fontSize: 48, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' }, fontSize: 48,
                         }}
                     />
-                        <RefreshIcon
-                            variant="contained"
-                            size="large"
-                            onClick={handleRefresh}
-                            sx={{width: 72,height: 72,color: "white",boxShadow: 6,gap: "30px",borderRadius: '50%',fontSize: 48,bgcolor: 'primary.main','&:hover': {    bgcolor: 'primary.dark',},
-                                fontSize: 48,
-                            }}
-                        />
+                    <RefreshIcon
+                        variant="contained"
+                        size="large"
+                        onClick={handleRefresh}
+                        sx={{
+                            width: 72, height: 72, color: "white", boxShadow: 6, gap: "30px", borderRadius: '50%', fontSize: 48, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark', },
+                            fontSize: 48,
+                        }}
+                    />
                 </Box>
             </Box>
 
@@ -146,7 +161,7 @@ export default function AllCoursePage() {
                                                 <IconButton
                                                     size="small"
                                                     color="info"
-                                                    onClick={() => { }}
+                                                    onClick={() => handleOpenEditDialog(item)}
                                                 >
                                                     <EditIcon />
                                                 </IconButton>
@@ -176,6 +191,11 @@ export default function AllCoursePage() {
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleConfirmDelete}
                 courseName={courseToDelete?.name_course}
+            />
+            <EditCourseDialog
+                open={editDialogOpen}
+                onClose={handleCloseEditDialog}
+                course={courseToEdit}
             />
         </Container>
     );

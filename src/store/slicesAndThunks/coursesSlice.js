@@ -42,13 +42,14 @@ export const createCourse = createAsyncThunk(
     }
 )
 
+// תשתמש בזה על מנת לערוך את הקורס הנבחר
 export const updateCourse = createAsyncThunk(
     "courses/updateCourse",
     async ({ id, updates }, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth?.token;
 
-            const res = await fetch(`/api/courses/${id}`, {
+            const res = await fetch(`/api/courses/update-course/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

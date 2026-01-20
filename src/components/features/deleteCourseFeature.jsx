@@ -5,7 +5,7 @@ export default function DeleteCourseDialog({ open, onClose, onConfirm, courseNam
 	return (
 		<Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
 			<DialogTitle>
-				מחיקת קורס
+				Course Deletion
 			</DialogTitle>
 			<DialogContent>
 				<Typography variant="body1">
@@ -22,4 +22,4 @@ export default function DeleteCourseDialog({ open, onClose, onConfirm, courseNam
 			</DialogActions>
 		</Dialog>
 	);
-}
+} 
