@@ -34,7 +34,7 @@ export function useFavoritesPageController() {
     refresh();
   }, [refresh]);
 
-  // במקום find בתוך map:
+  //מה ה - useMemo עושה כאן 
   const coursesById = useMemo(() => {
     const m = new Map();
     for (const c of courses || []) m.set(String(c.id), c);

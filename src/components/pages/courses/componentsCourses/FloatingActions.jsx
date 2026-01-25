@@ -17,20 +17,20 @@ export default function FloatingActions({ onAdd, onRefresh }) {
         cursor: "pointer",
       }}
     >
-      <AddIcon
-        onClick={onAdd}
-        sx={{
-          width: 72, height: 72, color: "white", boxShadow: 6,
-          borderRadius: "50%", fontSize: 48, bgcolor: "success.main",
-          "&:hover": { bgcolor: "success.dark" },
-        }}
-      />
       <RefreshIcon
         onClick={onRefresh}
         sx={{
           width: 72, height: 72, color: "white", boxShadow: 6,
           borderRadius: "50%", fontSize: 48, bgcolor: "primary.main",
           "&:hover": { bgcolor: "primary.dark" },
+        }}
+      />
+      <AddIcon
+        onClick={onAdd}
+        sx={{
+          width: 72, height: 72, color: "white", boxShadow: 6,
+          borderRadius: "50%", fontSize: 48, bgcolor: "success.main",
+          "&:hover": { bgcolor: "success.dark" },
         }}
       />
     </Box>
