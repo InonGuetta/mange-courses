@@ -38,8 +38,7 @@ export function useMyCoursesPageController() {
     return m;
   }, [users]);
 
-  // TODO: אם יש לך favoritesSlice עם addFavorite thunk – תחבר פה.
-  // למשל: dispatch(addFavorite({ courseId, userId }))
+
   const onAddFavorite = (row) => {
     console.log("TODO add favorite from my course row:", row);
   };

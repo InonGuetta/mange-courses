@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import FavoritesHeader from "./componentsFavorites/FavoritesHeader";
 import FavoritesTable from "./componentsFavorites/FavoritesTable";
+import DeleteFavoriteDialog from "../../features/deleteFavoriteFeature";
 import { useFavoritesPageController } from "./useFavoritesPageController";
 
 export default function FavoritesPage() {
@@ -15,7 +16,14 @@ export default function FavoritesPage() {
         favorites={c.favorites}
         coursesById={c.coursesById}
         usersById={c.usersById}
-        onDelete={c.onDeleteFavorite} 
+        onDelete={c.openDelete} 
+      />
+
+      <DeleteFavoriteDialog
+        open={c.deleteFavoriteDialogOpen}
+        onClose={c.closeDelete}
+        onConfirm={c.confirmDelete}
+        courseName={c.favoriteToDelete ? c.coursesById.get(String(c.favoriteToDelete.course_id))?.name_course : null}
       />
     </Container>
   );

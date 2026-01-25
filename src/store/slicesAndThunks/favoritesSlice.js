@@ -46,7 +46,7 @@ export const removeFavorite = createAsyncThunk(
         try {
             const token = getState().auth?.token;
 
-            const res = await fetch(`/api/favorites/${courseId}`, {
+            const res = await fetch(`/api/favorite/delete-favorite/${courseId}`, {
                 method: "DELETE",
                 headers: {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -56,6 +56,32 @@ export const removeFavorite = createAsyncThunk(
             const data = await res.json().catch(() => null);
             if (!res.ok) return rejectWithValue(data?.message || "Remove favorite failed");
             return courseId;
+        } catch (err) {
+            return rejectWithValue(err?.message || "Network error");
+        }
+    }
+);
+
+export const deleteFavorite = createAsyncThunk(
+    "favorites/deleteFavorite",
+    async (id, { getState, rejectWithValue }) => {
+        try {
+            const token = getState().auth?.token;
+
+            const res = await fetch(`/api/favorite/delete-favorite/${id}`, {
+                method: "DELETE",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+
+            let data = null;
+            try {
+                data = await res.json();
+            } catch (_) { }
+
+            if (!res.ok) return rejectWithValue(data?.message || "Delete favorite failed");
+            return id;
         } catch (err) {
             return rejectWithValue(err?.message || "Network error");
         }
@@ -122,6 +148,22 @@ const favoritesSlice = createSlice({
             .addCase(removeFavorite.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload || "Remove favorites failed";
+            })
+
+            .addCase(deleteFavorite.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(deleteFavorite.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                const id = action.payload;
+                if (state.favorite) {
+                    state.favorite = state.favorite.filter((fav) => fav.id !== id);
+                }
+            })
+            .addCase(deleteFavorite.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload || "Delete favorite failed";
             });
     },
 });

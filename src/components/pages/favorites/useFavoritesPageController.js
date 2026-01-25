@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchFavorites } from "../../../store/slicesAndThunks/favoritesSlice";
+import { fetchFavorites, deleteFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 
@@ -9,12 +9,20 @@ import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelect
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 
+import {
+  openDeleteFavoriteDialog as openDeleteFavoriteDialogAction,
+  closeDeleteFavoriteDialog as closeDeleteFavoriteDialogAction,
+} from "../../../store/slicesAndThunks/uiSlice";
+
 export function useFavoritesPageController() {
   const dispatch = useDispatch();
 
   const favorites = useSelector(selectVisibleFavorites);
   const courses = useSelector(selectVisibleCourses);
   const users = useSelector(selectVisibleUsers);
+
+  const deleteFavoriteDialogOpen = useSelector((s) => s.ui.deleteFavoriteDialogOpen);
+  const favoriteToDelete = useSelector((s) => s.ui.favoriteToDelete);
 
   const refresh = useCallback(() => {
     dispatch(fetchFavorites());
@@ -39,8 +47,14 @@ export function useFavoritesPageController() {
     return m;
   }, [users]);
 
-  const onDeleteFavorite = (favoriteRow) => {
-    console.log("TODO: delete favorite", favoriteRow);
+  const openDelete = (favorite) => dispatch(openDeleteFavoriteDialogAction(favorite));
+  const closeDelete = () => dispatch(closeDeleteFavoriteDialogAction());
+
+  const confirmDelete = async () => {
+    if (!favoriteToDelete) return;
+    await dispatch(deleteFavorite(favoriteToDelete.id));
+    closeDelete();
+    refresh();
   };
 
   return {
@@ -48,6 +62,10 @@ export function useFavoritesPageController() {
     refresh,
     coursesById,
     usersById,
-    onDeleteFavorite,
+    openDelete,
+    closeDelete,
+    confirmDelete,
+    deleteFavoriteDialogOpen,
+    favoriteToDelete,
   };
 }

@@ -1,14 +1,14 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from "@mui/material";
 
-export default function DeleteCourseDialog({ open, onClose, onConfirm, courseName }) {
+export default function DeleteFavoriteDialog({ open, onClose, onConfirm, courseName }) {
 	return (
 		<Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
 			<DialogTitle>
-				Course Deletion
+				Favorite Deletion
 			</DialogTitle>
 			<DialogContent>
 				<Typography variant="body1">
-					Are you sure you want to delete this course {courseName ? `"${courseName}"` : ""}?
+					Are you sure you want to delete this favorite {courseName ? `"${courseName}"` : ""}?
 				</Typography>
 			</DialogContent>
 			<DialogActions>
@@ -21,4 +21,4 @@ export default function DeleteCourseDialog({ open, onClose, onConfirm, courseNam
 			</DialogActions>
 		</Dialog>
 	);
-} 
+}
