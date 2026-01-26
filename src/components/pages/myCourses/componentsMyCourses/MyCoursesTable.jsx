@@ -48,9 +48,8 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
 
               const studentName =
                 student?.name ??
-                student?.studentName ??
+                student?.studentName ?? 
                 `ID: ${item.student_id}`;
-
               return (
                 <TableRow
                   key={item.id}
