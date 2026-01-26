@@ -9,6 +9,10 @@ import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelect
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 
+// Student ID - currently hardcoded to match the API call
+const CURRENT_STUDENT_ID = 11;
+
+
 export function useMyCoursesPageController() {
   const dispatch = useDispatch();
 
@@ -49,5 +53,6 @@ export function useMyCoursesPageController() {
     coursesById,
     usersById,
     onAddFavorite,
+    currentStudentId: CURRENT_STUDENT_ID,
   };
 }

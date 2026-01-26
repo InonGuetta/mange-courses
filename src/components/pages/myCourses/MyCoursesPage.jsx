@@ -14,7 +14,8 @@ export default function MyCoursesPage() {
         myCourses={c.myCourses}
         coursesById={c.coursesById}
         usersById={c.usersById}
-        onAddFavorite={c.onAddFavorite} 
+        onAddFavorite={c.onAddFavorite}
+        currentStudentId={c.currentStudentId}
       />
     </Container>
   );

@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
-export default function MyCoursesTable({ myCourses = [], coursesById, usersById, onAddFavorite }) {
+export default function MyCoursesTable({ myCourses = [], coursesById, usersById, onAddFavorite, currentStudentId }) {
   return (
     <TableContainer
       component={Paper}
@@ -14,7 +14,7 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
         borderRadius: 4,
         boxShadow: '0 8px 32px 0 rgba(30,90,168,0.15)',
         background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(2px)'
+        backdropFilter: 'blur(2px)' 
       }}
     >
       <Table sx={{ minWidth: 700, borderRadius: 4, overflow: 'hidden' }}>
@@ -39,7 +39,7 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
               const course = coursesById?.get(String(item.course_id));
               const teacherId = course?.teacher_id;
               const teacher = teacherId != null ? usersById?.get(String(teacherId)) : null;
-              const student = usersById?.get(String(item.student_id));
+              const student = currentStudentId != null ? usersById?.get(String(currentStudentId)) : null;
 
               const teacherName =
                 teacher?.name ??
@@ -49,7 +49,7 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
               const studentName =
                 student?.name ??
                 student?.studentName ?? 
-                `ID: ${item.student_id}`;
+                `ID: ${currentStudentId}`;
               return (
                 <TableRow
                   key={item.id}

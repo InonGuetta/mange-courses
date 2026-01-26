@@ -19,7 +19,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // )
 
 
-// טופל אבל משומה אין לו שם 
 export const fetchMyCourses = createAsyncThunk(
     "myCourses/fetchMyCourses",
     async (_, { rejectWithValue }) => {
