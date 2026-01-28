@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMyCourses } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
+import { addFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
 
 import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelector";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
@@ -45,9 +46,13 @@ export function useMyCoursesPageController() {
   }, [users]);
 
 
-  const onAddFavorite = (row) => {
-    console.log("TODO add favorite from my course row:", row);
-  };
+  const onAddFavorite = useCallback((row) => {
+    if (!selectedStudentId || !row.course_id) {
+      console.warn("Missing studentId or courseId for adding favorite");
+      return;
+    }
+    dispatch(addFavorite({ courseId: row.course_id, userId: selectedStudentId }));
+  }, [dispatch, selectedStudentId]);
 
   const handleStudentChange = useCallback((newStudentId) => {
     setSelectedStudentId(newStudentId);

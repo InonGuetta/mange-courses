@@ -3,6 +3,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchMyCourses = createAsyncThunk(
     "myCourses/fetchMyCourses",
     async (studentId, { rejectWithValue }) => {
+        if (!studentId) {
+            return [];
+        }
         try {
             const res = await fetch(`/api/student-courses/get-courses-by-student/${studentId}`);
             const data = await res.json();

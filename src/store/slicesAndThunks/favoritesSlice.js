@@ -17,22 +17,22 @@ export const fetchFavorites = createAsyncThunk(
 
 export const addFavorite = createAsyncThunk(
     "favorites/addFavorite",
-    async (courseId, { getState, rejectWithValue }) => {
+    async ({ courseId, userId }, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth?.token;
 
-            const res = await fetch("/api/favorites", {
+            const res = await fetch(`/api/favorite/add-favorite/${courseId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
-                body: JSON.stringify({ courseId }),
+                body: JSON.stringify({ userId }),
             });
 
             const data = await res.json().catch(() => null);
             if (!res.ok) return rejectWithValue(data?.message || "Add favorite failed");
-            return courseId;
+            return { courseId, userId, data };
 
         } catch (err) {
             return rejectWithValue(err?.message || "Network error");
@@ -128,8 +128,8 @@ const favoritesSlice = createSlice({
             })
             .addCase(addFavorite.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                const id = action.payload;
-                if (!state.favoriteCourseIds.includes(id)) state.favoriteCourseIds.push(id);
+                const { courseId } = action.payload;
+                if (!state.favoriteCourseIds.includes(courseId)) state.favoriteCourseIds.push(courseId);
             })
             .addCase(addFavorite.rejected, (state, action) => {
                 state.status = "failed";
