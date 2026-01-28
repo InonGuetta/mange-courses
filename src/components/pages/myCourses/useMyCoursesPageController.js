@@ -1,7 +1,10 @@
 import { useEffect, useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchMyCourses, deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
+import {
+  fetchMyCourses,
+  deleteStudentFromCourse,
+} from "../../../store/slicesAndThunks/myCoursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
 import { addFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
@@ -10,17 +13,18 @@ import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelect
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 
-
 export function useMyCoursesPageController() {
   const dispatch = useDispatch();
   const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [courseToRemove, setCourseToRemove] = useState(null);
 
   const myCourses = useSelector(selectVisibleMyCourses) || [];
   const users = useSelector(selectVisibleUsers) || [];
   const courses = useSelector(selectVisibleCourses) || [];
 
   const students = useMemo(() => {
-    return users.filter(user => user.role === "student");
+    return users.filter((user) => user.role === "student");
   }, [users]);
 
   const refresh = useCallback(() => {
@@ -45,23 +49,51 @@ export function useMyCoursesPageController() {
     return m;
   }, [users]);
 
+  const onAddFavorite = useCallback(
+    (row) => {
+      if (!selectedStudentId || !row.course_id) {
+        console.warn("Missing studentId or courseId for adding favorite");
+        return;
+      }
+      dispatch(
+        addFavorite({ courseId: row.course_id, userId: selectedStudentId }),
+      );
+    },
+    [dispatch, selectedStudentId],
+  );
 
-  const onAddFavorite = useCallback((row) => {
-    if (!selectedStudentId || !row.course_id) {
-      console.warn("Missing studentId or courseId for adding favorite");
+  const openDeleteStudentDialog = useCallback((row) => {
+    setCourseToRemove(row);
+    setDeleteDialogOpen(true);
+  }, []);
+
+  const closeDeleteStudentDialog = useCallback(() => {
+    setDeleteDialogOpen(false);
+    setCourseToRemove(null);
+  }, []);
+
+  const confirmDeleteStudentFromCourse = useCallback(async () => {
+    if (!selectedStudentId || !courseToRemove?.course_id) {
+      console.warn(
+        "Missing studentId or courseId for removing student from course",
+      );
       return;
     }
-    dispatch(addFavorite({ courseId: row.course_id, userId: selectedStudentId }));
-  }, [dispatch, selectedStudentId]);
-
-  const onDeleteStudentFromCourse = useCallback(async (row) => {
-    if (!selectedStudentId || !row.course_id) {
-      console.warn("Missing studentId or courseId for removing student from course");
-      return;
-    }
-    await dispatch(deleteStudentFromCourse({ courseId: row.course_id, studentId: selectedStudentId }));
+    await dispatch(
+      deleteStudentFromCourse({
+        courseId: courseToRemove.course_id,
+        studentId: selectedStudentId,
+      }),
+    );
+    closeDeleteStudentDialog();
     refresh();
-  }, [dispatch, selectedStudentId, refresh]);
+  }, [
+    dispatch,
+    selectedStudentId,
+    courseToRemove,
+    closeDeleteStudentDialog,
+    refresh,
+  ]);
 
   const handleStudentChange = useCallback((newStudentId) => {
     setSelectedStudentId(newStudentId);
@@ -79,7 +111,11 @@ export function useMyCoursesPageController() {
     coursesById,
     usersById,
     onAddFavorite,
-    onDeleteStudentFromCourse,
+    openDeleteStudentDialog,
+    closeDeleteStudentDialog,
+    confirmDeleteStudentFromCourse,
+    deleteDialogOpen,
+    courseToRemove,
     currentStudentId: selectedStudentId,
     students,
     selectedStudentId,

@@ -5,6 +5,7 @@ import AddCourseDialog from "../../features/addCourseFeature";
 import DeleteCourseDialog from "../../features/deleteCourseFeature";
 import EditCourseDialog from "../../features/editCourseFeature";
 import ShowStudentsDialog from "../../features/showStudentsFeature";
+import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
 export default function AllCoursePage() {
@@ -20,6 +21,7 @@ export default function AllCoursePage() {
         onDelete={c.openDelete}
         onEdit={c.openEdit}
         onShowStudents={c.openShowStudents}
+        onAddStudentToCourse={c.openAddStudentToCourse}
       />
 
       <AddCourseDialog open={c.openAddDialog} onClose={c.closeAdd} />
@@ -41,6 +43,12 @@ export default function AllCoursePage() {
         open={c.studentsDialogOpen}
         onClose={c.closeShowStudents}
         course={c.courseForStudents}
+      />
+
+      <AddStudentToCourseDialog
+        open={c.addStudentDialogOpen}
+        onClose={c.closeAddStudentToCourse}
+        course={c.courseForAddStudent}
       />
     </Container>
   );

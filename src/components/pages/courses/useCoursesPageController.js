@@ -4,7 +4,7 @@ import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/cours
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
-import {openAddDialog as openAddDialogAction,closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction,openStudentsDialog as openStudentsDialogAction,closeStudentsDialog as closeStudentsDialogAction,
+import {openAddDialog as openAddDialogAction,closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction,openStudentsDialog as openStudentsDialogAction,closeStudentsDialog as closeStudentsDialogAction,openAddStudentDialog as openAddStudentDialogAction,closeAddStudentDialog as closeAddStudentDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export function useCoursesPageController() {
@@ -20,6 +20,8 @@ export function useCoursesPageController() {
     const courseToEdit = useSelector((s) => s.ui.courseToEdit);
     const studentsDialogOpen = useSelector((s) => s.ui.studentsDialogOpen);
     const courseForStudents = useSelector((s) => s.ui.courseForStudents);
+    const addStudentDialogOpen = useSelector((s) => s.ui.addStudentDialogOpen);
+    const courseForAddStudent = useSelector((s) => s.ui.courseForAddStudent);
 
     const refresh = useCallback(() => {
         dispatch(fetchCourses());
@@ -55,6 +57,12 @@ export function useCoursesPageController() {
     const openShowStudents = (course) => dispatch(openStudentsDialogAction(course));
     const closeShowStudents = () => dispatch(closeStudentsDialogAction());
 
+    const openAddStudentToCourse = (course) => dispatch(openAddStudentDialogAction(course));
+    const closeAddStudentToCourse = () => {
+        dispatch(closeAddStudentDialogAction());
+        refresh();
+    };
+
     return {
         courses,
         users,
@@ -75,5 +83,9 @@ export function useCoursesPageController() {
         courseForStudents,
         openShowStudents,
         closeShowStudents,
+        addStudentDialogOpen,
+        courseForAddStudent,
+        openAddStudentToCourse,
+        closeAddStudentToCourse,
     };
 }

@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import MyCoursesHeader from "./componentsMyCourses/MyCoursesHeader";
 import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
+import DeleteStudentFromCourseDialog from "../../features/deleteStudentFromMyCourseFeature";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
 export default function MyCoursesPage() {
@@ -8,7 +9,7 @@ export default function MyCoursesPage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <MyCoursesHeader 
+      <MyCoursesHeader
         onRefresh={c.refresh}
         students={c.students}
         selectedStudentId={c.selectedStudentId}
@@ -20,8 +21,17 @@ export default function MyCoursesPage() {
         coursesById={c.coursesById}
         usersById={c.usersById}
         onAddFavorite={c.onAddFavorite}
-        onDeleteStudentFromCourse={c.onDeleteStudentFromCourse}
+        onDeleteStudentFromCourse={c.openDeleteStudentDialog}
         currentStudentId={c.currentStudentId}
+      />
+
+      <DeleteStudentFromCourseDialog
+        open={c.deleteDialogOpen}
+        onClose={c.closeDeleteStudentDialog}
+        onConfirm={c.confirmDeleteStudentFromCourse}
+        courseName={
+          c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course
+        }
       />
     </Container>
   );

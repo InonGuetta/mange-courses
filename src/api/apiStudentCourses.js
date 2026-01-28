@@ -13,3 +13,11 @@ export const removeStudentFromCourse = (courseId, studentId) => {
         body: JSON.stringify({ student_id: studentId }),
     });
 }
+
+export const addStudentToCourse = (courseId, studentId) => {
+    return apiFetch(`${BASE}/add-student-to-course/${courseId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ student_id: studentId }),
+    });
+}
