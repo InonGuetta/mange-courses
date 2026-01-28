@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchMyCourses } from "../../../store/slicesAndThunks/myCoursesSlice";
@@ -9,22 +9,24 @@ import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelect
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 
-// Student ID - currently hardcoded to match the API call
-const CURRENT_STUDENT_ID = 11;
-
 
 export function useMyCoursesPageController() {
   const dispatch = useDispatch();
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
 
   const myCourses = useSelector(selectVisibleMyCourses) || [];
   const users = useSelector(selectVisibleUsers) || [];
   const courses = useSelector(selectVisibleCourses) || [];
 
+  const students = useMemo(() => {
+    return users.filter(user => user.role === "student");
+  }, [users]);
+
   const refresh = useCallback(() => {
-    dispatch(fetchMyCourses());
+    dispatch(fetchMyCourses(selectedStudentId));
     dispatch(fetchUsers());
     dispatch(fetchCourses());
-  }, [dispatch]);
+  }, [dispatch, selectedStudentId]);
 
   useEffect(() => {
     refresh();
@@ -47,12 +49,25 @@ export function useMyCoursesPageController() {
     console.log("TODO add favorite from my course row:", row);
   };
 
+  const handleStudentChange = useCallback((newStudentId) => {
+    setSelectedStudentId(newStudentId);
+  }, []);
+
+  useEffect(() => {
+    if (selectedStudentId) {
+      dispatch(fetchMyCourses(selectedStudentId));
+    }
+  }, [dispatch, selectedStudentId]);
+
   return {
     myCourses,
     refresh,
     coursesById,
     usersById,
     onAddFavorite,
-    currentStudentId: CURRENT_STUDENT_ID,
+    currentStudentId: selectedStudentId,
+    students,
+    selectedStudentId,
+    onStudentChange: handleStudentChange,
   };
 }

@@ -4,8 +4,9 @@ import {
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 
-export default function CoursesTable({ courses = [], users = [], onDelete, onEdit }) {
+export default function CoursesTable({ courses = [], users = [], onDelete, onEdit, onShowStudents }) {
   return (
     <TableContainer
       component={Paper}
@@ -66,6 +67,11 @@ export default function CoursesTable({ courses = [], users = [], onDelete, onEdi
                     <Tooltip title="Edit Course">
                       <IconButton size="small" color="info" onClick={() => onEdit(item)}>
                         <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Show Students of course">
+                      <IconButton size="small" color="warning" onClick={() => onShowStudents(item)}>
+                        <SpeakerNotesIcon />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

@@ -8,7 +8,12 @@ export default function MyCoursesPage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <MyCoursesHeader onRefresh={c.refresh} />
+      <MyCoursesHeader 
+        onRefresh={c.refresh}
+        students={c.students}
+        selectedStudentId={c.selectedStudentId}
+        onStudentChange={c.onStudentChange}
+      />
 
       <MyCoursesTable
         myCourses={c.myCourses}

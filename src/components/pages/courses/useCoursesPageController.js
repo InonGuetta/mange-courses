@@ -4,13 +4,7 @@ import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/cours
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
-import {
-    openAddDialog as openAddDialogAction,
-    closeAddDialog as closeAddDialogAction,
-    openDeleteDialog as openDeleteDialogAction,
-    closeDeleteDialog as closeDeleteDialogAction,
-    openEditDialog as openEditDialogAction,
-    closeEditDialog as closeEditDialogAction,
+import {openAddDialog as openAddDialogAction,closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction,openStudentsDialog as openStudentsDialogAction,closeStudentsDialog as closeStudentsDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export function useCoursesPageController() {
@@ -24,6 +18,8 @@ export function useCoursesPageController() {
     const courseToDelete = useSelector((s) => s.ui.courseToDelete);
     const editDialogOpen = useSelector((s) => s.ui.editDialogOpen);
     const courseToEdit = useSelector((s) => s.ui.courseToEdit);
+    const studentsDialogOpen = useSelector((s) => s.ui.studentsDialogOpen);
+    const courseForStudents = useSelector((s) => s.ui.courseForStudents);
 
     const refresh = useCallback(() => {
         dispatch(fetchCourses());
@@ -56,6 +52,9 @@ export function useCoursesPageController() {
         refresh();
     };
 
+    const openShowStudents = (course) => dispatch(openStudentsDialogAction(course));
+    const closeShowStudents = () => dispatch(closeStudentsDialogAction());
+
     return {
         courses,
         users,
@@ -72,5 +71,9 @@ export function useCoursesPageController() {
         courseToDelete,
         editDialogOpen,
         courseToEdit,
+        studentsDialogOpen,
+        courseForStudents,
+        openShowStudents,
+        closeShowStudents,
     };
 }

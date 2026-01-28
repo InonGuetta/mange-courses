@@ -8,6 +8,8 @@ const initialState = {
   courseToEdit: null,
   deleteFavoriteDialogOpen: false,
   favoriteToDelete: null,
+  studentsDialogOpen: false,
+  courseForStudents: null,
 };
 
 
@@ -45,6 +47,14 @@ const uiSlice = createSlice({
       state.deleteFavoriteDialogOpen = false;
       state.favoriteToDelete = null;
     },
+    openStudentsDialog(state, action) {
+      state.studentsDialogOpen = true;
+      state.courseForStudents = action.payload;
+    },
+    closeStudentsDialog(state) {
+      state.studentsDialogOpen = false;
+      state.courseForStudents = null;
+    },
   },
 });
 
@@ -56,6 +66,8 @@ export const {
   openEditDialog,
   closeEditDialog,
   openDeleteFavoriteDialog,
-  closeDeleteFavoriteDialog
+  closeDeleteFavoriteDialog,
+  openStudentsDialog,
+  closeStudentsDialog
 } = uiSlice.actions;
 export default uiSlice.reducer;

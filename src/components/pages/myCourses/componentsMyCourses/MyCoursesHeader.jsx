@@ -1,7 +1,7 @@
-import { Box, Typography, IconButton, Paper } from "@mui/material";
+import { Box, Typography, IconButton, Paper, FormControl, Select, MenuItem } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-export default function MyCoursesHeader({ onRefresh }) {
+export default function MyCoursesHeader({ onRefresh, students, selectedStudentId, onStudentChange }) {
   return (
     <Box sx={{ mb: 4 }}>
       <Typography 
@@ -34,6 +34,38 @@ export default function MyCoursesHeader({ onRefresh }) {
             alignItems: "center",
           }}
         >
+          <FormControl
+            size="small"
+            sx={{
+              minWidth: 200,
+              bgcolor: "rgba(255,255,255,0.15)",
+              borderRadius: "12px",
+              "& .MuiOutlinedInput-root": {
+                color: "white",
+                "& fieldset": { borderColor: "rgba(255,255,255,0.3)" },
+                "&:hover fieldset": { borderColor: "rgba(255,255,255,0.5)" },
+                "&.Mui-focused fieldset": { borderColor: "white" },
+              },
+              "& .MuiSelect-icon": { color: "white" },
+            }}
+          >
+            <Select
+              value={selectedStudentId || ""}
+              onChange={(e) => onStudentChange(e.target.value)}
+              displayEmpty
+              sx={{ borderRadius: "12px" }}
+            >
+              <MenuItem value="" disabled>
+                Select Student
+              </MenuItem>
+              {students?.map((student) => (
+                <MenuItem key={student.id} value={student.id}>
+                  {student.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <IconButton
             onClick={onRefresh}
             sx={{
