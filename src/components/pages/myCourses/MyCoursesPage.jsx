@@ -20,6 +20,7 @@ export default function MyCoursesPage() {
         coursesById={c.coursesById}
         usersById={c.usersById}
         onAddFavorite={c.onAddFavorite}
+        onDeleteStudentFromCourse={c.onDeleteStudentFromCourse}
         currentStudentId={c.currentStudentId}
       />
     </Container>

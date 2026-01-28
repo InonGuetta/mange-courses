@@ -3,8 +3,9 @@ import {
   Paper, Typography, IconButton, Tooltip
 } from "@mui/material";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ClearIcon from '@mui/icons-material/Clear';
 
-export default function MyCoursesTable({ myCourses = [], coursesById, usersById, onAddFavorite, currentStudentId }) {
+export default function MyCoursesTable({ myCourses = [], coursesById, usersById, currentStudentId, onAddFavorite, onDeleteStudentFromCourse }) {
   return (
     <TableContainer
       component={Paper}
@@ -13,7 +14,7 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
         borderRadius: 4,
         boxShadow: '0 8px 32px 0 rgba(30,90,168,0.15)',
         background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(2px)' 
+        backdropFilter: 'blur(2px)'
       }}
     >
       <Table sx={{ minWidth: 700, borderRadius: 4, overflow: 'hidden' }}>
@@ -29,7 +30,7 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
             <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>course detail</TableCell>
             <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>teacher name</TableCell>
             <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>student name</TableCell>
-            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>add favorite</TableCell>
+            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none' }}>actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,7 +48,7 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
 
               const studentName =
                 student?.name ??
-                student?.studentName ?? 
+                student?.studentName ??
                 `ID: ${currentStudentId}`;
               return (
                 <TableRow
@@ -71,6 +72,9 @@ export default function MyCoursesTable({ myCourses = [], coursesById, usersById,
                   <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none' }}>{studentName}</TableCell>
                   <TableCell sx={{ py: 2, color: '#4d2af9', fontSize: 16, border: 'none' }} align="center">
                     <Tooltip title="Add to favorites">
+                      <IconButton onClick={() => onDeleteStudentFromCourse(item)} sx={{ color: 'red' }}>
+                        <ClearIcon />
+                      </IconButton>
                       <IconButton onClick={() => onAddFavorite(item)} sx={{ color: '#4d2af9' }}>
                         <ThumbUpOffAltIcon />
                       </IconButton>

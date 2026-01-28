@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchMyCourses } from "../../../store/slicesAndThunks/myCoursesSlice";
+import { fetchMyCourses, deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
 import { addFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
@@ -54,6 +54,15 @@ export function useMyCoursesPageController() {
     dispatch(addFavorite({ courseId: row.course_id, userId: selectedStudentId }));
   }, [dispatch, selectedStudentId]);
 
+  const onDeleteStudentFromCourse = useCallback(async (row) => {
+    if (!selectedStudentId || !row.course_id) {
+      console.warn("Missing studentId or courseId for removing student from course");
+      return;
+    }
+    await dispatch(deleteStudentFromCourse({ courseId: row.course_id, studentId: selectedStudentId }));
+    refresh();
+  }, [dispatch, selectedStudentId, refresh]);
+
   const handleStudentChange = useCallback((newStudentId) => {
     setSelectedStudentId(newStudentId);
   }, []);
@@ -70,6 +79,7 @@ export function useMyCoursesPageController() {
     coursesById,
     usersById,
     onAddFavorite,
+    onDeleteStudentFromCourse,
     currentStudentId: selectedStudentId,
     students,
     selectedStudentId,
