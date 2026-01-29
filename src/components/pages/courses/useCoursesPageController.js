@@ -4,7 +4,7 @@ import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/cours
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
-import {openAddDialog as openAddDialogAction,closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction,openStudentsDialog as openStudentsDialogAction,closeStudentsDialog as closeStudentsDialogAction,openAddStudentDialog as openAddStudentDialogAction,closeAddStudentDialog as closeAddStudentDialogAction,
+import {openAddDialog as openAddDialogAction,closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction,openStudentsDialog as openStudentsDialogAction,closeStudentsDialog as closeStudentsDialogAction,openAddStudentDialog as openAddStudentDialogAction,closeAddStudentDialog as closeAddStudentDialogAction,openAddUserDialog as openAddUserDialogAction,closeAddUserDialog as closeAddUserDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export function useCoursesPageController() {
@@ -22,6 +22,7 @@ export function useCoursesPageController() {
     const courseForStudents = useSelector((s) => s.ui.courseForStudents);
     const addStudentDialogOpen = useSelector((s) => s.ui.addStudentDialogOpen);
     const courseForAddStudent = useSelector((s) => s.ui.courseForAddStudent);
+    const addUserDialogOpen = useSelector((s) => s.ui.addUserDialogOpen);
 
     const refresh = useCallback(() => {
         dispatch(fetchCourses());
@@ -63,6 +64,12 @@ export function useCoursesPageController() {
         refresh();
     };
 
+    const openAddUser = () => dispatch(openAddUserDialogAction());
+    const closeAddUser = () => {
+        dispatch(closeAddUserDialogAction());
+        refresh();
+    };
+
     return {
         courses,
         users,
@@ -87,5 +94,8 @@ export function useCoursesPageController() {
         courseForAddStudent,
         openAddStudentToCourse,
         closeAddStudentToCourse,
+        addUserDialogOpen,
+        openAddUser,
+        closeAddUser,
     };
 }

@@ -12,6 +12,7 @@ const initialState = {
   courseForStudents: null,
   addStudentDialogOpen: false,
   courseForAddStudent: null,
+  addUserDialogOpen: false,
 };
 
 
@@ -65,6 +66,12 @@ const uiSlice = createSlice({
       state.addStudentDialogOpen = false;
       state.courseForAddStudent = null;
     },
+    openAddUserDialog(state) {
+      state.addUserDialogOpen = true;
+    },
+    closeAddUserDialog(state) {
+      state.addUserDialogOpen = false;
+    },
   },
 });
 
@@ -80,6 +87,8 @@ export const {
   openStudentsDialog,
   closeStudentsDialog,
   openAddStudentDialog,
-  closeAddStudentDialog
+  closeAddStudentDialog,
+  openAddUserDialog,
+  closeAddUserDialog
 } = uiSlice.actions;
 export default uiSlice.reducer;

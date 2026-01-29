@@ -6,6 +6,7 @@ import DeleteCourseDialog from "../../features/deleteCourseFeature";
 import EditCourseDialog from "../../features/editCourseFeature";
 import ShowStudentsDialog from "../../features/showStudentsFeature";
 import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
+import AddUserDialog from "../../features/addUserFeature";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
 export default function AllCoursePage() {
@@ -13,7 +14,7 @@ export default function AllCoursePage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FloatingActions onAdd={c.openAdd} onRefresh={c.refresh} />
+      <FloatingActions onAdd={c.openAdd} onRefresh={c.refresh} onAddUser={c.openAddUser} />
 
       <CoursesTable
         courses={c.courses}
@@ -49,6 +50,11 @@ export default function AllCoursePage() {
         open={c.addStudentDialogOpen}
         onClose={c.closeAddStudentToCourse}
         course={c.courseForAddStudent}
+      />
+
+      <AddUserDialog
+        open={c.addUserDialogOpen}
+        onClose={c.closeAddUser}
       />
     </Container>
   );
