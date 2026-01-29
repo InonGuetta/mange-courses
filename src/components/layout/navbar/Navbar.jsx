@@ -21,8 +21,9 @@ export default function Navbar() {
         pathname === "/courses" ? 0 :
             pathname === "/favorites" ? 1 :
                 pathname === "/my-courses" ? 2 :
-                    pathname === "/sign-in" ? 3 :
-                        false;
+                    pathname === "/users" ? 3 :
+                        pathname === "/sign-in" ? 4 :
+                            false;
 
     return <>
         <AppBar position="sticky" elevation={2} sx={{ background: bgColor, transition: "background 0.3s ease" }}>
@@ -41,6 +42,7 @@ export default function Navbar() {
                     <Tab label="All Courses" component={Link} to="/courses" />
                     <Tab label="Favorites" component={Link} to="/favorites" />
                     <Tab label="My Courses" component={Link} to="/my-courses" />
+                    <Tab label="Users" component={Link} to="/users" />
                     <Tab label="Sign In" component={Link} to="/sign-in" />
                 </Tabs>
             </Toolbar>

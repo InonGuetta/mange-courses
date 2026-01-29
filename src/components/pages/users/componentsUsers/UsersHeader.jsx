@@ -1,35 +1,11 @@
-import { Box, IconButton, Paper, Typography } from "@mui/material";
-import { useRef, useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
+import { Box, Typography, IconButton, Paper } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
-
-const NAVBAR_HEIGHT = 64;
-
-export default function FloatingActions({ onAdd, onRefresh }) {
-  const [isFixed, setIsFixed] = useState(false);
-  const floatingRef = useRef(null);
-  const titleRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!floatingRef.current || !titleRef.current) return;
-      const titleBottom =
-        titleRef.current.getBoundingClientRect().bottom + window.scrollY;
-      if (window.scrollY > titleBottom - NAVBAR_HEIGHT - 16) {
-        setIsFixed(true);
-      } else {
-        setIsFixed(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+export default function UsersHeader({ onRefresh, onAddUser }) {
   return (
     <Box sx={{ mb: 4 }}>
       <Typography
-        ref={titleRef}
         variant="h4"
         component="h1"
         sx={{
@@ -39,22 +15,10 @@ export default function FloatingActions({ onAdd, onRefresh }) {
           color: "#475569",
         }}
       >
-        All Courses
+        Users
       </Typography>
 
-      <Box
-        ref={floatingRef}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          position: isFixed ? "fixed" : "static",
-          top: isFixed ? `${NAVBAR_HEIGHT + 16}px` : undefined,
-          left: isFixed ? 0 : undefined,
-          width: isFixed ? "100vw" : undefined,
-          zIndex: isFixed ? 1202 : undefined,
-          pointerEvents: "none",
-        }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Paper
           elevation={8}
           sx={{
@@ -69,7 +33,6 @@ export default function FloatingActions({ onAdd, onRefresh }) {
             display: "flex",
             gap: "1.5rem",
             alignItems: "center",
-            pointerEvents: "auto",
           }}
         >
           <IconButton
@@ -91,24 +54,25 @@ export default function FloatingActions({ onAdd, onRefresh }) {
           >
             <RefreshIcon sx={{ fontSize: 32 }} />
           </IconButton>
+
           <IconButton
-            onClick={onAdd}
+            onClick={onAddUser}
             sx={{
-              bgcolor: "rgba(34, 197, 94, 0.9)",
+              bgcolor: "rgba(249, 115, 22, 0.9)",
               color: "white",
               width: 64,
               height: 64,
               borderRadius: "50%",
               transition: "all 0.3s ease",
               "&:hover": {
-                bgcolor: "#16a34a",
+                bgcolor: "#ea580c",
                 transform: "translateY(-4px)",
-                boxShadow: "0 8px 20px rgba(34, 197, 94, 0.4)",
+                boxShadow: "0 8px 20px rgba(249, 115, 22, 0.4)",
               },
               "&:active": { transform: "translateY(-2px)" },
             }}
           >
-            <AddIcon sx={{ fontSize: 32 }} />
+            <PersonAddAltIcon sx={{ fontSize: 32 }} />
           </IconButton>
         </Paper>
       </Box>
