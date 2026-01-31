@@ -24,7 +24,7 @@ export default function FavoritesTable({ favorites = [], coursesById, usersById,
               boxShadow: '0 2px 8px 0 rgba(100,120,180,0.10)'
             }}
           >
-            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none', textAlign: 'center' }}>ID</TableCell>
+            <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none', textAlign: 'center' }}>No.</TableCell>
             <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none', textAlign: 'center' }}>User</TableCell>
             <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none', textAlign: 'center' }}>Course Name</TableCell>
             <TableCell sx={{ color: '#222B45', fontWeight: 900, fontSize: 20, py: 2, letterSpacing: 1.5, textTransform: 'uppercase', border: 'none', textAlign: 'center', width: '30%' }}>Details</TableCell>
@@ -52,7 +52,7 @@ export default function FavoritesTable({ favorites = [], coursesById, usersById,
                     borderRadius: 2,
                   }}
                 >
-                  <TableCell component="th" scope="row" sx={{ py: 2, fontWeight: 600, color: '#1F2937', fontSize: 16, border: 'none', textAlign: 'center' }}>{item.id}</TableCell>
+                  <TableCell component="th" scope="row" sx={{ py: 2, fontWeight: 600, color: '#1F2937', fontSize: 16, border: 'none', textAlign: 'center' }}>{idx + 1}</TableCell>
                   <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none', textAlign: 'center' }}>{user?.name ?? item.user_id}</TableCell>
                   <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none', textAlign: 'center' }}>{course?.name_course ?? item.course_id}</TableCell>
                   <TableCell sx={{ py: 2, color: '#1F2937', fontSize: 16, border: 'none', textAlign: 'center', wordWrap: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal' }}>{course?.detail ?? '-'}</TableCell>

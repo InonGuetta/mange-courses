@@ -60,7 +60,7 @@ export default function CoursesTable({
                 border: "none",
               }}
             >
-              ID
+              No.
             </TableCell>
             <TableCell
               sx={{
@@ -151,7 +151,7 @@ export default function CoursesTable({
                       border: "none",
                     }}
                   >
-                    {item.id}
+                    {idx + 1}
                   </TableCell>
                   <TableCell
                     sx={{

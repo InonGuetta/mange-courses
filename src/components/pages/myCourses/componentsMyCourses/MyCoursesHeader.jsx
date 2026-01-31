@@ -86,7 +86,7 @@ export default function MyCoursesHeader({
               color: "white",
               width: 64,
               height: 64,
-              borderRadius: "16px",
+              borderRadius: "50%",
               transition: "all 0.3s ease",
               "&:hover": {
                 bgcolor: "#3b82f6",

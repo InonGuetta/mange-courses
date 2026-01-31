@@ -4,7 +4,6 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 export default function FavoritesHeader({ onRefresh }) {
   return (
     <Box sx={{ mb: 4 }}>
-      {/* Page Title - Centered above the floating island */}
       <Typography 
         variant="h4" 
         component="h1" 
@@ -12,25 +11,24 @@ export default function FavoritesHeader({ onRefresh }) {
           fontWeight: 700,
           textAlign: "center",
           mb: 3,
-          color: "#475569" // Modern slate gray
+          color: "#475569" 
         }}
       >
         Favorites
       </Typography>
 
-      {/* Floating Action Buttons Island */}
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Paper
           elevation={8}
           sx={{
-            background: "linear-gradient(135deg, #64748b 0%, #475569 100%)", // Modern gradient gray-blue
+            background: "linear-gradient(135deg, #64748b 0%, #475569 100%)", 
             color: "white",
             py: 2,
             px: 3,
-            borderRadius: "24px", // More rounded corners
+            borderRadius: "24px", 
             boxShadow: "0 8px 32px rgba(71, 85, 105, 0.3)",
             backdropFilter: "blur(10px)",
-            width: "fit-content", // Fits exactly to button
+            width: "fit-content", 
             display: "flex",
             gap: "1.5rem",
             alignItems: "center",
@@ -39,11 +37,11 @@ export default function FavoritesHeader({ onRefresh }) {
           <IconButton
             onClick={onRefresh}
             sx={{
-              bgcolor: "rgba(96, 165, 250, 0.9)", // Modern blue
+              bgcolor: "rgba(96, 165, 250, 0.9)",
               color: "white",
               width: 64,
               height: 64,
-              borderRadius: "16px",
+              borderRadius: "50%",
               transition: "all 0.3s ease",
               "&:hover": { 
                 bgcolor: "#3b82f6",

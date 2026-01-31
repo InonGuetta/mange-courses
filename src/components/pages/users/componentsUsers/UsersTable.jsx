@@ -64,7 +64,7 @@ export default function UsersTable({ users = [] }) {
                 border: "none",
               }}
             >
-              ID
+              No.
             </TableCell>
             <TableCell
               sx={{
@@ -106,19 +106,6 @@ export default function UsersTable({ users = [] }) {
             >
               Role
             </TableCell>
-            <TableCell
-              sx={{
-                color: "#222B45",
-                fontWeight: 900,
-                fontSize: 20,
-                py: 2,
-                letterSpacing: 1.5,
-                textTransform: "uppercase",
-                border: "none",
-              }}
-            >
-              Created At
-            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -151,7 +138,7 @@ export default function UsersTable({ users = [] }) {
                       border: "none",
                     }}
                   >
-                    {user.id}
+                    {idx + 1}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -180,18 +167,6 @@ export default function UsersTable({ users = [] }) {
                     }}
                   >
                     {getRoleChip(user.role)}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      py: 2,
-                      color: "#1F2937",
-                      fontSize: 16,
-                      border: "none",
-                    }}
-                  >
-                    {user.created_at
-                      ? new Date(user.created_at).toLocaleDateString()
-                      : "-"}
                   </TableCell>
                 </TableRow>
               );
