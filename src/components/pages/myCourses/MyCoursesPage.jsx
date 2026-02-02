@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import MyCoursesHeader from "./componentsMyCourses/MyCoursesHeader";
 import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
-import DeleteStudentFromCourseDialog from "../../features/deleteStudentFromMyCourseFeature";
+import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
 export default function MyCoursesPage() {
@@ -25,13 +25,13 @@ export default function MyCoursesPage() {
         currentStudentId={c.currentStudentId}
       />
 
-      <DeleteStudentFromCourseDialog
+      <DeleteConfirmDialog
         open={c.deleteDialogOpen}
         onClose={c.closeDeleteStudentDialog}
         onConfirm={c.confirmDeleteStudentFromCourse}
-        courseName={
-          c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course
-        }
+        title="Remove Student from Course"
+        itemName={c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course}
+        confirmButtonText="Remove"
       />
     </Container>
   );

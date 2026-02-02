@@ -17,6 +17,83 @@ export const fetchUsers = createAsyncThunk(
     }
 );
 
+export const createUser = createAsyncThunk(
+    "users/createUser",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const res = await fetch("/api/users/create-user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            const data = await res.json();
+
+            if (!res.ok) return rejectWithValue(data?.message || "Create user failed");
+            return data;
+        } catch (e) {
+            return rejectWithValue(e?.message || "Network error");
+        }
+    }
+);
+
+// ⚠️ קוד זה אינו בשימוש
+export const updateUser = createAsyncThunk(
+    "users/updateUser",
+    async ({ id, patch }, { rejectWithValue }) => {
+        try {
+            const res = await fetch(`/api/users/update-user/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(patch),
+            });
+            const data = await res.json();
+
+            if (!res.ok) return rejectWithValue(data?.message || "Update user failed");
+            return data;
+        } catch (e) {
+            return rejectWithValue(e?.message || "Network error");
+        }
+    }
+);
+
+export const deleteUser = createAsyncThunk(
+    "users/deleteUser",
+    async (id, { rejectWithValue }) => {
+        try {
+            const res = await fetch(`/api/users/delete-user/${id}`, {
+                method: "DELETE",
+            });
+
+            let data = null;
+            try {
+                data = await res.json();
+            } catch (_) {}
+
+            if (!res.ok) return rejectWithValue(data?.message || "Delete user failed");
+            return id;
+        } catch (e) {
+            return rejectWithValue(e?.message || "Network error");
+        }
+    }
+);
+
+// ⚠️ קוד זה אינו בשימוש
+export const searchUsersByName = createAsyncThunk(
+    "users/searchUsersByName",
+    async (name, { rejectWithValue }) => {
+        try {
+            const qs = new URLSearchParams({ name }).toString();
+            const res = await fetch(`/api/users/search-user?${qs}`);
+            const data = await res.json();
+
+            if (!res.ok) return rejectWithValue(data?.message || "Search users failed");
+            return data;
+        } catch (e) {
+            return rejectWithValue(e?.message || "Network error");
+        }
+    }
+);
+
 const initialState = {
     status: "idle",
     error: null,
@@ -48,6 +125,18 @@ const usersSlice = createSlice({
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload || "Fetch users failed";
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.usersList = state.usersList.filter(u => u.id !== action.payload);
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload || "Delete user failed";
             });
     },
 });

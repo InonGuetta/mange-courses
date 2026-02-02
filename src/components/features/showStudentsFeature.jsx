@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -16,9 +17,10 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
-import { getStudentsByCourse } from "../../api/apiStudentCourses";
+import { fetchStudentsByCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 
 export default function ShowStudentsDialog({ open, onClose, course }) {
+  const dispatch = useDispatch();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,12 +29,13 @@ export default function ShowStudentsDialog({ open, onClose, course }) {
     if (open && course?.id) {
       setLoading(true);
       setError(null);
-      getStudentsByCourse(course.id)
+      dispatch(fetchStudentsByCourse(course.id))
+        .unwrap()
         .then((data) => {
           setStudents(data || []);
         })
         .catch((err) => {
-          setError(err.message || "Failed to load students");
+          setError(err?.message || err || "Failed to load students");
           setStudents([]);
         })
         .finally(() => {
@@ -42,7 +45,7 @@ export default function ShowStudentsDialog({ open, onClose, course }) {
       setStudents([]);
       setError(null);
     }
-  }, [open, course]);
+  }, [open, course, dispatch]);
 
   const handleClose = () => {
     setStudents([]);

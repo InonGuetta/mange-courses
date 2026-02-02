@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import CoursesTable from "./componentsCourses/CoursesTable";
 import FloatingActions from "./componentsCourses/FloatingActions";
 import AddCourseDialog from "../../features/addCourseFeature";
-import DeleteCourseDialog from "../../features/deleteCourseFeature";
+import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import EditCourseDialog from "../../features/editCourseFeature";
 import ShowStudentsDialog from "../../features/showStudentsFeature";
 import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
@@ -26,11 +26,12 @@ export default function AllCoursePage() {
 
       <AddCourseDialog open={c.openAddDialog} onClose={c.closeAdd} />
 
-      <DeleteCourseDialog
+      <DeleteConfirmDialog
         open={c.deleteDialogOpen}
         onClose={c.closeDelete}
         onConfirm={c.confirmDelete}
-        courseName={c.courseToDelete?.name_course}
+        title="Course Deletion"
+        itemName={c.courseToDelete?.name_course}
       />
 
       <EditCourseDialog

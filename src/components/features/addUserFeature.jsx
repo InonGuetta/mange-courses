@@ -17,13 +17,14 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
-import { createUser } from "../../api/apiUsers";
+import { useDispatch } from "react-redux";
+import { createUser } from "../../store/slicesAndThunks/usersSlice";
 
 const ORANGE_COLOR = "rgba(249, 115, 22, 0.9)";
 const ORANGE_HOVER = "#ea580c";
 
 export default function AddUserDialog({ open, onClose }) {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -49,7 +50,7 @@ export default function AddUserDialog({ open, onClose }) {
     setLoading(true);
 
     try {
-      await createUser(formData);
+      const result = await dispatch(createUser(formData)).unwrap();
       setLoading(false);
       setSuccess(true);
       setTimeout(() => {

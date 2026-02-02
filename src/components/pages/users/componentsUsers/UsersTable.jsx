@@ -8,9 +8,12 @@ import {
   Paper,
   Typography,
   Chip,
+  IconButton,
 } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export default function UsersTable({ users = [] }) {
+
+export default function UsersTable({ users = [], onDeleteUser }) {
   const getRoleChip = (role) => {
     const isTeacher = role === "teacher";
     return (
@@ -18,7 +21,9 @@ export default function UsersTable({ users = [] }) {
         label={role}
         size="small"
         sx={{
-          bgcolor: isTeacher ? "rgba(139, 92, 246, 0.15)" : "rgba(34, 197, 94, 0.15)",
+          bgcolor: isTeacher
+            ? "rgba(139, 92, 246, 0.15)"
+            : "rgba(34, 197, 94, 0.15)",
           color: isTeacher ? "#7c3aed" : "#16a34a",
           fontWeight: 600,
           textTransform: "capitalize",
@@ -106,6 +111,19 @@ export default function UsersTable({ users = [] }) {
             >
               Role
             </TableCell>
+            <TableCell
+              sx={{
+                color: "#222B45",
+                fontWeight: 900,
+                fontSize: 20,
+                py: 2,
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                border: "none",
+              }}
+            >
+              Actions
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -167,6 +185,18 @@ export default function UsersTable({ users = [] }) {
                     }}
                   >
                     {getRoleChip(user.role)}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      py: 2,
+                      color: "#1F2937",
+                      fontSize: 16,
+                      border: "none",
+                    }}
+                  >
+                    <IconButton color="error" onClick={() => onDeleteUser(user)} >
+                      <DeleteOutlineIcon/>
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               );
