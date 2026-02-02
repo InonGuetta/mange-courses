@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -12,6 +12,7 @@ import { addFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
 import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelector";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
+import { useIdMap, useFilteredUsers } from "../../../hooks/useDataHelpers";
 
 export function useMyCoursesPageController() {
   const dispatch = useDispatch();
@@ -23,9 +24,9 @@ export function useMyCoursesPageController() {
   const users = useSelector(selectVisibleUsers) || [];
   const courses = useSelector(selectVisibleCourses) || [];
 
-  const students = useMemo(() => {
-    return users.filter((user) => user.role === "student");
-  }, [users]);
+  const students = useFilteredUsers(users, "student");
+  const coursesById = useIdMap(courses);
+  const usersById = useIdMap(users);
 
   const refresh = useCallback(() => {
     dispatch(fetchMyCourses(selectedStudentId));
@@ -36,18 +37,6 @@ export function useMyCoursesPageController() {
   useEffect(() => {
     refresh();
   }, [refresh]);
-
-  const coursesById = useMemo(() => {
-    const m = new Map();
-    for (const c of courses) m.set(String(c.id), c);
-    return m;
-  }, [courses]);
-
-  const usersById = useMemo(() => {
-    const m = new Map();
-    for (const u of users) m.set(String(u.id), u);
-    return m;
-  }, [users]);
 
   const onAddFavorite = useCallback(
     (row) => {

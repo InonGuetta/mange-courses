@@ -11,7 +11,7 @@ import {
   Paper,
 } from "@mui/material";
 
-export default function SignIn() {
+const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -84,4 +84,6 @@ export default function SignIn() {
       </Paper>
     </Box>
   );
-}
+};
+
+export default SignIn;

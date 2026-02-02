@@ -9,7 +9,7 @@ import { updateCourse } from "../../store/slicesAndThunks/coursesSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
 
 
-export default function EditCourseDialog({ open, onClose, course }) {
+const EditCourseDialog = ({ open, onClose, course }) => {
     const dispatch = useDispatch();
     const users = useSelector(selectVisibleUsers);
 
@@ -197,4 +197,6 @@ export default function EditCourseDialog({ open, onClose, course }) {
             </form>
         </Dialog>
     );
-} 
+};
+
+export default EditCourseDialog; 

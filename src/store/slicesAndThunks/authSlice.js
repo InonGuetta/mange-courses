@@ -59,17 +59,12 @@ export const logout = createAsyncThunk(
     "auth/logout",
     async (_, { getState }) => {
         const token = getState().auth.token;
-
-        try {
-            if (token) {
-                await fetch("/api/auth/logout", {
-                    method: "POST",
-                    headers: { ...authHeader(token) },
-                });
-            }
-        } catch (_) {
+        if (token) {
+            await fetch("/api/auth/logout", {
+                method: "POST",
+                headers: { ...authHeader(token) },
+            }).catch(() => {});
         }
-        return data
     }
 );
 

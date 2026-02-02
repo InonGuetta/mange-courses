@@ -10,7 +10,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography }
  * @param {string} message - Custom message (optional, will override default)
  * @param {string} confirmButtonText - Text for confirm button (default: "Delete")
  */
-export default function DeleteConfirmDialog({ 
+const DeleteConfirmDialog = ({ 
 	open, 
 	onClose, 
 	onConfirm, 
@@ -18,7 +18,7 @@ export default function DeleteConfirmDialog({
 	itemName,
 	message,
 	confirmButtonText = "Delete"
-}) {
+}) => {
 	const defaultMessage = itemName 
 		? `Are you sure you want to delete "${itemName}"?`
 		: "Are you sure you want to delete this item?";
@@ -43,4 +43,6 @@ export default function DeleteConfirmDialog({
 			</DialogActions>
 		</Dialog>
 	);
-}
+};
+
+export default DeleteConfirmDialog;

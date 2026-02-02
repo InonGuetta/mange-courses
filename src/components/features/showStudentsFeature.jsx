@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { fetchStudentsByCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 
-export default function ShowStudentsDialog({ open, onClose, course }) {
+const ShowStudentsDialog = ({ open, onClose, course }) => {
   const dispatch = useDispatch();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -107,4 +107,6 @@ export default function ShowStudentsDialog({ open, onClose, course }) {
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default ShowStudentsDialog;

@@ -4,7 +4,7 @@ import FavoritesTable from "./componentsFavorites/FavoritesTable";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useFavoritesPageController } from "./useFavoritesPageController";
 
-export default function FavoritesPage() {
+const FavoritesPage = () => {
   const c = useFavoritesPageController();
 
   return (
@@ -28,4 +28,6 @@ export default function FavoritesPage() {
       />
     </Container>
   );
-}
+};
+
+export default FavoritesPage;

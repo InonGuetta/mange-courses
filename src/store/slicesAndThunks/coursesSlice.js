@@ -20,7 +20,6 @@ export const createCourse = createAsyncThunk(
     async (newCourse, { getState, rejectWithValue }) => {
         try {
             const token = getState().auth?.token;
-            console.log("Creating course with data:", newCourse);
 
             const res = await fetch("/api/courses/create-course", {
                 method: "POST",
@@ -32,11 +31,9 @@ export const createCourse = createAsyncThunk(
             });
 
             const data = await res.json();
-            console.log("Create course response:", { status: res.status, data });
             if (!res.ok) return rejectWithValue(data?.message || "Create course failed");
             return data;
         } catch (err) {
-            console.error("Create course error:", err);
             return rejectWithValue(err?.message || "Network error");
         }
     }
@@ -170,7 +167,7 @@ const coursesSlice = createSlice({
                 state.status = "succeeded";
                 const id = action.payload;
                 state.coursesList = state.coursesList.filter((course) => course.id !== id);
-                if (state.selectedCourseId === id) state.selectedCourseId === null;
+                if (state.selectedCourseId === id) state.selectedCourseId = null;
             })
             .addCase(deleteCourse.rejected, (state, action) => {
                 state.status = "failed";

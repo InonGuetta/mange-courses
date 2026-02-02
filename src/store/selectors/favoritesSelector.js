@@ -1,5 +1,3 @@
-import { toFavoritesArray } from "../../domain/toFavoritesArray";
+import { toArray } from "../../domain/toArray";
 
-export const selectVisibleFavorites = (state) => {
-    return toFavoritesArray(state.favorites?.favorite ?? []);
-}
+export const selectVisibleFavorites = (state) => toArray(state.favorites?.favorite);

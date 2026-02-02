@@ -1,6 +1,3 @@
-import { toUsersArray } from "../../domain/toUsersArray";
+import { toArray } from "../../domain/toArray";
 
-export const selectVisibleUsers = (state) =>{
-    const usersList = state.users?.usersList ?? [];
-    return toUsersArray(usersList);
-}
+export const selectVisibleUsers = (state) => toArray(state.users?.usersList);

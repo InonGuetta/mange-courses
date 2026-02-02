@@ -4,7 +4,7 @@ import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
-export default function MyCoursesPage() {
+const MyCoursesPage = () => {
   const c = useMyCoursesPageController();
 
   return (
@@ -35,4 +35,6 @@ export default function MyCoursesPage() {
       />
     </Container>
   );
-}
+};
+
+export default MyCoursesPage;

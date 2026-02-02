@@ -39,25 +39,6 @@ export const fetchStudentsByCourse = createAsyncThunk(
 )
 
 
-export const addMyCourses = createAsyncThunk(
-    "myCourses/addMyCourses",
-    async (newAddMyCourses, { getState, rejectWithValue }) => {
-        try {
-            const token = getState().auth.token;
-
-            const res = await fetch("api/student-courses/add-student-to-course/:course_id", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                }
-            })
-        } catch (err) {
-            return rejectWithValue(err?.message || "Network error")
-        }
-    }
-)
-
 export const deleteStudentFromCourse = createAsyncThunk(
     "myCourses/deleteStudentFromCourse",
     async ({ courseId, studentId }, { rejectWithValue }) => {
@@ -124,7 +105,6 @@ const myCoursesSlice = createSlice({
             .addCase(fetchMyCourses.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.myCoursesList = action.payload;
-                console.log("my courses in state:", action.payload);
             })
             .addCase(fetchMyCourses.rejected, (state, action) => {
                 state.status = "failed";

@@ -13,7 +13,7 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 
-export default function UsersTable({ users = [], onDeleteUser }) {
+const UsersTable = ({ users = [], onDeleteUser }) => {
   const getRoleChip = (role) => {
     const isTeacher = role === "teacher";
     return (
@@ -214,4 +214,6 @@ export default function UsersTable({ users = [], onDeleteUser }) {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default UsersTable;

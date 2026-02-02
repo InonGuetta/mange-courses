@@ -1,6 +1,3 @@
-import { toCoursesArray } from "../../domain/toCoursesArray";
+import { toArray } from "../../domain/toArray";
 
-export const selectVisibleCourses = (state) => {
-    const coursesList = state.courses?.coursesList ?? [];
-    return toCoursesArray(coursesList);
-}; 
+export const selectVisibleCourses = (state) => toArray(state.courses?.coursesList); 

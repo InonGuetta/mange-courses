@@ -15,14 +15,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
-export default function CoursesTable({
+const CoursesTable = ({
   courses = [],
   users = [],
   onDelete,
   onEdit,
   onShowStudents,
   onAddStudentToCourse,
-}) {
+}) => {
   return (
     <TableContainer
       component={Paper}
@@ -250,4 +250,6 @@ export default function CoursesTable({
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default CoursesTable;

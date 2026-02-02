@@ -36,26 +36,6 @@ export const createUser = createAsyncThunk(
     }
 );
 
-// ⚠️ קוד זה אינו בשימוש
-export const updateUser = createAsyncThunk(
-    "users/updateUser",
-    async ({ id, patch }, { rejectWithValue }) => {
-        try {
-            const res = await fetch(`/api/users/update-user/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(patch),
-            });
-            const data = await res.json();
-
-            if (!res.ok) return rejectWithValue(data?.message || "Update user failed");
-            return data;
-        } catch (e) {
-            return rejectWithValue(e?.message || "Network error");
-        }
-    }
-);
-
 export const deleteUser = createAsyncThunk(
     "users/deleteUser",
     async (id, { rejectWithValue }) => {
@@ -71,23 +51,6 @@ export const deleteUser = createAsyncThunk(
 
             if (!res.ok) return rejectWithValue(data?.message || "Delete user failed");
             return id;
-        } catch (e) {
-            return rejectWithValue(e?.message || "Network error");
-        }
-    }
-);
-
-// ⚠️ קוד זה אינו בשימוש
-export const searchUsersByName = createAsyncThunk(
-    "users/searchUsersByName",
-    async (name, { rejectWithValue }) => {
-        try {
-            const qs = new URLSearchParams({ name }).toString();
-            const res = await fetch(`/api/users/search-user?${qs}`);
-            const data = await res.json();
-
-            if (!res.ok) return rejectWithValue(data?.message || "Search users failed");
-            return data;
         } catch (e) {
             return rejectWithValue(e?.message || "Network error");
         }
@@ -120,7 +83,6 @@ const usersSlice = createSlice({
             .addCase(fetchUsers.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.usersList = action.payload;
-                console.log("users stored in state:", action.payload);
             })
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.status = "failed";

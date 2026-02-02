@@ -8,7 +8,7 @@ import ShowStudentsDialog from "../../features/showStudentsFeature";
 import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
-export default function AllCoursePage() {
+const AllCoursePage = () => {
   const c = useCoursesPageController();
 
   return (
@@ -53,4 +53,6 @@ export default function AllCoursePage() {
       />
     </Container>
   );
-}
+};
+
+export default AllCoursePage;

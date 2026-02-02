@@ -8,7 +8,7 @@ import UsersPage from './components/pages/users/UsersPage';
 import SignIn from "./components/pages/SignIn";
 
 
-function App() {
+const App = () => {
   return (
     <>
       <Navbar />
@@ -24,6 +24,6 @@ function App() {
       </Routes>
     </>
   );
-}
+};
 
-export default App
+export default App;

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
@@ -20,8 +20,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { addStudentToCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
+import { useFilteredUsers } from "../../hooks/useDataHelpers";
 
-export default function AddStudentToCourseDialog({ open, onClose, course }) {
+const AddStudentToCourseDialog = ({ open, onClose, course }) => {
   const dispatch = useDispatch();
   const users = useSelector(selectVisibleUsers);
 
@@ -29,9 +30,7 @@ export default function AddStudentToCourseDialog({ open, onClose, course }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const students = useMemo(() => {
-    return users?.filter((user) => user.role === "student") || [];
-  }, [users]);
+  const students = useFilteredUsers(users, "student");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -158,4 +157,6 @@ export default function AddStudentToCourseDialog({ open, onClose, course }) {
       </form>
     </Dialog>
   );
-}
+};
+
+export default AddStudentToCourseDialog;

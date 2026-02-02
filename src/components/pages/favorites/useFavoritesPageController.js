@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchFavorites, deleteFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
@@ -8,6 +8,7 @@ import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelector";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
+import { useIdMap } from "../../../hooks/useDataHelpers";
 
 import {
   openDeleteFavoriteDialog as openDeleteFavoriteDialogAction,
@@ -34,17 +35,8 @@ export function useFavoritesPageController() {
     refresh();
   }, [refresh]);
 
-  const coursesById = useMemo(() => {
-    const m = new Map();
-    for (const c of courses || []) m.set(String(c.id), c);
-    return m;
-  }, [courses]);
-
-  const usersById = useMemo(() => {
-    const m = new Map();
-    for (const u of users || []) m.set(String(u.id), u);
-    return m;
-  }, [users]);
+  const coursesById = useIdMap(courses);
+  const usersById = useIdMap(users);
 
   const openDelete = (favorite) => dispatch(openDeleteFavoriteDialogAction(favorite));
   const closeDelete = () => dispatch(closeDeleteFavoriteDialogAction());

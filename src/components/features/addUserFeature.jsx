@@ -23,7 +23,7 @@ import { createUser } from "../../store/slicesAndThunks/usersSlice";
 const ORANGE_COLOR = "rgba(249, 115, 22, 0.9)";
 const ORANGE_HOVER = "#ea580c";
 
-export default function AddUserDialog({ open, onClose }) {
+const AddUserDialog = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
@@ -50,8 +50,7 @@ export default function AddUserDialog({ open, onClose }) {
     setLoading(true);
 
     try {
-      const result = await dispatch(createUser(formData)).unwrap();
-      setLoading(false);
+      await dispatch(createUser(formData)).unwrap();
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
@@ -59,6 +58,7 @@ export default function AddUserDialog({ open, onClose }) {
       }, 1500);
     } catch (err) {
       setError(err?.message || err || "Failed to create user");
+    } finally {
       setLoading(false);
     }
   };
@@ -220,4 +220,6 @@ export default function AddUserDialog({ open, onClose }) {
       </form>
     </Dialog>
   );
-}
+};
+
+export default AddUserDialog;

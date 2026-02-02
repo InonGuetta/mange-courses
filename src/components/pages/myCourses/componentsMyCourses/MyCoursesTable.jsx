@@ -13,14 +13,14 @@ import {
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ClearIcon from "@mui/icons-material/Clear";
 
-export default function MyCoursesTable({
+const MyCoursesTable = ({
   myCourses = [],
   coursesById,
   usersById,
   currentStudentId,
   onAddFavorite,
   onDeleteStudentFromCourse,
-}) {
+}) => {
   return (
     <TableContainer
       component={Paper}
@@ -251,4 +251,6 @@ export default function MyCoursesTable({
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default MyCoursesTable;

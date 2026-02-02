@@ -5,7 +5,7 @@ import AddUserDialog from "../../features/addUserFeature";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useUsersPageController } from "./useUsersPageController";
 
-export default function UsersPage() {
+const UsersPage = () => {
   const c = useUsersPageController();
 
   return (
@@ -25,4 +25,6 @@ export default function UsersPage() {
       />
     </Container>
   );
-}
+};
+
+export default UsersPage;

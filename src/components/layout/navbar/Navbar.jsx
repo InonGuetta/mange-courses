@@ -4,38 +4,22 @@ import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 
-export default function Navbar() {
+const NAVBAR_BG = "linear-gradient(135deg, #549df0, #438dd7, #3e84cb, #2664ab, #164983)";
+
+const Navbar = () => {
   const { pathname } = useLocation();
-  const [bgColor, setBgColor] = useState("rgba(0, 0, 255, 1)");
 
-  useEffect(() => {
-    const gradient = `linear-gradient(135deg, #549df0, #438dd7, #3e84cb, #2664ab , #164983)`;
-    setBgColor(gradient);
-  }, []);
-
-  const value =
-    pathname === "/courses"
-      ? 0
-      : pathname === "/favorites"
-        ? 1
-        : pathname === "/my-courses"
-          ? 2
-          : pathname === "/users"
-            ? 3
-            : pathname === "/sign-in"
-              ? 4
-              : false;
+  const pathToTab = { "/courses": 0, "/favorites": 1, "/my-courses": 2, "/users": 3, "/sign-in": 4 };
+  const value = pathToTab[pathname] ?? false;
 
   return (
     <>
       <AppBar
         position="sticky"
         elevation={2}
-        sx={{ background: bgColor, transition: "background 0.3s ease" }}
+        sx={{ background: NAVBAR_BG }}
       >
         <Toolbar sx={{ gap: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: 800 }}>
@@ -59,4 +43,6 @@ export default function Navbar() {
       </AppBar>
     </>
   );
-}
+};
+
+export default Navbar;
