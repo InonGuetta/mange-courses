@@ -13,42 +13,42 @@ const AllCoursePage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FloatingActions onAdd={c.openAdd} onRefresh={c.refresh} />
+      <FloatingActions onAdd={c.onOpenAddCourseDialog} onRefresh={c.onRefresh} />
 
       <CoursesTable
         courses={c.courses}
         users={c.users}
-        onDelete={c.openDelete}
-        onEdit={c.openEdit}
-        onShowStudents={c.openShowStudents}
-        onAddStudentToCourse={c.openAddStudentToCourse}
+        onDelete={c.onOpenDeleteCourseDialog}
+        onEdit={c.onOpenEditCourseDialog}
+        onShowStudents={c.onOpenShowStudentsDialog}
+        onAddStudentToCourse={c.onOpenAddStudentToCourseDialog}
       />
 
-      <AddCourseDialog open={c.openAddDialog} onClose={c.closeAdd} />
+      <AddCourseDialog isOpen={c.isAddCourseDialogOpen} onClose={c.onCloseAddCourseDialog} />
 
       <DeleteConfirmDialog
-        open={c.deleteDialogOpen}
-        onClose={c.closeDelete}
-        onConfirm={c.confirmDelete}
+        isOpen={c.isDeleteCourseDialogOpen}
+        onClose={c.onCloseDeleteCourseDialog}
+        onConfirm={c.onConfirmDeleteCourse}
         title="Course Deletion"
         itemName={c.courseToDelete?.name_course}
       />
 
       <EditCourseDialog
-        open={c.editDialogOpen}
-        onClose={c.closeEdit}
+        isOpen={c.isEditCourseDialogOpen}
+        onClose={c.onCloseEditCourseDialog}
         course={c.courseToEdit}
       />
 
       <ShowStudentsDialog
-        open={c.studentsDialogOpen}
-        onClose={c.closeShowStudents}
+        isOpen={c.isShowStudentsDialogOpen}
+        onClose={c.onCloseShowStudentsDialog}
         course={c.courseForStudents}
       />
 
       <AddStudentToCourseDialog
-        open={c.addStudentDialogOpen}
-        onClose={c.closeAddStudentToCourse}
+        isOpen={c.isAddStudentDialogOpen}
+        onClose={c.onCloseAddStudentToCourseDialog}
         course={c.courseForAddStudent}
       />
     </Container>

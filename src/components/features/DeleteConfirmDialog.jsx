@@ -2,7 +2,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography }
 
 /**
  * Generic Delete Confirmation Dialog
- * @param {boolean} open - Whether the dialog is open
+ * @param {boolean} isOpen - Whether the dialog is open
  * @param {function} onClose - Called when dialog is closed/cancelled
  * @param {function} onConfirm - Called when delete is confirmed
  * @param {string} title - Dialog title (e.g., "Course Deletion", "User Deletion")
@@ -11,7 +11,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography }
  * @param {string} confirmButtonText - Text for confirm button (default: "Delete")
  */
 const DeleteConfirmDialog = ({ 
-	open, 
+	isOpen, 
 	onClose, 
 	onConfirm, 
 	title = "Confirm Deletion",
@@ -24,7 +24,7 @@ const DeleteConfirmDialog = ({
 		: "Are you sure you want to delete this item?";
 
 	return (
-		<Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+		<Dialog open={isOpen} onClose={onClose} maxWidth="xs" fullWidth>
 			<DialogTitle>
 				{title}
 			</DialogTitle>

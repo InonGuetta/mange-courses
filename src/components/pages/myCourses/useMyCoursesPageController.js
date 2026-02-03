@@ -14,10 +14,10 @@ import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { useIdMap, useFilteredUsers } from "../../../hooks/useDataHelpers";
 
-export function useMyCoursesPageController() {
+export const useMyCoursesPageController = () => {
   const dispatch = useDispatch();
   const [selectedStudentId, setSelectedStudentId] = useState(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isDeleteStudentDialogOpen, setIsDeleteStudentDialogOpen] = useState(false);
   const [courseToRemove, setCourseToRemove] = useState(null);
 
   const myCourses = useSelector(selectVisibleMyCourses) || [];
@@ -28,17 +28,17 @@ export function useMyCoursesPageController() {
   const coursesById = useIdMap(courses);
   const usersById = useIdMap(users);
 
-  const refresh = useCallback(() => {
+  const refreshData = useCallback(() => {
     dispatch(fetchMyCourses(selectedStudentId));
     dispatch(fetchUsers());
     dispatch(fetchCourses());
   }, [dispatch, selectedStudentId]);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    refreshData();
+  }, [refreshData]);
 
-  const onAddFavorite = useCallback(
+  const handleAddFavorite = useCallback(
     (row) => {
       if (!selectedStudentId || !row.course_id) {
         console.warn("Missing studentId or courseId for adding favorite");
@@ -51,13 +51,13 @@ export function useMyCoursesPageController() {
     [dispatch, selectedStudentId],
   );
 
-  const openDeleteStudentDialog = useCallback((row) => {
+  const openDeleteStudentFromCourseDialog = useCallback((row) => {
     setCourseToRemove(row);
-    setDeleteDialogOpen(true);
+    setIsDeleteStudentDialogOpen(true);
   }, []);
 
-  const closeDeleteStudentDialog = useCallback(() => {
-    setDeleteDialogOpen(false);
+  const closeDeleteStudentFromCourseDialog = useCallback(() => {
+    setIsDeleteStudentDialogOpen(false);
     setCourseToRemove(null);
   }, []);
 
@@ -74,14 +74,14 @@ export function useMyCoursesPageController() {
         studentId: selectedStudentId,
       }),
     );
-    closeDeleteStudentDialog();
-    refresh();
+    closeDeleteStudentFromCourseDialog();
+    refreshData();
   }, [
     dispatch,
     selectedStudentId,
     courseToRemove,
-    closeDeleteStudentDialog,
-    refresh,
+    closeDeleteStudentFromCourseDialog,
+    refreshData,
   ]);
 
   const handleStudentChange = useCallback((newStudentId) => {
@@ -96,18 +96,18 @@ export function useMyCoursesPageController() {
 
   return {
     myCourses,
-    refresh,
+    onRefresh: refreshData,
     coursesById,
     usersById,
-    onAddFavorite,
-    openDeleteStudentDialog,
-    closeDeleteStudentDialog,
-    confirmDeleteStudentFromCourse,
-    deleteDialogOpen,
+    onAddFavorite: handleAddFavorite,
+    onOpenDeleteStudentFromCourseDialog: openDeleteStudentFromCourseDialog,
+    onCloseDeleteStudentFromCourseDialog: closeDeleteStudentFromCourseDialog,
+    onConfirmDeleteStudentFromCourse: confirmDeleteStudentFromCourse,
+    isDeleteStudentDialogOpen,
     courseToRemove,
     currentStudentId: selectedStudentId,
     students,
     selectedStudentId,
     onStudentChange: handleStudentChange,
   };
-}
+};

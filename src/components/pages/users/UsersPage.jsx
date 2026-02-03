@@ -10,16 +10,16 @@ const UsersPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <UsersHeader onRefresh={c.refresh} onAddUser={c.openAddUser} />
+      <UsersHeader onRefresh={c.onRefresh} onAddUser={c.onOpenAddUserDialog} />
 
-      <UsersTable users={c.users} onDeleteUser={c.openDeleteUser} />
+      <UsersTable users={c.users} onDeleteUser={c.onOpenDeleteUserDialog} />
 
-      <AddUserDialog open={c.addUserDialogOpen} onClose={c.closeAddUser} />
+      <AddUserDialog isOpen={c.isAddUserDialogOpen} onClose={c.onCloseAddUserDialog} />
 
       <DeleteConfirmDialog
-        open={c.deleteUserDialogOpen}
-        onClose={c.closeDeleteUser}
-        onConfirm={c.confirmDeleteUser}
+        isOpen={c.isDeleteUserDialogOpen}
+        onClose={c.onCloseDeleteUserDialog}
+        onConfirm={c.onConfirmDeleteUser}
         title="User Deletion"
         itemName={c.userToDelete?.name}
       />

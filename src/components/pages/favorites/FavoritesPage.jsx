@@ -9,20 +9,20 @@ const FavoritesPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FavoritesHeader onRefresh={c.refresh} />
+      <FavoritesHeader onRefresh={c.onRefresh} />
 
       
       <FavoritesTable
         favorites={c.favorites}
         coursesById={c.coursesById}
         usersById={c.usersById}
-        onDelete={c.openDelete} 
+        onDelete={c.onOpenDeleteFavoriteDialog} 
       />
 
       <DeleteConfirmDialog
-        open={c.deleteFavoriteDialogOpen}
-        onClose={c.closeDelete}
-        onConfirm={c.confirmDelete}
+        isOpen={c.isDeleteFavoriteDialogOpen}
+        onClose={c.onCloseDeleteFavoriteDialog}
+        onConfirm={c.onConfirmDeleteFavorite}
         title="Favorite Deletion"
         itemName={c.favoriteToDelete ? c.coursesById.get(String(c.favoriteToDelete.course_id))?.name_course : null}
       />

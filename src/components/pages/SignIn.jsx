@@ -17,7 +17,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.auth);
 
-  const handleLogin = () => {
+  const handleLoginSubmit = () => {
     dispatch(login({ email, password }));
   };
 
@@ -70,7 +70,7 @@ const SignIn = () => {
           color="primary"
           fullWidth
           sx={{ mt: 2 }}
-          onClick={handleLogin}
+          onClick={handleLoginSubmit}
         >
           Login
         </Button>

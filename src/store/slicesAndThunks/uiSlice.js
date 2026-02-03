@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  openAddDialog: false,
-  deleteDialogOpen: false,
+  isAddCourseDialogOpen: false,
+  isDeleteCourseDialogOpen: false,
   courseToDelete: null,
-  editDialogOpen: false,
+  isEditCourseDialogOpen: false,
   courseToEdit: null,
-  deleteFavoriteDialogOpen: false,
+  isDeleteFavoriteDialogOpen: false,
   favoriteToDelete: null,
-  studentsDialogOpen: false,
+  isShowStudentsDialogOpen: false,
   courseForStudents: null,
-  addStudentDialogOpen: false,
+  isAddStudentDialogOpen: false,
   courseForAddStudent: null,
-  addUserDialogOpen: false,
-  deleteUserDialogOpen: false,
+  isAddUserDialogOpen: false,
+  isDeleteUserDialogOpen: false,
   userToDelete: null,
 };
 
@@ -22,80 +22,80 @@ const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    openAddDialog(state) {
-      state.openAddDialog = true;
+    openAddCourseDialog(state) {
+      state.isAddCourseDialogOpen = true;
     },
-    closeAddDialog(state) {
-      state.openAddDialog = false;
+    closeAddCourseDialog(state) {
+      state.isAddCourseDialogOpen = false;
     },
-    openDeleteDialog(state, action) {
-      state.deleteDialogOpen = true;
+    openDeleteCourseDialog(state, action) {
+      state.isDeleteCourseDialogOpen = true;
       state.courseToDelete = action.payload;
     },
-    closeDeleteDialog(state) {
-      state.deleteDialogOpen = false;
+    closeDeleteCourseDialog(state) {
+      state.isDeleteCourseDialogOpen = false;
       state.courseToDelete = null;
     },
-    openEditDialog(state, action) {
-      state.editDialogOpen = true;
+    openEditCourseDialog(state, action) {
+      state.isEditCourseDialogOpen = true;
       state.courseToEdit = action.payload;
     },
-    closeEditDialog(state) {
-      state.editDialogOpen = false;
+    closeEditCourseDialog(state) {
+      state.isEditCourseDialogOpen = false;
       state.courseToEdit = null;
     },
     openDeleteFavoriteDialog(state, action) {
-      state.deleteFavoriteDialogOpen = true;
+      state.isDeleteFavoriteDialogOpen = true;
       state.favoriteToDelete = action.payload;
     },
     closeDeleteFavoriteDialog(state) {
-      state.deleteFavoriteDialogOpen = false;
+      state.isDeleteFavoriteDialogOpen = false;
       state.favoriteToDelete = null;
     },
-    openStudentsDialog(state, action) {
-      state.studentsDialogOpen = true;
+    openShowStudentsDialog(state, action) {
+      state.isShowStudentsDialogOpen = true;
       state.courseForStudents = action.payload;
     },
-    closeStudentsDialog(state) {
-      state.studentsDialogOpen = false;
+    closeShowStudentsDialog(state) {
+      state.isShowStudentsDialogOpen = false;
       state.courseForStudents = null;
     },
     openAddStudentDialog(state, action) {
-      state.addStudentDialogOpen = true;
+      state.isAddStudentDialogOpen = true;
       state.courseForAddStudent = action.payload;
     },
     closeAddStudentDialog(state) {
-      state.addStudentDialogOpen = false;
+      state.isAddStudentDialogOpen = false;
       state.courseForAddStudent = null;
     },
     openAddUserDialog(state) {
-      state.addUserDialogOpen = true;
+      state.isAddUserDialogOpen = true;
     },
     closeAddUserDialog(state) {
-      state.addUserDialogOpen = false;
+      state.isAddUserDialogOpen = false;
     },
     openDeleteUserDialog(state, action) {
-      state.deleteUserDialogOpen = true;
+      state.isDeleteUserDialogOpen = true;
       state.userToDelete = action.payload;
     },
     closeDeleteUserDialog(state) {
-      state.deleteUserDialogOpen = false;
+      state.isDeleteUserDialogOpen = false;
       state.userToDelete = null;
     },
   },
 });
 
 export const { 
-  openAddDialog, 
-  closeAddDialog, 
-  openDeleteDialog, 
-  closeDeleteDialog,
-  openEditDialog,
-  closeEditDialog,
+  openAddCourseDialog, 
+  closeAddCourseDialog, 
+  openDeleteCourseDialog, 
+  closeDeleteCourseDialog,
+  openEditCourseDialog,
+  closeEditCourseDialog,
   openDeleteFavoriteDialog,
   closeDeleteFavoriteDialog,
-  openStudentsDialog,
-  closeStudentsDialog,
+  openShowStudentsDialog,
+  closeShowStudentsDialog,
   openAddStudentDialog,
   closeAddStudentDialog,
   openAddUserDialog,

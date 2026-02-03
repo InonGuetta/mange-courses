@@ -22,48 +22,48 @@ import { addStudentToCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
 import { useFilteredUsers } from "../../hooks/useDataHelpers";
 
-const AddStudentToCourseDialog = ({ open, onClose, course }) => {
+const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
   const dispatch = useDispatch();
   const users = useSelector(selectVisibleUsers);
 
   const [selectedStudentId, setSelectedStudentId] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const students = useFilteredUsers(users, "student");
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!selectedStudentId || !course?.id) {
-      setError("Please select a student");
+      setErrorMessage("Please select a student");
       return;
     }
 
-    setError(null);
-    setLoading(true);
+    setErrorMessage(null);
+    setIsLoading(true);
 
     try {
       await dispatch(
         addStudentToCourse({ courseId: course.id, studentId: selectedStudentId })
       ).unwrap();
-      handleClose();
+      handleCloseDialog();
     } catch (err) {
-      setError(err?.message || err || "Failed to add student to course");
+      setErrorMessage(err?.message || err || "Failed to add student to course");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setSelectedStudentId("");
-    setError(null);
+    setErrorMessage(null);
     onClose();
   };
 
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
+      open={isOpen}
+      onClose={handleCloseDialog}
       maxWidth="sm"
       fullWidth
       PaperProps={{
@@ -89,7 +89,7 @@ const AddStudentToCourseDialog = ({ open, onClose, course }) => {
         </Typography>
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={handleCloseDialog}
           sx={{
             color: (theme) => theme.palette.grey[500],
           }}
@@ -98,11 +98,11 @@ const AddStudentToCourseDialog = ({ open, onClose, course }) => {
         </IconButton>
       </DialogTitle>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <DialogContent dividers sx={{ pt: 3 }}>
-          {error && (
+          {errorMessage && (
             <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
+              {errorMessage}
             </Alert>
           )}
 
@@ -119,7 +119,7 @@ const AddStudentToCourseDialog = ({ open, onClose, course }) => {
                 value={selectedStudentId}
                 label="Student"
                 onChange={({ target: { value } }) => setSelectedStudentId(value)}
-                disabled={loading}
+                disabled={isLoading}
               >
                 {students.length > 0 ? (
                   students.map((student) => (
@@ -137,10 +137,10 @@ const AddStudentToCourseDialog = ({ open, onClose, course }) => {
 
         <DialogActions sx={{ p: 2, gap: 1 }}>
           <Button
-            onClick={handleClose}
+            onClick={handleCloseDialog}
             variant="outlined"
             color="inherit"
-            disabled={loading}
+            disabled={isLoading}
           >
             Cancel
           </Button>
@@ -148,10 +148,10 @@ const AddStudentToCourseDialog = ({ open, onClose, course }) => {
             type="submit"
             variant="contained"
             color="success"
-            disabled={loading || !selectedStudentId}
-            startIcon={loading && <CircularProgress size={20} color="inherit" />}
+            disabled={isLoading || !selectedStudentId}
+            startIcon={isLoading && <CircularProgress size={20} color="inherit" />}
           >
-            {loading ? "Adding..." : "Add Student"}
+            {isLoading ? "Adding..." : "Add Student"}
           </Button>
         </DialogActions>
       </form>

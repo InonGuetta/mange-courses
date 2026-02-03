@@ -23,7 +23,7 @@ import { createUser } from "../../store/slicesAndThunks/usersSlice";
 const ORANGE_COLOR = "rgba(249, 115, 22, 0.9)";
 const ORANGE_HOVER = "#ea580c";
 
-const AddUserDialog = ({ open, onClose }) => {
+const AddUserDialog = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
@@ -32,11 +32,11 @@ const AddUserDialog = ({ open, onClose }) => {
     role: "",
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -44,34 +44,34 @@ const AddUserDialog = ({ open, onClose }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
+    setErrorMessage(null);
+    setIsLoading(true);
 
     try {
       await dispatch(createUser(formData)).unwrap();
-      setSuccess(true);
+      setIsSuccess(true);
       setTimeout(() => {
-        setSuccess(false);
-        handleClose();
+        setIsSuccess(false);
+        handleCloseDialog();
       }, 1500);
     } catch (err) {
-      setError(err?.message || err || "Failed to create user");
+      setErrorMessage(err?.message || err || "Failed to create user");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setFormData({
       name: "",
       email: "",
       password_hash: "",
       role: "",
     });
-    setError(null);
-    setSuccess(false);
+    setErrorMessage(null);
+    setIsSuccess(false);
     onClose();
   };
 
@@ -80,8 +80,8 @@ const AddUserDialog = ({ open, onClose }) => {
 
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
+      open={isOpen}
+      onClose={handleCloseDialog}
       maxWidth="sm"
       fullWidth
       PaperProps={{
@@ -107,7 +107,7 @@ const AddUserDialog = ({ open, onClose }) => {
         </Typography>
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={handleCloseDialog}
           sx={{
             color: "#9a3412",
           }}
@@ -116,16 +116,16 @@ const AddUserDialog = ({ open, onClose }) => {
         </IconButton>
       </DialogTitle>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <DialogContent dividers sx={{ pt: 3 }}>
-          {success && (
+          {isSuccess && (
             <Alert severity="success" sx={{ mb: 2 }}>
               User successfully added ✓
             </Alert>
           )}
-          {error && (
+          {errorMessage && (
             <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
+              {errorMessage}
             </Alert>
           )}
 
@@ -136,9 +136,9 @@ const AddUserDialog = ({ open, onClose }) => {
               label="Name"
               name="name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleInputChange}
               variant="outlined"
-              disabled={loading}
+              disabled={isLoading}
             />
 
             <TextField
@@ -148,9 +148,9 @@ const AddUserDialog = ({ open, onClose }) => {
               name="email"
               type="email"
               value={formData.email}
-              onChange={handleChange}
+              onChange={handleInputChange}
               variant="outlined"
-              disabled={loading}
+              disabled={isLoading}
             />
 
             <TextField
@@ -160,9 +160,9 @@ const AddUserDialog = ({ open, onClose }) => {
               name="password_hash"
               type="password"
               value={formData.password_hash}
-              onChange={handleChange}
+              onChange={handleInputChange}
               variant="outlined"
-              disabled={loading}
+              disabled={isLoading}
             />
 
             <FormControl fullWidth required>
@@ -173,8 +173,8 @@ const AddUserDialog = ({ open, onClose }) => {
                 name="role"
                 value={formData.role}
                 label="Role"
-                onChange={handleChange}
-                disabled={loading}
+                onChange={handleInputChange}
+                disabled={isLoading}
               >
                 <MenuItem value="student">Student</MenuItem>
                 <MenuItem value="teacher">Teacher</MenuItem>
@@ -185,9 +185,9 @@ const AddUserDialog = ({ open, onClose }) => {
 
         <DialogActions sx={{ p: 2, gap: 1 }}>
           <Button
-            onClick={handleClose}
+            onClick={handleCloseDialog}
             variant="outlined"
-            disabled={loading}
+            disabled={isLoading}
             sx={{
               borderColor: ORANGE_COLOR,
               color: ORANGE_COLOR,
@@ -203,9 +203,9 @@ const AddUserDialog = ({ open, onClose }) => {
           <Button
             type="submit"
             variant="contained"
-            disabled={loading || !isFormValid}
+            disabled={isLoading || !isFormValid}
             startIcon={
-              loading ? <CircularProgress size={20} color="inherit" /> : null
+              isLoading ? <CircularProgress size={20} color="inherit" /> : null
             }
             sx={{
               bgcolor: ORANGE_COLOR,
@@ -214,7 +214,7 @@ const AddUserDialog = ({ open, onClose }) => {
               },
             }}
           >
-            {loading ? "Creating..." : "Create User"}
+            {isLoading ? "Creating..." : "Create User"}
           </Button>
         </DialogActions>
       </form>

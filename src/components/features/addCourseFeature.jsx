@@ -8,7 +8,7 @@ import { createCourse } from "../../store/slicesAndThunks/coursesSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
 
 
-const AddCourseDialog = ({ open, onClose }) => {
+const AddCourseDialog = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
     const users = useSelector(selectVisibleUsers);
     
@@ -18,10 +18,10 @@ const AddCourseDialog = ({ open, onClose }) => {
         teacher_id: ""
     });
     
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
@@ -29,10 +29,10 @@ const AddCourseDialog = ({ open, onClose }) => {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
-        setLoading(true);
+        setErrorMessage(null);
+        setIsLoading(true);
 
         try {
             const courseData = {
@@ -40,21 +40,21 @@ const AddCourseDialog = ({ open, onClose }) => {
                 teacher_id: Number(formData.teacher_id)
             };
             await dispatch(createCourse(courseData)).unwrap();
-            handleClose();
+            handleCloseDialog();
         } catch (err) {
-            setError(err?.message || err || "Failed to create course");
+            setErrorMessage(err?.message || err || "Failed to create course");
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
-    const handleClose = () => {
+    const handleCloseDialog = () => {
         setFormData({
             name_course: "",
             detail: "",
             teacher_id: ""
         });
-        setError(null);
+        setErrorMessage(null);
         onClose();
     };
 
@@ -62,8 +62,8 @@ const AddCourseDialog = ({ open, onClose }) => {
 
     return (
         <Dialog 
-            open={open} 
-            onClose={handleClose}
+            open={isOpen} 
+            onClose={handleCloseDialog}
             maxWidth="sm"
             fullWidth
             PaperProps={{
@@ -89,7 +89,7 @@ const AddCourseDialog = ({ open, onClose }) => {
                 </Typography>
                 <IconButton
                     aria-label="close"
-                    onClick={handleClose}
+                    onClick={handleCloseDialog}
                     sx={{
                         color: (theme) => theme.palette.grey[500],
                     }}
@@ -98,11 +98,11 @@ const AddCourseDialog = ({ open, onClose }) => {
                 </IconButton>
             </DialogTitle>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleFormSubmit}>
                 <DialogContent dividers sx={{ pt: 3 }}>
-                    {error && (
+                    {errorMessage && (
                         <Alert severity="error" sx={{ mb: 2 }}>
-                            {error}
+                            {errorMessage}
                         </Alert>
                     )}
 
@@ -113,9 +113,9 @@ const AddCourseDialog = ({ open, onClose }) => {
                             label="Course Name"
                             name="name_course"
                             value={formData.name_course}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             variant="outlined"
-                            disabled={loading}
+                            disabled={isLoading}
                         />
 
                         <TextField
@@ -124,11 +124,11 @@ const AddCourseDialog = ({ open, onClose }) => {
                             label="Course Details"
                             name="detail"
                             value={formData.detail}
-                            onChange={handleChange}
+                            onChange={handleInputChange}
                             variant="outlined"
                             multiline
                             rows={4}
-                            disabled={loading}
+                            disabled={isLoading}
                         />
 
                         <FormControl fullWidth required>
@@ -139,8 +139,8 @@ const AddCourseDialog = ({ open, onClose }) => {
                                 name="teacher_id"
                                 value={formData.teacher_id}
                                 label="Teacher"
-                                onChange={handleChange}
-                                disabled={loading}
+                                onChange={handleInputChange}
+                                disabled={isLoading}
                             >
                                 {teachers.length > 0 ? (
                                     teachers.map((teacher) => (
@@ -160,17 +160,17 @@ const AddCourseDialog = ({ open, onClose }) => {
 
                 <DialogActions sx={{ p: 2, gap: 1 }}>
                     <Button 
-                        onClick={handleClose} 
+                        onClick={handleCloseDialog} 
                         variant="outlined"
-                        disabled={loading}
+                        disabled={isLoading}
                     >
                         Cancel
                     </Button>
                     <Button 
                         type="submit" 
                         variant="contained"
-                        disabled={loading || !formData.teacher_id}
-                        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
+                        disabled={isLoading || !formData.teacher_id}
+                        startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
                         sx={{
                             bgcolor: 'primary.main',
                             '&:hover': {
@@ -178,7 +178,7 @@ const AddCourseDialog = ({ open, onClose }) => {
                             }
                         }}
                     >
-                        {loading ? "Creating..." : "Create Course"}
+                        {isLoading ? "Creating..." : "Create Course"}
                     </Button>
                 </DialogActions>
             </form>

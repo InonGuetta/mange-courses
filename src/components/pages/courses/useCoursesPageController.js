@@ -4,88 +4,98 @@ import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/cours
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
-import {openAddDialog as openAddDialogAction,closeAddDialog as closeAddDialogAction,openDeleteDialog as openDeleteDialogAction,closeDeleteDialog as closeDeleteDialogAction,openEditDialog as openEditDialogAction,closeEditDialog as closeEditDialogAction,openStudentsDialog as openStudentsDialogAction,closeStudentsDialog as closeStudentsDialogAction,openAddStudentDialog as openAddStudentDialogAction,closeAddStudentDialog as closeAddStudentDialogAction,
+import {
+  openAddCourseDialog as openAddCourseDialogAction,
+  closeAddCourseDialog as closeAddCourseDialogAction,
+  openDeleteCourseDialog as openDeleteCourseDialogAction,
+  closeDeleteCourseDialog as closeDeleteCourseDialogAction,
+  openEditCourseDialog as openEditCourseDialogAction,
+  closeEditCourseDialog as closeEditCourseDialogAction,
+  openShowStudentsDialog as openShowStudentsDialogAction,
+  closeShowStudentsDialog as closeShowStudentsDialogAction,
+  openAddStudentDialog as openAddStudentDialogAction,
+  closeAddStudentDialog as closeAddStudentDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
-export function useCoursesPageController() {
+export const useCoursesPageController = () => {
     const dispatch = useDispatch();
 
     const courses = useSelector(selectVisibleCourses);
     const users = useSelector(selectVisibleUsers);
 
-    const openAddDialog = useSelector((s) => s.ui.openAddDialog);
-    const deleteDialogOpen = useSelector((s) => s.ui.deleteDialogOpen);
+    const isAddCourseDialogOpen = useSelector((s) => s.ui.isAddCourseDialogOpen);
+    const isDeleteCourseDialogOpen = useSelector((s) => s.ui.isDeleteCourseDialogOpen);
     const courseToDelete = useSelector((s) => s.ui.courseToDelete);
-    const editDialogOpen = useSelector((s) => s.ui.editDialogOpen);
+    const isEditCourseDialogOpen = useSelector((s) => s.ui.isEditCourseDialogOpen);
     const courseToEdit = useSelector((s) => s.ui.courseToEdit);
-    const studentsDialogOpen = useSelector((s) => s.ui.studentsDialogOpen);
+    const isShowStudentsDialogOpen = useSelector((s) => s.ui.isShowStudentsDialogOpen);
     const courseForStudents = useSelector((s) => s.ui.courseForStudents);
-    const addStudentDialogOpen = useSelector((s) => s.ui.addStudentDialogOpen);
+    const isAddStudentDialogOpen = useSelector((s) => s.ui.isAddStudentDialogOpen);
     const courseForAddStudent = useSelector((s) => s.ui.courseForAddStudent);
 
-    const refresh = useCallback(() => {
+    const refreshData = useCallback(() => {
         dispatch(fetchCourses());
         dispatch(fetchUsers());
     }, [dispatch]);
 
     useEffect(() => {
-        refresh();
-    }, [refresh]);
+        refreshData();
+    }, [refreshData]);
 
-    const openAdd = () => dispatch(openAddDialogAction());
-    const closeAdd = () => {
-        dispatch(closeAddDialogAction());
-        refresh();
+    const openAddCourseDialog = () => dispatch(openAddCourseDialogAction());
+    const closeAddCourseDialog = () => {
+        dispatch(closeAddCourseDialogAction());
+        refreshData();
     };
 
-    const openDelete = (course) => dispatch(openDeleteDialogAction(course));
-    const closeDelete = () => dispatch(closeDeleteDialogAction());
+    const openDeleteCourseDialog = (course) => dispatch(openDeleteCourseDialogAction(course));
+    const closeDeleteCourseDialog = () => dispatch(closeDeleteCourseDialogAction());
 
-    const confirmDelete = async () => {
+    const confirmDeleteCourse = async () => {
         if (!courseToDelete) return;
         await dispatch(deleteCourse(courseToDelete.id));
-        closeDelete();
-        refresh();
+        closeDeleteCourseDialog();
+        refreshData();
     };
 
-    const openEdit = (course) => dispatch(openEditDialogAction(course));
-    const closeEdit = () => {
-        dispatch(closeEditDialogAction());
-        refresh();
+    const openEditCourseDialog = (course) => dispatch(openEditCourseDialogAction(course));
+    const closeEditCourseDialog = () => {
+        dispatch(closeEditCourseDialogAction());
+        refreshData();
     };
 
-    const openShowStudents = (course) => dispatch(openStudentsDialogAction(course));
-    const closeShowStudents = () => dispatch(closeStudentsDialogAction());
+    const openShowStudentsDialog = (course) => dispatch(openShowStudentsDialogAction(course));
+    const closeShowStudentsDialog = () => dispatch(closeShowStudentsDialogAction());
 
-    const openAddStudentToCourse = (course) => dispatch(openAddStudentDialogAction(course));
-    const closeAddStudentToCourse = () => {
+    const openAddStudentToCourseDialog = (course) => dispatch(openAddStudentDialogAction(course));
+    const closeAddStudentToCourseDialog = () => {
         dispatch(closeAddStudentDialogAction());
-        refresh();
+        refreshData();
     };
 
     return {
         courses,
         users,
-        refresh,
-        openAdd,
-        closeAdd,
-        openDelete,
-        closeDelete,
-        confirmDelete,
-        openEdit,
-        closeEdit,
-        openAddDialog,
-        deleteDialogOpen,
+        onRefresh: refreshData,
+        onOpenAddCourseDialog: openAddCourseDialog,
+        onCloseAddCourseDialog: closeAddCourseDialog,
+        onOpenDeleteCourseDialog: openDeleteCourseDialog,
+        onCloseDeleteCourseDialog: closeDeleteCourseDialog,
+        onConfirmDeleteCourse: confirmDeleteCourse,
+        onOpenEditCourseDialog: openEditCourseDialog,
+        onCloseEditCourseDialog: closeEditCourseDialog,
+        isAddCourseDialogOpen,
+        isDeleteCourseDialogOpen,
         courseToDelete,
-        editDialogOpen,
+        isEditCourseDialogOpen,
         courseToEdit,
-        studentsDialogOpen,
+        isShowStudentsDialogOpen,
         courseForStudents,
-        openShowStudents,
-        closeShowStudents,
-        addStudentDialogOpen,
+        onOpenShowStudentsDialog: openShowStudentsDialog,
+        onCloseShowStudentsDialog: closeShowStudentsDialog,
+        isAddStudentDialogOpen,
         courseForAddStudent,
-        openAddStudentToCourse,
-        closeAddStudentToCourse,
+        onOpenAddStudentToCourseDialog: openAddStudentToCourseDialog,
+        onCloseAddStudentToCourseDialog: closeAddStudentToCourseDialog,
     };
-}
+};

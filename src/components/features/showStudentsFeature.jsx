@@ -19,53 +19,53 @@ import {
 } from "@mui/material";
 import { fetchStudentsByCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 
-const ShowStudentsDialog = ({ open, onClose, course }) => {
+const ShowStudentsDialog = ({ isOpen, onClose, course }) => {
   const dispatch = useDispatch();
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    if (open && course?.id) {
-      setLoading(true);
-      setError(null);
+    if (isOpen && course?.id) {
+      setIsLoading(true);
+      setErrorMessage(null);
       dispatch(fetchStudentsByCourse(course.id))
         .unwrap()
         .then((data) => {
           setStudents(data || []);
         })
         .catch((err) => {
-          setError(err?.message || err || "Failed to load students");
+          setErrorMessage(err?.message || err || "Failed to load students");
           setStudents([]);
         })
         .finally(() => {
-          setLoading(false);
+          setIsLoading(false);
         });
     } else {
       setStudents([]);
-      setError(null);
+      setErrorMessage(null);
     }
-  }, [open, course, dispatch]);
+  }, [isOpen, course, dispatch]);
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setStudents([]);
-    setError(null);
+    setErrorMessage(null);
     onClose();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+    <Dialog open={isOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth>
       <DialogTitle sx={{ background: 'linear-gradient(90deg, #e3eaf6 0%, #b6c7e3 100%)', fontWeight: 700 }}>
         Students in Course: {course?.name_course || ""}
       </DialogTitle>
       <DialogContent sx={{ mt: 2 }}>
-        {loading ? (
+        {isLoading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
             <CircularProgress />
           </Box>
-        ) : error ? (
+        ) : errorMessage ? (
           <Typography color="error" variant="body1" sx={{ py: 2 }}>
-            {error}
+            {errorMessage}
           </Typography>
         ) : students.length > 0 ? (
           <TableContainer component={Paper} elevation={3} sx={{ borderRadius: 2 }}>
@@ -101,7 +101,7 @@ const ShowStudentsDialog = ({ open, onClose, course }) => {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant="outlined" color="primary">
+        <Button onClick={handleCloseDialog} variant="outlined" color="primary">
           Close
         </Button>
       </DialogActions>
