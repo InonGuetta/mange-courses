@@ -2,19 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAddCourseDialogOpen: false,
-  isDeleteCourseDialogOpen: false,
-  courseToDelete: null,
   isEditCourseDialogOpen: false,
   courseToEdit: null,
-  isDeleteFavoriteDialogOpen: false,
-  favoriteToDelete: null,
   isShowStudentsDialogOpen: false,
   courseForStudents: null,
   isAddStudentDialogOpen: false,
   courseForAddStudent: null,
   isAddUserDialogOpen: false,
-  isDeleteUserDialogOpen: false,
-  userToDelete: null,
+  isDeleteDialogOpen: false,
+  deleteDialogType: null, 
+  itemToDelete: null,
 };
 
 
@@ -28,13 +25,15 @@ const uiSlice = createSlice({
     closeAddCourseDialog(state) {
       state.isAddCourseDialogOpen = false;
     },
-    openDeleteCourseDialog(state, action) {
-      state.isDeleteCourseDialogOpen = true;
-      state.courseToDelete = action.payload;
+    openDeleteDialog(state, action) {
+      state.isDeleteDialogOpen = true;
+      state.deleteDialogType = action.payload.type;
+      state.itemToDelete = action.payload.item;
     },
-    closeDeleteCourseDialog(state) {
-      state.isDeleteCourseDialogOpen = false;
-      state.courseToDelete = null;
+    closeDeleteDialog(state) {
+      state.isDeleteDialogOpen = false;
+      state.deleteDialogType = null;
+      state.itemToDelete = null;
     },
     openEditCourseDialog(state, action) {
       state.isEditCourseDialogOpen = true;
@@ -43,14 +42,6 @@ const uiSlice = createSlice({
     closeEditCourseDialog(state) {
       state.isEditCourseDialogOpen = false;
       state.courseToEdit = null;
-    },
-    openDeleteFavoriteDialog(state, action) {
-      state.isDeleteFavoriteDialogOpen = true;
-      state.favoriteToDelete = action.payload;
-    },
-    closeDeleteFavoriteDialog(state) {
-      state.isDeleteFavoriteDialogOpen = false;
-      state.favoriteToDelete = null;
     },
     openShowStudentsDialog(state, action) {
       state.isShowStudentsDialogOpen = true;
@@ -74,33 +65,21 @@ const uiSlice = createSlice({
     closeAddUserDialog(state) {
       state.isAddUserDialogOpen = false;
     },
-    openDeleteUserDialog(state, action) {
-      state.isDeleteUserDialogOpen = true;
-      state.userToDelete = action.payload;
-    },
-    closeDeleteUserDialog(state) {
-      state.isDeleteUserDialogOpen = false;
-      state.userToDelete = null;
-    },
   },
 });
 
 export const { 
   openAddCourseDialog, 
   closeAddCourseDialog, 
-  openDeleteCourseDialog, 
-  closeDeleteCourseDialog,
+  openDeleteDialog,
+  closeDeleteDialog,
   openEditCourseDialog,
   closeEditCourseDialog,
-  openDeleteFavoriteDialog,
-  closeDeleteFavoriteDialog,
   openShowStudentsDialog,
   closeShowStudentsDialog,
   openAddStudentDialog,
   closeAddStudentDialog,
   openAddUserDialog,
   closeAddUserDialog,
-  openDeleteUserDialog,
-  closeDeleteUserDialog
 } = uiSlice.actions;
 export default uiSlice.reducer;

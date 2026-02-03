@@ -15,7 +15,7 @@ const AllCoursePage = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <FloatingActions onAdd={c.onOpenAddCourseDialog} onRefresh={c.onRefresh} />
 
-      <CoursesTable
+      <CoursesTable 
         courses={c.courses}
         users={c.users}
         onDelete={c.onOpenDeleteCourseDialog}
@@ -27,11 +27,11 @@ const AllCoursePage = () => {
       <AddCourseDialog isOpen={c.isAddCourseDialogOpen} onClose={c.onCloseAddCourseDialog} />
 
       <DeleteConfirmDialog
-        isOpen={c.isDeleteCourseDialogOpen}
+        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'course'}
         onClose={c.onCloseDeleteCourseDialog}
         onConfirm={c.onConfirmDeleteCourse}
         title="Course Deletion"
-        itemName={c.courseToDelete?.name_course}
+        itemName={c.itemToDelete?.name_course}
       />
 
       <EditCourseDialog

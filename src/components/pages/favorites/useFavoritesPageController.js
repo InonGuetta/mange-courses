@@ -11,8 +11,8 @@ import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { useIdMap } from "../../../hooks/useDataHelpers";
 
 import {
-  openDeleteFavoriteDialog as openDeleteFavoriteDialogAction,
-  closeDeleteFavoriteDialog as closeDeleteFavoriteDialogAction,
+  openDeleteDialog as openDeleteDialogAction,
+  closeDeleteDialog as closeDeleteDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export const useFavoritesPageController = () => {
@@ -22,8 +22,9 @@ export const useFavoritesPageController = () => {
   const courses = useSelector(selectVisibleCourses);
   const users = useSelector(selectVisibleUsers);
 
-  const isDeleteFavoriteDialogOpen = useSelector((s) => s.ui.isDeleteFavoriteDialogOpen);
-  const favoriteToDelete = useSelector((s) => s.ui.favoriteToDelete);
+  const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
+  const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
+  const itemToDelete = useSelector((s) => s.ui.itemToDelete);
 
   const refreshData = useCallback(() => {
     dispatch(fetchFavorites());
@@ -38,12 +39,12 @@ export const useFavoritesPageController = () => {
   const coursesById = useIdMap(courses);
   const usersById = useIdMap(users);
 
-  const openDeleteFavoriteDialog = (favorite) => dispatch(openDeleteFavoriteDialogAction(favorite));
-  const closeDeleteFavoriteDialog = () => dispatch(closeDeleteFavoriteDialogAction());
+  const openDeleteFavoriteDialog = (favorite) => dispatch(openDeleteDialogAction({ type: 'favorite', item: favorite }));
+  const closeDeleteFavoriteDialog = () => dispatch(closeDeleteDialogAction());
 
   const confirmDeleteFavorite = async () => {
-    if (!favoriteToDelete) return;
-    await dispatch(deleteFavorite(favoriteToDelete.id));
+    if (!itemToDelete || deleteDialogType !== 'favorite') return;
+    await dispatch(deleteFavorite(itemToDelete.id));
     closeDeleteFavoriteDialog();
     refreshData();
   };
@@ -56,7 +57,8 @@ export const useFavoritesPageController = () => {
     onOpenDeleteFavoriteDialog: openDeleteFavoriteDialog,
     onCloseDeleteFavoriteDialog: closeDeleteFavoriteDialog,
     onConfirmDeleteFavorite: confirmDeleteFavorite,
-    isDeleteFavoriteDialogOpen,
-    favoriteToDelete,
+    isDeleteDialogOpen,
+    deleteDialogType,
+    itemToDelete,
   };
 };

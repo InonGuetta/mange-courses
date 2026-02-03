@@ -7,8 +7,8 @@ import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import {
   openAddUserDialog as openAddUserDialogAction,
   closeAddUserDialog as closeAddUserDialogAction,
-  openDeleteUserDialog as openDeleteUserDialogAction,
-  closeDeleteUserDialog as closeDeleteUserDialogAction,
+  openDeleteDialog as openDeleteDialogAction,
+  closeDeleteDialog as closeDeleteDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export const useUsersPageController = () => {
@@ -16,8 +16,9 @@ export const useUsersPageController = () => {
 
   const users = useSelector(selectVisibleUsers);
   const isAddUserDialogOpen = useSelector((s) => s.ui.isAddUserDialogOpen);
-  const isDeleteUserDialogOpen = useSelector((s) => s.ui.isDeleteUserDialogOpen);
-  const userToDelete = useSelector((s) => s.ui.userToDelete);
+  const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
+  const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
+  const itemToDelete = useSelector((s) => s.ui.itemToDelete);
 
   const refreshData = useCallback(() => {
     dispatch(fetchUsers());
@@ -33,12 +34,12 @@ export const useUsersPageController = () => {
     refreshData();
   };
 
-  const openDeleteUserDialog = (user) => dispatch(openDeleteUserDialogAction(user));
-  const closeDeleteUserDialog = () => dispatch(closeDeleteUserDialogAction());
+  const openDeleteUserDialog = (user) => dispatch(openDeleteDialogAction({ type: 'user', item: user }));
+  const closeDeleteUserDialog = () => dispatch(closeDeleteDialogAction());
 
   const confirmDeleteUser = async () => {
-    if (!userToDelete) return;
-    await dispatch(deleteUser(userToDelete.id));
+    if (!itemToDelete || deleteDialogType !== 'user') return;
+    await dispatch(deleteUser(itemToDelete.id));
     closeDeleteUserDialog();
     refreshData();
   };
@@ -49,8 +50,9 @@ export const useUsersPageController = () => {
     isAddUserDialogOpen,
     onOpenAddUserDialog: openAddUserDialog,
     onCloseAddUserDialog: closeAddUserDialog,
-    isDeleteUserDialogOpen,
-    userToDelete,
+    isDeleteDialogOpen,
+    deleteDialogType,
+    itemToDelete,
     onOpenDeleteUserDialog: openDeleteUserDialog,
     onCloseDeleteUserDialog: closeDeleteUserDialog,
     onConfirmDeleteUser: confirmDeleteUser,

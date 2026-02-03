@@ -17,11 +17,11 @@ const UsersPage = () => {
       <AddUserDialog isOpen={c.isAddUserDialogOpen} onClose={c.onCloseAddUserDialog} />
 
       <DeleteConfirmDialog
-        isOpen={c.isDeleteUserDialogOpen}
+        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'user'}
         onClose={c.onCloseDeleteUserDialog}
         onConfirm={c.onConfirmDeleteUser}
         title="User Deletion"
-        itemName={c.userToDelete?.name}
+        itemName={c.itemToDelete?.name}
       />
     </Container>
   );

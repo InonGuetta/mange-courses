@@ -7,11 +7,11 @@ import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import {
   openAddCourseDialog as openAddCourseDialogAction,
   closeAddCourseDialog as closeAddCourseDialogAction,
-  openDeleteCourseDialog as openDeleteCourseDialogAction,
-  closeDeleteCourseDialog as closeDeleteCourseDialogAction,
+  openDeleteDialog as openDeleteDialogAction,
+  closeDeleteDialog as closeDeleteDialogAction,
   openEditCourseDialog as openEditCourseDialogAction,
   closeEditCourseDialog as closeEditCourseDialogAction,
-  openShowStudentsDialog as openShowStudentsDialogAction,
+  openShowStudentsDialog as openShowStudentsDialogAction, 
   closeShowStudentsDialog as closeShowStudentsDialogAction,
   openAddStudentDialog as openAddStudentDialogAction,
   closeAddStudentDialog as closeAddStudentDialogAction,
@@ -24,8 +24,9 @@ export const useCoursesPageController = () => {
     const users = useSelector(selectVisibleUsers);
 
     const isAddCourseDialogOpen = useSelector((s) => s.ui.isAddCourseDialogOpen);
-    const isDeleteCourseDialogOpen = useSelector((s) => s.ui.isDeleteCourseDialogOpen);
-    const courseToDelete = useSelector((s) => s.ui.courseToDelete);
+    const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
+    const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
+    const itemToDelete = useSelector((s) => s.ui.itemToDelete);
     const isEditCourseDialogOpen = useSelector((s) => s.ui.isEditCourseDialogOpen);
     const courseToEdit = useSelector((s) => s.ui.courseToEdit);
     const isShowStudentsDialogOpen = useSelector((s) => s.ui.isShowStudentsDialogOpen);
@@ -48,12 +49,12 @@ export const useCoursesPageController = () => {
         refreshData();
     };
 
-    const openDeleteCourseDialog = (course) => dispatch(openDeleteCourseDialogAction(course));
-    const closeDeleteCourseDialog = () => dispatch(closeDeleteCourseDialogAction());
+    const openDeleteCourseDialog = (course) => dispatch(openDeleteDialogAction({ type: 'course', item: course }));
+    const closeDeleteCourseDialog = () => dispatch(closeDeleteDialogAction());
 
     const confirmDeleteCourse = async () => {
-        if (!courseToDelete) return;
-        await dispatch(deleteCourse(courseToDelete.id));
+        if (!itemToDelete || deleteDialogType !== 'course') return;
+        await dispatch(deleteCourse(itemToDelete.id));
         closeDeleteCourseDialog();
         refreshData();
     };
@@ -85,8 +86,9 @@ export const useCoursesPageController = () => {
         onOpenEditCourseDialog: openEditCourseDialog,
         onCloseEditCourseDialog: closeEditCourseDialog,
         isAddCourseDialogOpen,
-        isDeleteCourseDialogOpen,
-        courseToDelete,
+        isDeleteDialogOpen,
+        deleteDialogType,
+        itemToDelete,
         isEditCourseDialogOpen,
         courseToEdit,
         isShowStudentsDialogOpen,

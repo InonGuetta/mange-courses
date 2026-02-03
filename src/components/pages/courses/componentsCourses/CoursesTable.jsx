@@ -216,7 +216,7 @@ const CoursesTable = ({
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Show Students of course">
-                      <IconButton
+                      <IconButton 
                         size="small"
                         color="warning"
                         onClick={() => onShowStudents(item)}

@@ -20,11 +20,11 @@ const FavoritesPage = () => {
       />
 
       <DeleteConfirmDialog
-        isOpen={c.isDeleteFavoriteDialogOpen}
+        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'favorite'}
         onClose={c.onCloseDeleteFavoriteDialog}
         onConfirm={c.onConfirmDeleteFavorite}
         title="Favorite Deletion"
-        itemName={c.favoriteToDelete ? c.coursesById.get(String(c.favoriteToDelete.course_id))?.name_course : null}
+        itemName={c.itemToDelete ? c.coursesById.get(String(c.itemToDelete.course_id))?.name_course : null}
       />
     </Container>
   );
