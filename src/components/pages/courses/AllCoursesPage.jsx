@@ -44,6 +44,18 @@ const AllCoursePage = () => {
         isOpen={c.isShowStudentsDialogOpen}
         onClose={c.onCloseShowStudentsDialog}
         course={c.courseForStudents}
+        onDelete={c.onOpenDeleteStudentDialog}
+        refreshKey={c.studentsRefreshKey}
+      />
+
+      <DeleteConfirmDialog
+        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'student'}
+        onClose={c.onCloseDeleteStudentDialog}
+        onConfirm={c.onConfirmDeleteStudent}
+        title="Student Removal"
+        itemName={c.studentToDelete?.name}
+        message={`Are you sure you want to remove "${c.studentToDelete?.name}" from the course "${c.courseForDeleteStudent?.name_course}"?`}
+        confirmButtonText="Remove"
       />
 
       <AddStudentToCourseDialog

@@ -20,7 +20,6 @@ export const fetchMyCourses = createAsyncThunk(
     }
 )
 
-// השורת קוד הזאת עובדת כמו שצריך
 export const fetchStudentsByCourse = createAsyncThunk(
     "myCourses/fetchStudentsByCourse",
     async (courseId, { rejectWithValue }) => {

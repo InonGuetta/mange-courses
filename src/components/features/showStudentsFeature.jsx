@@ -22,7 +22,7 @@ import {
 import { fetchStudentsByCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-const ShowStudentsDialog = ({ isOpen, onClose, course ,onDelete}) => {
+const ShowStudentsDialog = ({ isOpen, onClose, course, onDelete, refreshKey }) => {
   const dispatch = useDispatch();
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,7 @@ const ShowStudentsDialog = ({ isOpen, onClose, course ,onDelete}) => {
       setStudents([]);
       setErrorMessage(null);
     }
-  }, [isOpen, course, dispatch]);
+  }, [isOpen, course, dispatch, refreshKey]);
 
   const handleCloseDialog = () => {
     setStudents([]);

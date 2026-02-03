@@ -2,6 +2,7 @@ import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
+import { deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import {
@@ -15,6 +16,9 @@ import {
   closeShowStudentsDialog as closeShowStudentsDialogAction,
   openAddStudentDialog as openAddStudentDialogAction,
   closeAddStudentDialog as closeAddStudentDialogAction,
+  openDeleteStudentDialog as openDeleteStudentDialogAction,
+  closeDeleteStudentDialog as closeDeleteStudentDialogAction,
+  incrementStudentsRefreshKey as incrementStudentsRefreshKeyAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export const useCoursesPageController = () => {
@@ -33,6 +37,9 @@ export const useCoursesPageController = () => {
     const courseForStudents = useSelector((s) => s.ui.courseForStudents);
     const isAddStudentDialogOpen = useSelector((s) => s.ui.isAddStudentDialogOpen);
     const courseForAddStudent = useSelector((s) => s.ui.courseForAddStudent);
+    const studentToDelete = useSelector((s) => s.ui.studentToDelete);
+    const courseForDeleteStudent = useSelector((s) => s.ui.courseForDeleteStudent);
+    const studentsRefreshKey = useSelector((s) => s.ui.studentsRefreshKey);
 
     const refreshData = useCallback(() => {
         dispatch(fetchCourses());
@@ -74,6 +81,22 @@ export const useCoursesPageController = () => {
         refreshData();
     };
 
+    const openDeleteStudentDialog = (student) => {
+        dispatch(openDeleteStudentDialogAction({ student, course: courseForStudents }));
+    };
+    const closeDeleteStudentDialog = () => dispatch(closeDeleteStudentDialogAction());
+
+    const confirmDeleteStudent = async () => {
+        if (!studentToDelete || !courseForDeleteStudent || deleteDialogType !== 'student') return;
+        const studentId = studentToDelete.student_id || studentToDelete.id;
+        await dispatch(deleteStudentFromCourse({ 
+            courseId: courseForDeleteStudent.id, 
+            studentId: studentId 
+        }));
+        dispatch(incrementStudentsRefreshKeyAction());
+        closeDeleteStudentDialog();
+    };
+
     return {
         courses,
         users,
@@ -99,5 +122,11 @@ export const useCoursesPageController = () => {
         courseForAddStudent,
         onOpenAddStudentToCourseDialog: openAddStudentToCourseDialog,
         onCloseAddStudentToCourseDialog: closeAddStudentToCourseDialog,
+        studentToDelete,
+        courseForDeleteStudent,
+        onOpenDeleteStudentDialog: openDeleteStudentDialog,
+        onCloseDeleteStudentDialog: closeDeleteStudentDialog,
+        onConfirmDeleteStudent: confirmDeleteStudent,
+        studentsRefreshKey,
     };
 };

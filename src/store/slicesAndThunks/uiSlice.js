@@ -12,6 +12,9 @@ const initialState = {
   isDeleteDialogOpen: false,
   deleteDialogType: null, 
   itemToDelete: null,
+  studentToDelete: null,
+  courseForDeleteStudent: null,
+  studentsRefreshKey: 0,
 };
 
 
@@ -65,6 +68,21 @@ const uiSlice = createSlice({
     closeAddUserDialog(state) {
       state.isAddUserDialogOpen = false;
     },
+    openDeleteStudentDialog(state, action) {
+      state.isDeleteDialogOpen = true;
+      state.deleteDialogType = 'student';
+      state.studentToDelete = action.payload.student;
+      state.courseForDeleteStudent = action.payload.course;
+    },
+    closeDeleteStudentDialog(state) {
+      state.isDeleteDialogOpen = false;
+      state.deleteDialogType = null;
+      state.studentToDelete = null;
+      state.courseForDeleteStudent = null;
+    },
+    incrementStudentsRefreshKey(state) {
+      state.studentsRefreshKey += 1;
+    },
   },
 });
 
@@ -81,5 +99,8 @@ export const {
   closeAddStudentDialog,
   openAddUserDialog,
   closeAddUserDialog,
+  openDeleteStudentDialog,
+  closeDeleteStudentDialog,
+  incrementStudentsRefreshKey,
 } = uiSlice.actions;
 export default uiSlice.reducer;
