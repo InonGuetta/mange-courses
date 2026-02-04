@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -18,13 +18,15 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
-import { createUser } from "../../store/slicesAndThunks/usersSlice";
+import { createUser, updateUser } from "../../store/slicesAndThunks/usersSlice";
 
 const ORANGE_COLOR = "rgba(249, 115, 22, 0.9)";
 const ORANGE_HOVER = "#ea580c";
 
-const AddUserDialog = ({ isOpen, onClose }) => {
+const UserFormDialog = ({ isOpen, onClose, user = null }) => {
   const dispatch = useDispatch();
+  const isEditMode = Boolean(user);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,6 +37,26 @@ const AddUserDialog = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (user) {
+        setFormData({
+          name: user.name || "",
+          email: user.email || "",
+          password_hash: "",
+          role: user.role || "",
+        });
+      } else {
+        setFormData({
+          name: "",
+          email: "",
+          password_hash: "",
+          role: "",
+        });
+      }
+    }
+  }, [user, isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,14 +72,27 @@ const AddUserDialog = ({ isOpen, onClose }) => {
     setIsLoading(true);
 
     try {
-      await dispatch(createUser(formData)).unwrap();
+      if (isEditMode) {
+        const updates = {
+          name: formData.name,
+          email: formData.email,
+          role: formData.role,
+        };
+        if (formData.password_hash) {
+          updates.password_hash = formData.password_hash;
+        }
+        await dispatch(updateUser({ id: user.id, updates })).unwrap();
+      } else {
+        await dispatch(createUser(formData)).unwrap();
+      }
+      
       setIsSuccess(true);
       setTimeout(() => {
         setIsSuccess(false);
         handleCloseDialog();
       }, 1500);
     } catch (err) {
-      setErrorMessage(err?.message || err || "Failed to create user");
+      setErrorMessage(err?.message || err || `Failed to ${isEditMode ? 'update' : 'create'} user`);
     } finally {
       setIsLoading(false);
     }
@@ -75,8 +110,9 @@ const AddUserDialog = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const isFormValid =
-    formData.name && formData.email && formData.password_hash && formData.role;
+  const isFormValid = isEditMode
+    ? formData.name && formData.email && formData.role
+    : formData.name && formData.email && formData.password_hash && formData.role;
 
   return (
     <Dialog
@@ -103,7 +139,7 @@ const AddUserDialog = ({ isOpen, onClose }) => {
         }}
       >
         <Typography variant="h6" sx={{ fontWeight: 700, color: "#9a3412" }}>
-          Add New User
+          {isEditMode ? "Edit User" : "Add New User"}
         </Typography>
         <IconButton
           aria-label="close"
@@ -120,7 +156,7 @@ const AddUserDialog = ({ isOpen, onClose }) => {
         <DialogContent dividers sx={{ pt: 3 }}>
           {isSuccess && (
             <Alert severity="success" sx={{ mb: 2 }}>
-              User successfully added ✓
+              User successfully {isEditMode ? "updated" : "added"} ✓
             </Alert>
           )}
           {errorMessage && (
@@ -154,15 +190,16 @@ const AddUserDialog = ({ isOpen, onClose }) => {
             />
 
             <TextField
-              required
+              required={!isEditMode}
               fullWidth
-              label="Password"
+              label={isEditMode ? "Password (leave empty to keep current)" : "Password"}
               name="password_hash"
               type="password"
               value={formData.password_hash}
               onChange={handleInputChange}
               variant="outlined"
               disabled={isLoading}
+              helperText={isEditMode ? "Only fill this if you want to change the password" : undefined}
             />
 
             <FormControl fullWidth required>
@@ -214,7 +251,9 @@ const AddUserDialog = ({ isOpen, onClose }) => {
               },
             }}
           >
-            {isLoading ? "Creating..." : "Create User"}
+            {isLoading 
+              ? (isEditMode ? "Updating..." : "Creating...") 
+              : (isEditMode ? "Update User" : "Create User")}
           </Button>
         </DialogActions>
       </form>
@@ -222,4 +261,4 @@ const AddUserDialog = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddUserDialog;
+export default UserFormDialog;

@@ -11,9 +11,9 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
 
-
-const UsersTable = ({ users = [], onDeleteUser }) => {
+const UsersTable = ({ users = [], onDeleteUser, onEditUser }) => {
   const getRoleChip = (role) => {
     const isTeacher = role === "teacher";
     return (
@@ -194,8 +194,14 @@ const UsersTable = ({ users = [], onDeleteUser }) => {
                       border: "none",
                     }}
                   >
-                    <IconButton color="error" onClick={() => onDeleteUser(user)} >
-                      <DeleteOutlineIcon/>
+                    <IconButton
+                      color="error"
+                      onClick={() => onDeleteUser(user)}
+                    >
+                      <DeleteOutlineIcon />
+                    </IconButton>
+                    <IconButton color="info" onClick={() => onEditUser(user)}>
+                      <EditIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>

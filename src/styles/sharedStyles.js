@@ -40,7 +40,6 @@ export const getTableRowSx = (idx) => ({
   borderRadius: 2,
 });
 
-// Floating action bar styles
 export const floatingBarSx = {
   background: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
   color: 'white',

@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import UsersHeader from "./componentsUsers/UsersHeader";
 import UsersTable from "./componentsUsers/UsersTable";
-import AddUserDialog from "../../features/addUserFeature";
+import UserFormDialog from "../../features/addUserFeature";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useUsersPageController } from "./useUsersPageController";
 
@@ -12,9 +12,22 @@ const UsersPage = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <UsersHeader onRefresh={c.onRefresh} onAddUser={c.onOpenAddUserDialog} />
 
-      <UsersTable users={c.users} onDeleteUser={c.onOpenDeleteUserDialog} />
+      <UsersTable 
+        users={c.users} 
+        onDeleteUser={c.onOpenDeleteUserDialog} 
+        onEditUser={c.onOpenEditUserDialog}
+      />
 
-      <AddUserDialog isOpen={c.isAddUserDialogOpen} onClose={c.onCloseAddUserDialog} />
+      <UserFormDialog 
+        isOpen={c.isAddUserDialogOpen} 
+        onClose={c.onCloseAddUserDialog} 
+      />
+
+      <UserFormDialog 
+        isOpen={c.isEditUserDialogOpen} 
+        onClose={c.onCloseEditUserDialog} 
+        user={c.userToEdit}
+      />
 
       <DeleteConfirmDialog
         isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'user'}

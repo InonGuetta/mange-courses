@@ -9,6 +9,8 @@ import {
   closeAddUserDialog as closeAddUserDialogAction,
   openDeleteDialog as openDeleteDialogAction,
   closeDeleteDialog as closeDeleteDialogAction,
+  openEditUserDialog as openEditUserDialogAction,
+  closeEditUserDialog as closeEditUserDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export const useUsersPageController = () => {
@@ -16,6 +18,8 @@ export const useUsersPageController = () => {
 
   const users = useSelector(selectVisibleUsers);
   const isAddUserDialogOpen = useSelector((s) => s.ui.isAddUserDialogOpen);
+  const isEditUserDialogOpen = useSelector((s) => s.ui.isEditUserDialogOpen);
+  const userToEdit = useSelector((s) => s.ui.userToEdit);
   const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
   const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
   const itemToDelete = useSelector((s) => s.ui.itemToDelete);
@@ -31,6 +35,12 @@ export const useUsersPageController = () => {
   const openAddUserDialog = () => dispatch(openAddUserDialogAction());
   const closeAddUserDialog = () => {
     dispatch(closeAddUserDialogAction());
+    refreshData();
+  };
+
+  const openEditUserDialog = (user) => dispatch(openEditUserDialogAction(user));
+  const closeEditUserDialog = () => {
+    dispatch(closeEditUserDialogAction());
     refreshData();
   };
 
@@ -50,6 +60,10 @@ export const useUsersPageController = () => {
     isAddUserDialogOpen,
     onOpenAddUserDialog: openAddUserDialog,
     onCloseAddUserDialog: closeAddUserDialog,
+    isEditUserDialogOpen,
+    userToEdit,
+    onOpenEditUserDialog: openEditUserDialog,
+    onCloseEditUserDialog: closeEditUserDialog,
     isDeleteDialogOpen,
     deleteDialogType,
     itemToDelete,
