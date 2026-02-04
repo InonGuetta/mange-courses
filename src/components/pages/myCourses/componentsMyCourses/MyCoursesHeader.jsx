@@ -1,19 +1,9 @@
 import { Box, Typography, IconButton, Paper, FormControl, Select, MenuItem } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedStyles";
 
-const selectFormControlSx = {
-  minWidth: 200,
-  bgcolor: "rgba(255,255,255,0.15)",
-  borderRadius: "12px",
-  "& .MuiOutlinedInput-root": {
-    color: "white",
-    "& fieldset": { borderColor: "rgba(255,255,255,0.3)" },
-    "&:hover fieldset": { borderColor: "rgba(255,255,255,0.5)" },
-    "&.Mui-focused fieldset": { borderColor: "white" },
-  },
-  "& .MuiSelect-icon": { color: "white" },
-};
+import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedStyles";
+import { selectFormControlSx } from "../../../../styles/styleMyCourses/myCoursesStyles";
+
 
 const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChange }) => (
   <Box sx={{ mb: 4 }}>

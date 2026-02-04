@@ -4,12 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFavorites, deleteFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
-
 import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelector";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { useIdMap } from "../../../hooks/useDataHelpers";
-
 import {
   openDeleteDialog as openDeleteDialogAction,
   closeDeleteDialog as closeDeleteDialogAction,

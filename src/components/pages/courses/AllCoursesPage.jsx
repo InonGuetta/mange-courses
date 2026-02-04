@@ -1,4 +1,5 @@
 import { Container } from "@mui/material";
+
 import CoursesTable from "./componentsCourses/CoursesTable";
 import FloatingActions from "./componentsCourses/FloatingActions";
 import AddCourseDialog from "../../features/addCourseFeature";
@@ -7,6 +8,7 @@ import EditCourseDialog from "../../features/editCourseFeature";
 import ShowStudentsDialog from "../../features/showStudentsFeature";
 import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
 import { useCoursesPageController } from "./useCoursesPageController.js";
+
 
 const AllCoursePage = () => {
   const c = useCoursesPageController();

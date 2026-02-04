@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUsers, deleteUser } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
-
 import {
   openAddUserDialog as openAddUserDialogAction,
   closeAddUserDialog as closeAddUserDialogAction,
@@ -12,6 +11,7 @@ import {
   openEditUserDialog as openEditUserDialogAction,
   closeEditUserDialog as closeEditUserDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
+
 
 export const useUsersPageController = () => {
   const dispatch = useDispatch();

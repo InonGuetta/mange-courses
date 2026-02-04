@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+
 export const fetchMyCourses = createAsyncThunk(
     "myCourses/fetchMyCourses",
     async (studentId, { rejectWithValue }) => {

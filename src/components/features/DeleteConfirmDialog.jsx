@@ -1,5 +1,4 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from "@mui/material";
-
 /**
  * Generic Delete Confirmation Dialog
  * @param {boolean} isOpen - Whether the dialog is open

@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Navbar from './components/layout/navbar/Navbar';
 
+import Navbar from './components/layout/navbar/Navbar';
 import AllCoursePage from './components/pages/courses/AllCoursesPage';
 import FavoritesPage from './components/pages/favorites/FavoritesPage';
 import MyCoursesPage from './components/pages/myCourses/MyCoursesPage';
 import UsersPage from './components/pages/users/UsersPage';
-import SignIn from "./components/pages/SignIn";
+import SignIn from "./components/pages/auth/SignIn";
 
 
 const App = () => {

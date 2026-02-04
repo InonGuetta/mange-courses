@@ -1,8 +1,11 @@
-import { Box, IconButton, Paper, Typography } from "@mui/material";
 import { useRef, useEffect, useState } from "react";
+
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
+
 import { floatingBarSx, refreshButtonSx, addButtonSx, pageTitleSx } from "../../../../styles/sharedStyles";
+
 
 const NAVBAR_HEIGHT = 64;
 

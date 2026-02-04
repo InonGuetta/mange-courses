@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   Dialog,
   DialogTitle,
@@ -21,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { addStudentToCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
 import { useFilteredUsers } from "../../hooks/useDataHelpers";
+
 
 const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
   const dispatch = useDispatch();

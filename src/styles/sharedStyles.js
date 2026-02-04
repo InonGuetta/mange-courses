@@ -106,3 +106,36 @@ export const pageTitleSx = {
   mb: 3,
   color: '#475569',
 };
+
+// Common table sx
+export const tableSx = {
+  minWidth: 700,
+  borderRadius: 4,
+  overflow: 'hidden',
+  tableLayout: 'fixed',
+};
+
+// First column cell (with number)
+export const tableFirstCellSx = {
+  ...tableBodyCellSx,
+  fontWeight: 600,
+};
+
+// Cell with text wrapping (for details/descriptions)
+export const tableWrapCellSx = {
+  ...tableBodyCellSx,
+  wordWrap: 'break-word',
+  overflowWrap: 'break-word',
+  whiteSpace: 'normal',
+};
+
+// Actions cell with flex layout
+export const tableActionsCellSx = {
+  ...tableBodyCellSx,
+  display: 'flex',
+  gap: 1,
+  alignItems: 'center',
+};
+
+// Empty table row message
+export const emptyRowCellSx = { py: 4 };

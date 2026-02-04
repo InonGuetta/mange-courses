@@ -8,11 +8,11 @@ import {
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
 import { addFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
-
 import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelector";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { useIdMap, useFilteredUsers } from "../../../hooks/useDataHelpers";
+
 
 export const useMyCoursesPageController = () => {
   const dispatch = useDispatch();

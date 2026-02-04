@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import {
   Dialog,
   DialogTitle,
@@ -17,8 +19,9 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
+
 import { createUser, updateUser } from "../../store/slicesAndThunks/usersSlice";
+
 
 const ORANGE_COLOR = "rgba(249, 115, 22, 0.9)";
 const ORANGE_HOVER = "#ea580c";

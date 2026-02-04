@@ -1,8 +1,10 @@
 import { Container } from "@mui/material";
+
 import FavoritesHeader from "./componentsFavorites/FavoritesHeader";
 import FavoritesTable from "./componentsFavorites/FavoritesTable";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useFavoritesPageController } from "./useFavoritesPageController";
+
 
 const FavoritesPage = () => {
   const c = useFavoritesPageController();

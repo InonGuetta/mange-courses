@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
@@ -20,6 +21,7 @@ import {
   closeDeleteStudentDialog as closeDeleteStudentDialogAction,
   incrementStudentsRefreshKey as incrementStudentsRefreshKeyAction,
 } from "../../../store/slicesAndThunks/uiSlice";
+
 
 export const useCoursesPageController = () => {
     const dispatch = useDispatch();

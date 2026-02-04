@@ -1,8 +1,10 @@
 import { Container } from "@mui/material";
+
 import MyCoursesHeader from "./componentsMyCourses/MyCoursesHeader";
 import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
+
 
 const MyCoursesPage = () => {
   const c = useMyCoursesPageController();
