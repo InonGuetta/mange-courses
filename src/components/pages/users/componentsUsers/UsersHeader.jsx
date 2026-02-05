@@ -3,7 +3,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles";
-import { addUserButtonSx } from "../../../../styles/styleSpecificUsers/usersStyles";
+import { addUserButtonSx } from "../../../../styles/usersSpecificStyles";
 
 
 const UsersHeader = ({ onRefresh, onAddUser }) => (

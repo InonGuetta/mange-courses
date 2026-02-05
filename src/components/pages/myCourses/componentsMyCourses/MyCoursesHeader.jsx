@@ -2,7 +2,7 @@ import { Box, Typography, IconButton, Paper, FormControl, Select, MenuItem } fro
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles.js";
-import { selectFormControlSx } from "../../../../styles/styleSpecificMyCourses/myCoursesStyles.js";
+import { selectFormControlSx } from "../../../../styles/myCoursesSpecificStyles.js";
 
 
 const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChange }) => (

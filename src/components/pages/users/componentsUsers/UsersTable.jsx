@@ -9,7 +9,7 @@ import {
   tableContainerSx, tableSx, tableHeaderRowSx, tableHeaderCellSx,
   tableBodyCellSx, tableFirstCellSx, getTableRowSx, emptyRowCellSx,
 } from "../../../../styles/sharedGeneralStyles";
-import { getRoleChipSx } from "../../../../styles/styleSpecificUsers/usersStyles";
+import { getRoleChipSx } from "../../../../styles/usersSpecificStyles";
 
 
 const UsersTable = ({ users = [], onDeleteUser, onEditUser }) => (
