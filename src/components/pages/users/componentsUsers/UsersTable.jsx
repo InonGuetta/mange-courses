@@ -8,8 +8,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import {
   tableContainerSx, tableSx, tableHeaderRowSx, tableHeaderCellSx,
   tableBodyCellSx, tableFirstCellSx, getTableRowSx, emptyRowCellSx,
-} from "../../../../styles/sharedStyles";
-import { getRoleChipSx } from "../../../../styles/styleUsers/usersStyles";
+} from "../../../../styles/sharedGeneralStyles";
+import { getRoleChipSx } from "../../../../styles/styleSpecificUsers/usersStyles";
 
 
 const UsersTable = ({ users = [], onDeleteUser, onEditUser }) => (

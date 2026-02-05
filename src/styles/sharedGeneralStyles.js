@@ -84,7 +84,6 @@ export const addButtonSx = {
   '&:active': { transform: 'translateY(-2px)' },
 };
 
-// Dialog styles
 export const dialogPaperSx = {
   borderRadius: 3,
   boxShadow: '0 8px 32px 0 rgba(30,90,168,0.25)',
@@ -99,7 +98,6 @@ export const dialogTitleSx = {
   background: 'linear-gradient(90deg, #e3eaf6 0%, #b6c7e3 100%)',
 };
 
-// Page header title style
 export const pageTitleSx = {
   fontWeight: 700,
   textAlign: 'center',
@@ -107,7 +105,6 @@ export const pageTitleSx = {
   color: '#475569',
 };
 
-// Common table sx
 export const tableSx = {
   minWidth: 700,
   borderRadius: 4,
@@ -115,13 +112,11 @@ export const tableSx = {
   tableLayout: 'fixed',
 };
 
-// First column cell (with number)
 export const tableFirstCellSx = {
   ...tableBodyCellSx,
   fontWeight: 600,
 };
 
-// Cell with text wrapping (for details/descriptions)
 export const tableWrapCellSx = {
   ...tableBodyCellSx,
   wordWrap: 'break-word',
@@ -129,7 +124,6 @@ export const tableWrapCellSx = {
   whiteSpace: 'normal',
 };
 
-// Actions cell with flex layout
 export const tableActionsCellSx = {
   ...tableBodyCellSx,
   display: 'flex',
@@ -137,5 +131,4 @@ export const tableActionsCellSx = {
   alignItems: 'center',
 };
 
-// Empty table row message
 export const emptyRowCellSx = { py: 4 };

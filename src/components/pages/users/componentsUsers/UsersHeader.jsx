@@ -2,8 +2,8 @@ import { Box, Typography, IconButton, Paper } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
-import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedStyles";
-import { addUserButtonSx } from "../../../../styles/styleUsers/usersStyles";
+import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles";
+import { addUserButtonSx } from "../../../../styles/styleSpecificUsers/usersStyles";
 
 
 const UsersHeader = ({ onRefresh, onAddUser }) => (

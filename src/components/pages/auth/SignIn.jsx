@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, TextField, Typography, Alert, CircularProgress, Paper } from "@mui/material";
 
 import { login } from "../../../store/slicesAndThunks/authSlice";
-import { authContainerSx, authPaperSx } from "../../../styles/styleAuth/authStyles";
+import { authContainerSx, authPaperSx } from "../../../styles/styleSpecificAuth/authStyles";
 
 
 const SignIn = () => {

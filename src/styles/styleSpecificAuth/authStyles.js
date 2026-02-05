@@ -1,5 +1,3 @@
-// Auth page specific styles
-
 export const authContainerSx = {
   display: 'flex',
   alignItems: 'center',

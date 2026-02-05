@@ -7,8 +7,9 @@ import {
 } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
-import { addFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
+import { addFavorite, deleteFavorite, fetchFavorites } from "../../../store/slicesAndThunks/favoritesSlice";
 import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelector";
+import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelector";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { useIdMap, useFilteredUsers } from "../../../hooks/useDataHelpers";
@@ -23,6 +24,7 @@ export const useMyCoursesPageController = () => {
   const myCourses = useSelector(selectVisibleMyCourses) || [];
   const users = useSelector(selectVisibleUsers) || [];
   const courses = useSelector(selectVisibleCourses) || [];
+  const favorites = useSelector(selectVisibleFavorites) || [];
 
   const students = useFilteredUsers(users, "student");
   const coursesById = useIdMap(courses);
@@ -32,6 +34,7 @@ export const useMyCoursesPageController = () => {
     dispatch(fetchMyCourses(selectedStudentId));
     dispatch(fetchUsers());
     dispatch(fetchCourses());
+    dispatch(fetchFavorites());
   }, [dispatch, selectedStudentId]);
 
   useEffect(() => {
@@ -74,12 +77,19 @@ export const useMyCoursesPageController = () => {
         studentId: selectedStudentId,
       }),
     );
+    const favoriteToDelete = favorites.find(
+      (fav) => String(fav.course_id) === String(courseToRemove.course_id) && String(fav.user_id) === String(selectedStudentId)
+    );
+    if (favoriteToDelete) {
+      dispatch(deleteFavorite(favoriteToDelete.id));
+    }
     closeDeleteStudentFromCourseDialog();
     refreshData();
   }, [
     dispatch,
     selectedStudentId,
     courseToRemove,
+    favorites,
     closeDeleteStudentFromCourseDialog,
     refreshData,
   ]);

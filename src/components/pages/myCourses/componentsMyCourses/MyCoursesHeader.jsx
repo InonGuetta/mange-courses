@@ -1,8 +1,8 @@
 import { Box, Typography, IconButton, Paper, FormControl, Select, MenuItem } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedStyles";
-import { selectFormControlSx } from "../../../../styles/styleMyCourses/myCoursesStyles";
+import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles.js";
+import { selectFormControlSx } from "../../../../styles/styleSpecificMyCourses/myCoursesStyles.js";
 
 
 const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChange }) => (

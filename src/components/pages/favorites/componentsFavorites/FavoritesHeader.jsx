@@ -1,7 +1,7 @@
 import { Box, Typography, IconButton, Paper } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedStyles";
+import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles";
 
 
 const FavoritesHeader = ({ onRefresh }) => (

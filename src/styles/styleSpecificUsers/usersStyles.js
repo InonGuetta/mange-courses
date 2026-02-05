@@ -1,5 +1,3 @@
-// Users page specific styles
-
 export const addUserButtonSx = {
   bgcolor: 'rgba(249, 115, 22, 0.9)',
   color: 'white',

@@ -11,7 +11,7 @@ import {
   tableContainerSx, tableSx, tableHeaderRowSx, tableHeaderCellSx,
   tableBodyCellSx, tableFirstCellSx, tableWrapCellSx, tableActionsCellSx,
   getTableRowSx, emptyRowCellSx,
-} from "../../../../styles/sharedStyles";
+} from "../../../../styles/sharedGeneralStyles";
 
 
 const CoursesTable = ({

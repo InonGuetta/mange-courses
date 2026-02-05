@@ -8,7 +8,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {
   tableContainerSx, tableSx, tableHeaderRowSx, tableHeaderCellSx,
   tableBodyCellSx, tableFirstCellSx, getTableRowSx, emptyRowCellSx,
-} from "../../../../styles/sharedStyles";
+} from "../../../../styles/sharedGeneralStyles";
 
 
 const MyCoursesTable = ({

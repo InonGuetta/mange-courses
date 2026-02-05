@@ -7,7 +7,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
   tableContainerSx, tableSx, tableHeaderRowSx, tableHeaderCellSx,
   tableBodyCellSx, tableFirstCellSx, tableWrapCellSx, getTableRowSx, emptyRowCellSx,
-} from "../../../../styles/sharedStyles";
+} from "../../../../styles/sharedGeneralStyles";
 
 
 const headerCellCentered = { ...tableHeaderCellSx, textAlign: 'center' };
