@@ -14,3 +14,24 @@ export const authPaperSx = {
   flexDirection: 'column',
   alignItems: 'center',
 };
+
+export const authLinkSx = {
+  mt: 2,
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  color: 'primary.main',
+  '&:hover': { color: 'primary.dark' },
+};
+
+export const roleToggleContainerSx = {
+  display: 'flex',
+  gap: 1,
+  mt: 2,
+  width: '100%',
+};
+
+export const roleButtonSx = (isActive) => ({
+  flex: 1,
+  fontWeight: isActive ? 700 : 400,
+  variant: isActive ? 'contained' : 'outlined',
+});

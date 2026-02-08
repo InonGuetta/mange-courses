@@ -35,6 +35,27 @@ export const login = createAsyncThunk(
     }
 );
 
+export const register = createAsyncThunk(
+    "auth/register",
+    async ({ name, email, password, role }, { rejectWithValue }) => {
+        try {
+            const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, role }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) return rejectWithValue(data?.message || "Registration failed");
+
+            return data;
+        }
+        catch (err) {
+            return rejectWithValue(err?.message || "Network error");
+        }
+    }
+);
+
 export const fetchMe = createAsyncThunk(
     "auth/fetchMe",
     async (_, { getState, rejectWithValue }) => {
@@ -109,6 +130,22 @@ const authSlice = createSlice({
             .addCase(login.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload || "Login failed";
+            })
+
+            .addCase(register.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.token = action.payload.token;
+                state.user = action.payload.user;
+
+                localStorage.setItem(TOKEN_KEY, state.token);
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload || "Registration failed";
             })
 
             .addCase(fetchMe.pending, (state) => {
