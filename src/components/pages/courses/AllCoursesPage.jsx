@@ -7,6 +7,7 @@ import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import EditCourseDialog from "../../features/editCourseFeature";
 import ShowStudentsDialog from "../../features/showStudentsFeature";
 import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
+import NoDataDialog from "../../features/NoDataDialog";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
 
@@ -15,7 +16,7 @@ const AllCoursePage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FloatingActions onAdd={c.onOpenAddCourseDialog} onRefresh={c.onRefresh} />
+      <FloatingActions onAdd={c.onOpenAddCourseDialog} onRefresh={c.onRefresh} onSearch={c.onSearch} />
 
       <CoursesTable 
         courses={c.courses}
@@ -65,6 +66,8 @@ const AllCoursePage = () => {
         onClose={c.onCloseAddStudentToCourseDialog}
         course={c.courseForAddStudent}
       />
+
+      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
     </Container>
   );
 };

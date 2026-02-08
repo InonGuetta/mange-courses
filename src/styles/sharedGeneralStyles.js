@@ -132,3 +132,41 @@ export const tableActionsCellSx = {
 };
 
 export const emptyRowCellSx = { py: 4 };
+
+// Search bar styles
+export const searchContainerSx = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 1,
+  bgcolor: 'rgba(255,255,255,0.15)',
+  borderRadius: '12px',
+  px: 1.5,
+  py: 0.5,
+};
+
+export const searchInputSx = {
+  color: 'white',
+  minWidth: 180,
+  '& .MuiInputBase-input': {
+    color: 'white',
+    '&::placeholder': {
+      color: 'rgba(255,255,255,0.7)',
+      opacity: 1,
+    },
+  },
+};
+
+export const searchButtonSx = {
+  bgcolor: 'rgba(59, 130, 246, 0.9)',
+  color: 'white',
+  width: 44,
+  height: 44,
+  borderRadius: '50%',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    bgcolor: '#2563eb',
+    transform: 'scale(1.1)',
+    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
+  },
+  '&:active': { transform: 'scale(1.05)' },
+};

@@ -89,6 +89,20 @@ export const updateCourse = createAsyncThunk(
     }
 );
 
+export const searchCourses = createAsyncThunk(
+    "courses/searchCourses",
+    async (nameCourse, { rejectWithValue }) => {
+        try {
+            const res = await fetch(`/api/courses/search-course?name_course=${encodeURIComponent(nameCourse)}`);
+            const data = await res.json();
+            if (!res.ok) return rejectWithValue(data?.message || "Search courses failed");
+            return data.courses || data;
+        } catch (err) {
+            return rejectWithValue(err?.message || "Network error");
+        }
+    }
+);
+
 
 
 const initialState = {
@@ -173,6 +187,19 @@ const coursesSlice = createSlice({
             .addCase(deleteCourse.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload || "Delete courses failed";
+            })
+
+            .addCase(searchCourses.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(searchCourses.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.coursesList = action.payload;
+            })
+            .addCase(searchCourses.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload || "Search courses failed";
             });
     },
 });

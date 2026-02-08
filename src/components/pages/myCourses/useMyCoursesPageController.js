@@ -13,6 +13,10 @@ import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelect
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { useIdMap, useFilteredUsers } from "../../../hooks/useDataHelpers";
+import {
+  openNoDataDialog as openNoDataDialogAction,
+  closeNoDataDialog as closeNoDataDialogAction,
+} from "../../../store/slicesAndThunks/uiSlice";
 
 
 export const useMyCoursesPageController = () => {
@@ -25,6 +29,7 @@ export const useMyCoursesPageController = () => {
   const users = useSelector(selectVisibleUsers) || [];
   const courses = useSelector(selectVisibleCourses) || [];
   const favorites = useSelector(selectVisibleFavorites) || [];
+  const isNoDataDialogOpen = useSelector((s) => s.ui.isNoDataDialogOpen);
 
   const students = useFilteredUsers(users, "student");
   const coursesById = useIdMap(courses);
@@ -98,6 +103,8 @@ export const useMyCoursesPageController = () => {
     setSelectedStudentId(newStudentId);
   }, []);
 
+  const closeNoDataDialog = () => dispatch(closeNoDataDialogAction());
+
   useEffect(() => {
     if (selectedStudentId) {
       dispatch(fetchMyCourses(selectedStudentId));
@@ -119,5 +126,7 @@ export const useMyCoursesPageController = () => {
     students,
     selectedStudentId,
     onStudentChange: handleStudentChange,
+    isNoDataDialogOpen,
+    onCloseNoDataDialog: closeNoDataDialog,
   };
 };

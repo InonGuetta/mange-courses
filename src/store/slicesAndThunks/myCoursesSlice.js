@@ -79,6 +79,8 @@ export const deleteStudentFromCourse = createAsyncThunk(
 
 
 
+
+
 const initialState = {
     status: "idle",
     error: null,
@@ -110,7 +112,9 @@ const myCoursesSlice = createSlice({
             .addCase(fetchMyCourses.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload || "Fetch my courses failed";
-            });
+            })
+
+
     },
 });
 

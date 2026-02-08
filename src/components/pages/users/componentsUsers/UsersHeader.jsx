@@ -5,10 +5,11 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles";
 import { addUserButtonSx } from "../../../../styles/usersSpecificStyles";
 import { useFloatingOnScroll } from "../../../../hooks/useFloatingOnScroll";
+import SearchBar from "../../../features/SearchBar";
 
 
-const UsersHeader = ({ onRefresh, onAddUser }) => {
-  const { floatingRef, titleRef, floatingContainerSx } = useFloatingOnScroll();
+const UsersHeader = ({ onRefresh, onAddUser, onSearch }) => {
+  const { floatingRef, titleRef, floatingContainerSx, placeholderSx } = useFloatingOnScroll();
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -17,6 +18,7 @@ const UsersHeader = ({ onRefresh, onAddUser }) => {
       </Typography>
       <Box ref={floatingRef} sx={floatingContainerSx}>
         <Paper elevation={8} sx={{ ...floatingBarSx, pointerEvents: "auto" }}>
+          <SearchBar onSearch={onSearch} placeholder="Search by name..." />
           <IconButton onClick={onRefresh} sx={refreshButtonSx}>
             <RefreshIcon sx={{ fontSize: 32 }} />
           </IconButton>
@@ -25,6 +27,7 @@ const UsersHeader = ({ onRefresh, onAddUser }) => {
           </IconButton>
         </Paper>
       </Box>
+      <Box sx={placeholderSx} />
     </Box>
   );
 };

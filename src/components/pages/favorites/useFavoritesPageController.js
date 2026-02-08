@@ -11,6 +11,8 @@ import { useIdMap } from "../../../hooks/useDataHelpers";
 import {
   openDeleteDialog as openDeleteDialogAction,
   closeDeleteDialog as closeDeleteDialogAction,
+  openNoDataDialog as openNoDataDialogAction,
+  closeNoDataDialog as closeNoDataDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 export const useFavoritesPageController = () => {
@@ -23,6 +25,7 @@ export const useFavoritesPageController = () => {
   const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
   const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
   const itemToDelete = useSelector((s) => s.ui.itemToDelete);
+  const isNoDataDialogOpen = useSelector((s) => s.ui.isNoDataDialogOpen);
 
   const refreshData = useCallback(() => {
     dispatch(fetchFavorites());
@@ -47,6 +50,8 @@ export const useFavoritesPageController = () => {
     refreshData();
   };
 
+  const closeNoDataDialog = () => dispatch(closeNoDataDialogAction());
+
   return {
     favorites: favorites || [],
     onRefresh: refreshData,
@@ -58,5 +63,7 @@ export const useFavoritesPageController = () => {
     isDeleteDialogOpen,
     deleteDialogType,
     itemToDelete,
+    isNoDataDialogOpen,
+    onCloseNoDataDialog: closeNoDataDialog,
   };
 };

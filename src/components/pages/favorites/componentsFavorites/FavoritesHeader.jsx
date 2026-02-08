@@ -6,7 +6,7 @@ import { useFloatingOnScroll } from "../../../../hooks/useFloatingOnScroll";
 
 
 const FavoritesHeader = ({ onRefresh }) => {
-  const { floatingRef, titleRef, floatingContainerSx } = useFloatingOnScroll();
+  const { floatingRef, titleRef, floatingContainerSx, placeholderSx } = useFloatingOnScroll();
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -20,6 +20,7 @@ const FavoritesHeader = ({ onRefresh }) => {
           </IconButton>
         </Paper>
       </Box>
+      <Box sx={placeholderSx} />
     </Box>
   );
 };

@@ -85,6 +85,20 @@ export const updateUser = createAsyncThunk(
   },
 );
 
+export const searchUsers = createAsyncThunk(
+  "users/searchUsers",
+  async (name, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/users/search-user?name=${encodeURIComponent(name)}`);
+      const data = await res.json();
+      if (!res.ok) return rejectWithValue(data?.message || "Search users failed");
+      return data.users || data;
+    } catch (err) {
+      return rejectWithValue(err?.message || "Network error");
+    }
+  },
+);
+
 const initialState = {
   status: "idle",
   error: null,
@@ -147,6 +161,19 @@ const usersSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || "Update user failed";
+      })
+
+      .addCase(searchUsers.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(searchUsers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.usersList = action.payload;
+      })
+      .addCase(searchUsers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Search users failed";
       });
   },
 });

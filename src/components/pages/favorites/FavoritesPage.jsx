@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 import FavoritesHeader from "./componentsFavorites/FavoritesHeader";
 import FavoritesTable from "./componentsFavorites/FavoritesTable";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import NoDataDialog from "../../features/NoDataDialog";
 import { useFavoritesPageController } from "./useFavoritesPageController";
 
 
@@ -28,6 +29,8 @@ const FavoritesPage = () => {
         title="Favorite Deletion"
         itemName={c.itemToDelete ? c.coursesById.get(String(c.itemToDelete.course_id))?.name_course : null}
       />
+
+      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
     </Container>
   );
 };

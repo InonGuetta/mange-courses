@@ -18,6 +18,7 @@ const initialState = {
   studentToDelete: null,
   courseForDeleteStudent: null,
   studentsRefreshKey: 0,
+  isNoDataDialogOpen: false,
 };
 
 
@@ -94,6 +95,12 @@ const uiSlice = createSlice({
     incrementStudentsRefreshKey(state) {
       state.studentsRefreshKey += 1;
     },
+    openNoDataDialog(state) {
+      state.isNoDataDialogOpen = true;
+    },
+    closeNoDataDialog(state) {
+      state.isNoDataDialogOpen = false;
+    },
   },
 });
 
@@ -115,5 +122,7 @@ export const {
   openDeleteStudentDialog,
   closeDeleteStudentDialog,
   incrementStudentsRefreshKey,
+  openNoDataDialog,
+  closeNoDataDialog,
 } = uiSlice.actions;
 export default uiSlice.reducer;

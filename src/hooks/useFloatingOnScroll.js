@@ -1,20 +1,39 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 
 const NAVBAR_HEIGHT = 64;
 
 export const useFloatingOnScroll = () => {
   const [isFixed, setIsFixed] = useState(false);
+  const [floatingHeight, setFloatingHeight] = useState(0);
   const floatingRef = useRef(null);
   const titleRef = useRef(null);
+  const triggerPointRef = useRef(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!floatingRef.current || !titleRef.current) return;
-      const titleBottom = titleRef.current.getBoundingClientRect().bottom + window.scrollY;
-      setIsFixed(window.scrollY > titleBottom - NAVBAR_HEIGHT - 16);
+    // Calculate trigger point once when component mounts or content changes
+    const calculateTriggerPoint = () => {
+      if (titleRef.current) {
+        const rect = titleRef.current.getBoundingClientRect();
+        triggerPointRef.current = rect.bottom + window.scrollY - NAVBAR_HEIGHT - 16;
+      }
+      if (floatingRef.current) {
+        setFloatingHeight(floatingRef.current.offsetHeight);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    calculateTriggerPoint();
+    
+    const handleScroll = () => {
+      setIsFixed(window.scrollY > triggerPointRef.current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", calculateTriggerPoint);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", calculateTriggerPoint);
+    };
   }, []);
 
   const floatingContainerSx = {
@@ -22,11 +41,16 @@ export const useFloatingOnScroll = () => {
     justifyContent: "center",
     position: isFixed ? "fixed" : "static",
     top: isFixed ? `${NAVBAR_HEIGHT + 16}px` : undefined,
-    left: isFixed ? 0 : undefined,
-    width: isFixed ? "100vw" : undefined,
+    left: isFixed ? "50%" : undefined,
+    transform: isFixed ? "translateX(-50%)" : undefined,
     zIndex: isFixed ? 1202 : undefined,
     pointerEvents: "none",
   };
 
-  return { isFixed, floatingRef, titleRef, floatingContainerSx };
+  const placeholderSx = {
+    height: isFixed ? floatingHeight : 0,
+    transition: "height 0.1s ease",
+  };
+
+  return { isFixed, floatingRef, titleRef, floatingContainerSx, placeholderSx };
 };

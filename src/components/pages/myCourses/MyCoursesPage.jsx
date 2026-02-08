@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 import MyCoursesHeader from "./componentsMyCourses/MyCoursesHeader";
 import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import NoDataDialog from "../../features/NoDataDialog";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
 
@@ -35,6 +36,8 @@ const MyCoursesPage = () => {
         itemName={c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course}
         confirmButtonText="Remove"
       />
+
+      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
     </Container>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchCourses, deleteCourse } from "../../../store/slicesAndThunks/coursesSlice";
+import { fetchCourses, deleteCourse, searchCourses } from "../../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
@@ -20,6 +20,8 @@ import {
   openDeleteStudentDialog as openDeleteStudentDialogAction,
   closeDeleteStudentDialog as closeDeleteStudentDialogAction,
   incrementStudentsRefreshKey as incrementStudentsRefreshKeyAction,
+  openNoDataDialog as openNoDataDialogAction,
+  closeNoDataDialog as closeNoDataDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 
@@ -42,6 +44,7 @@ export const useCoursesPageController = () => {
     const studentToDelete = useSelector((s) => s.ui.studentToDelete);
     const courseForDeleteStudent = useSelector((s) => s.ui.courseForDeleteStudent);
     const studentsRefreshKey = useSelector((s) => s.ui.studentsRefreshKey);
+    const isNoDataDialogOpen = useSelector((s) => s.ui.isNoDataDialogOpen);
 
     const refreshData = useCallback(() => {
         dispatch(fetchCourses());
@@ -99,6 +102,15 @@ export const useCoursesPageController = () => {
         closeDeleteStudentDialog();
     };
 
+    const handleSearch = useCallback(async (nameCourse) => {
+        const result = await dispatch(searchCourses(nameCourse));
+        if (result.payload && Array.isArray(result.payload) && result.payload.length === 0) {
+            dispatch(openNoDataDialogAction());
+        }
+    }, [dispatch]);
+
+    const closeNoDataDialog = () => dispatch(closeNoDataDialogAction());
+
     return {
         courses,
         users,
@@ -130,5 +142,8 @@ export const useCoursesPageController = () => {
         onCloseDeleteStudentDialog: closeDeleteStudentDialog,
         onConfirmDeleteStudent: confirmDeleteStudent,
         studentsRefreshKey,
+        onSearch: handleSearch,
+        isNoDataDialogOpen,
+        onCloseNoDataDialog: closeNoDataDialog,
     };
 };

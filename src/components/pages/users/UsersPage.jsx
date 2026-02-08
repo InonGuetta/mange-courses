@@ -4,6 +4,7 @@ import UsersHeader from "./componentsUsers/UsersHeader";
 import UsersTable from "./componentsUsers/UsersTable";
 import UserFormDialog from "../../features/addUserFeature";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import NoDataDialog from "../../features/NoDataDialog";
 import { useUsersPageController } from "./useUsersPageController";
 
 
@@ -12,7 +13,7 @@ const UsersPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <UsersHeader onRefresh={c.onRefresh} onAddUser={c.onOpenAddUserDialog} />
+      <UsersHeader onRefresh={c.onRefresh} onAddUser={c.onOpenAddUserDialog} onSearch={c.onSearch} />
 
       <UsersTable 
         users={c.users} 
@@ -38,6 +39,8 @@ const UsersPage = () => {
         title="User Deletion"
         itemName={c.itemToDelete?.name}
       />
+
+      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
     </Container>
   );
 };

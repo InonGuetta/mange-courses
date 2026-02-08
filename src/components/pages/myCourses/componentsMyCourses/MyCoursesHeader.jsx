@@ -7,7 +7,7 @@ import { useFloatingOnScroll } from "../../../../hooks/useFloatingOnScroll.js";
 
 
 const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChange }) => {
-  const { floatingRef, titleRef, floatingContainerSx } = useFloatingOnScroll();
+  const { floatingRef, titleRef, floatingContainerSx, placeholderSx } = useFloatingOnScroll();
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -34,6 +34,7 @@ const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChan
           </IconButton>
         </Paper>
       </Box>
+      <Box sx={placeholderSx} />
     </Box>
   );
 };

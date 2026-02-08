@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchUsers, deleteUser } from "../../../store/slicesAndThunks/usersSlice";
+import { fetchUsers, deleteUser, searchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import {
   openAddUserDialog as openAddUserDialogAction,
@@ -10,6 +10,8 @@ import {
   closeDeleteDialog as closeDeleteDialogAction,
   openEditUserDialog as openEditUserDialogAction,
   closeEditUserDialog as closeEditUserDialogAction,
+  openNoDataDialog as openNoDataDialogAction,
+  closeNoDataDialog as closeNoDataDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
 
@@ -23,6 +25,7 @@ export const useUsersPageController = () => {
   const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
   const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
   const itemToDelete = useSelector((s) => s.ui.itemToDelete);
+  const isNoDataDialogOpen = useSelector((s) => s.ui.isNoDataDialogOpen);
 
   const refreshData = useCallback(() => {
     dispatch(fetchUsers());
@@ -54,6 +57,15 @@ export const useUsersPageController = () => {
     refreshData();
   };
 
+  const handleSearch = useCallback(async (name) => {
+    const result = await dispatch(searchUsers(name));
+    if (result.payload && Array.isArray(result.payload) && result.payload.length === 0) {
+      dispatch(openNoDataDialogAction());
+    }
+  }, [dispatch]);
+
+  const closeNoDataDialog = () => dispatch(closeNoDataDialogAction());
+
   return {
     users: users || [],
     onRefresh: refreshData,
@@ -70,5 +82,8 @@ export const useUsersPageController = () => {
     onOpenDeleteUserDialog: openDeleteUserDialog,
     onCloseDeleteUserDialog: closeDeleteUserDialog,
     onConfirmDeleteUser: confirmDeleteUser,
+    onSearch: handleSearch,
+    isNoDataDialogOpen,
+    onCloseNoDataDialog: closeNoDataDialog,
   };
 };
