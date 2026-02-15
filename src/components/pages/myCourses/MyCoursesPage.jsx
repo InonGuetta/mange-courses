@@ -6,7 +6,6 @@ import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
-
 const MyCoursesPage = () => {
   const c = useMyCoursesPageController();
 
@@ -33,11 +32,17 @@ const MyCoursesPage = () => {
         onClose={c.onCloseDeleteStudentFromCourseDialog}
         onConfirm={c.onConfirmDeleteStudentFromCourse}
         title="Remove Student from Course"
-        itemName={c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course}
+        // צריך לתקן כאן את ה camelCase
+        itemName={
+          c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course
+        }
         confirmButtonText="Remove"
       />
 
-      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
+      <NoDataDialog
+        isOpen={c.isNoDataDialogOpen}
+        onClose={c.onCloseNoDataDialog}
+      />
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+// יש לך עוד תיקון לעשות כאן בנושא של camelCase
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -24,14 +25,18 @@ import {
 import { fetchStudentsByCourse } from "../../store/slicesAndThunks/myCoursesSlice";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-
-const ShowStudentsDialog = ({ isOpen, onClose, course, onDelete, refreshKey }) => {
+const ShowStudentsDialog = ({
+  isOpen,
+  onClose,
+  course,
+  onDelete,
+  refreshKey,
+}) => {
   const dispatch = useDispatch();
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-     
   useEffect(() => {
     if (isOpen && course?.id) {
       setIsLoading(true);
@@ -68,6 +73,7 @@ const ShowStudentsDialog = ({ isOpen, onClose, course, onDelete, refreshKey }) =
           fontWeight: 700,
         }}
       >
+      {/* הבעיה של ה camelCase נמצאת כאן  */}
         Students in Course: {course?.name_course || ""}
       </DialogTitle>
       <DialogContent sx={{ mt: 2 }}>

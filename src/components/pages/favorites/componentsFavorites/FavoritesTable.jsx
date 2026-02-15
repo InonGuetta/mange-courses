@@ -27,12 +27,16 @@ const FavoritesTable = ({ favorites = [], coursesById, usersById, onDelete }) =>
       </TableHead>
       <TableBody>
         {favorites.length > 0 ? favorites.map((item, idx) => {
+          {/* צריך לתקן כאן את ה camelCase */}
           const course = coursesById?.get(String(item.course_id));
+          {/* צריך לתקן כאן את ה camelCase */}
           const user = usersById?.get(String(item.user_id));
           return (
             <TableRow key={item.id} sx={getTableRowSx(idx)}>
               <TableCell component="th" scope="row" sx={{ ...tableFirstCellSx, textAlign: 'center' }}>{idx + 1}</TableCell>
+              {/* צריך לתקן כאן את ה camelCase */}
               <TableCell sx={bodyCellCentered}>{user?.name ?? item.user_id}</TableCell>
+              {/* צריך לתקן כאן את ה camelCase */}
               <TableCell sx={bodyCellCentered}>{course?.name_course ?? item.course_id}</TableCell>
               <TableCell sx={{ ...tableWrapCellSx, textAlign: 'center' }}>{course?.detail ?? '-'}</TableCell>
               <TableCell sx={{ ...tableBodyCellSx, display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>

@@ -1,3 +1,3 @@
-import { toArray } from "../../domain/toArray";
+import { toArray } from "../../utilities/toArray";
 
 export const selectVisibleMyCourses = (state) => toArray(state.myCourses?.myCoursesList);

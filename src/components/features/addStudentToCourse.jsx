@@ -110,7 +110,7 @@ const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <Typography variant="body1" sx={{ color: "#475569" }}>
-              Course: <strong>{course?.name_course || "N/A"}</strong>
+              Course: <strong>{course?.nameCourse || "N/A"}</strong>
             </Typography>
 
             <FormControl fullWidth required>

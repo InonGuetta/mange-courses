@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 
 import UsersHeader from "./componentsUsers/UsersHeader";
 import UsersTable from "./componentsUsers/UsersTable";
-import UserFormDialog from "../../features/addUserFeature";
+import UserFormDialog from "../../features/addUser";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useUsersPageController } from "./useUsersPageController";

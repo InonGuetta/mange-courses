@@ -1,3 +1,3 @@
-import { toArray } from "../../domain/toArray";
+import { toArray } from "../../utilities/toArray";
 
-export const selectVisibleUsers = (state) => toArray(state.users?.usersList);
+export const selectVisibleUsers = (state) => toArray(state.users?.usersList); 

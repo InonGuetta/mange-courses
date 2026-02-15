@@ -7,7 +7,11 @@ import {
 } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
-import { addFavorite, deleteFavorite, fetchFavorites } from "../../../store/slicesAndThunks/favoritesSlice";
+import {
+  addFavorite,
+  deleteFavorite,
+  fetchFavorites,
+} from "../../../store/slicesAndThunks/favoritesSlice";
 import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelector";
 import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelector";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
@@ -18,11 +22,11 @@ import {
   closeNoDataDialog as closeNoDataDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
-
 export const useMyCoursesPageController = () => {
   const dispatch = useDispatch();
   const [selectedStudentId, setSelectedStudentId] = useState(null);
-  const [isDeleteStudentDialogOpen, setIsDeleteStudentDialogOpen] = useState(false);
+  const [isDeleteStudentDialogOpen, setIsDeleteStudentDialogOpen] =
+    useState(false);
   const [courseToRemove, setCourseToRemove] = useState(null);
 
   const myCourses = useSelector(selectVisibleMyCourses) || [];
@@ -48,11 +52,13 @@ export const useMyCoursesPageController = () => {
 
   const handleAddFavorite = useCallback(
     (row) => {
+      // צריך לתקן כאן את ה camelCase
       if (!selectedStudentId || !row.course_id) {
         console.warn("Missing studentId or courseId for adding favorite");
         return;
       }
       dispatch(
+        // צריך לתקן כאן את ה camelCase
         addFavorite({ courseId: row.course_id, userId: selectedStudentId }),
       );
     },
@@ -70,6 +76,8 @@ export const useMyCoursesPageController = () => {
   }, []);
 
   const confirmDeleteStudentFromCourse = useCallback(async () => {
+    // צריך לתקן כאן את ה camelCase
+
     if (!selectedStudentId || !courseToRemove?.course_id) {
       console.warn(
         "Missing studentId or courseId for removing student from course",
@@ -78,12 +86,18 @@ export const useMyCoursesPageController = () => {
     }
     await dispatch(
       deleteStudentFromCourse({
+        // צריך לתקן כאן את ה camelCase
+
         courseId: courseToRemove.course_id,
         studentId: selectedStudentId,
       }),
     );
     const favoriteToDelete = favorites.find(
-      (fav) => String(fav.course_id) === String(courseToRemove.course_id) && String(fav.user_id) === String(selectedStudentId)
+      (fav) =>
+        // צריך לתקן כאן את ה camelCase
+        String(fav.course_id) === String(courseToRemove.course_id) &&
+        // צריך לתקן כאן את ה camelCase
+        String(fav.user_id) === String(selectedStudentId),
     );
     if (favoriteToDelete) {
       dispatch(deleteFavorite(favoriteToDelete.id));

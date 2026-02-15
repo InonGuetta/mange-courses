@@ -33,7 +33,7 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password_hash: "",
+    passwordHash: "",
     role: "",
   });
 
@@ -47,14 +47,14 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
         setFormData({
           name: user.name || "",
           email: user.email || "",
-          password_hash: "",
+          passwordHash: "",
           role: user.role || "",
         });
       } else {
         setFormData({
           name: "",
           email: "",
-          password_hash: "",
+          passwordHash: "",
           role: "",
         });
       }
@@ -81,8 +81,8 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
           email: formData.email,
           role: formData.role,
         };
-        if (formData.password_hash) {
-          updates.password_hash = formData.password_hash;
+        if (formData.passwordHash) {
+          updates.passwordHash = formData.passwordHash;
         }
         await dispatch(updateUser({ id: user.id, updates })).unwrap();
       } else {
@@ -105,7 +105,7 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
     setFormData({
       name: "",
       email: "",
-      password_hash: "",
+      passwordHash: "",
       role: "",
     });
     setErrorMessage(null);
@@ -115,7 +115,7 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
 
   const isFormValid = isEditMode
     ? formData.name && formData.email && formData.role
-    : formData.name && formData.email && formData.password_hash && formData.role;
+    : formData.name && formData.email && formData.passwordHash && formData.role;
 
   return (
     <Dialog
@@ -196,9 +196,9 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
               required={!isEditMode}
               fullWidth
               label={isEditMode ? "Password (leave empty to keep current)" : "Password"}
-              name="password_hash"
+              name="passwordHash"
               type="password"
-              value={formData.password_hash}
+              value={formData.passwordHash}
               onChange={handleInputChange}
               variant="outlined"
               disabled={isLoading}

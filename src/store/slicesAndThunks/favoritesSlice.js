@@ -67,7 +67,6 @@ export const deleteFavorite = createAsyncThunk(
 );
 
 
-
 const initialState = {
     state: "idle",
     error: null,
@@ -131,8 +130,6 @@ const favoritesSlice = createSlice({
                 state.status = "failed";
                 state.error = action.payload || "Delete favorite failed";
             })
-
-
     },
 });
 

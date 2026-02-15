@@ -2,8 +2,11 @@ import { useState, useCallback } from "react";
 import { Box, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { searchContainerSx, searchInputSx, searchButtonSx } from "../../styles/sharedGeneralStyles";
-
+import {
+  searchContainerSx,
+  searchInputSx,
+  searchButtonSx,
+} from "../../styles/sharedGeneralStyles";
 
 const SearchBar = ({ onSearch, placeholder = "Search..." }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -14,11 +17,14 @@ const SearchBar = ({ onSearch, placeholder = "Search..." }) => {
     }
   }, [searchValue, onSearch]);
 
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  }, [handleSearch]);
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearch();
+      }
+    },
+    [handleSearch],
+  );
 
   return (
     <Box sx={searchContainerSx}>

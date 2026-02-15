@@ -1,5 +1,3 @@
-// MyCourses page specific styles
-
 export const selectFormControlSx = {
   minWidth: 200,
   bgcolor: 'rgba(255,255,255,0.15)',

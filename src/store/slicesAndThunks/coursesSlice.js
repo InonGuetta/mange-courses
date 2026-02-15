@@ -104,7 +104,6 @@ export const searchCourses = createAsyncThunk(
 );
 
 
-
 const initialState = {
     status: "idle",
     error: null,

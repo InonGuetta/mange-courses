@@ -77,10 +77,6 @@ export const deleteStudentFromCourse = createAsyncThunk(
 )
 
 
-
-
-
-
 const initialState = {
     status: "idle",
     error: null,

@@ -93,6 +93,7 @@ export const useCoursesPageController = () => {
 
     const confirmDeleteStudent = async () => {
         if (!studentToDelete || !courseForDeleteStudent || deleteDialogType !== 'student') return;
+        // צריך לתקן כאן את ה camelCase
         const studentId = studentToDelete.student_id || studentToDelete.id;
         await dispatch(deleteStudentFromCourse({ 
             courseId: courseForDeleteStudent.id, 

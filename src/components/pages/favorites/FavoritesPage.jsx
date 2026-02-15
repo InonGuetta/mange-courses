@@ -27,6 +27,7 @@ const FavoritesPage = () => {
         onClose={c.onCloseDeleteFavoriteDialog}
         onConfirm={c.onConfirmDeleteFavorite}
         title="Favorite Deletion"
+        // צריך לתקן כאן את ה camelCase
         itemName={c.itemToDelete ? c.coursesById.get(String(c.itemToDelete.course_id))?.name_course : null}
       />
 

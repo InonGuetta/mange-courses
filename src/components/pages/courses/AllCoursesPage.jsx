@@ -2,23 +2,26 @@ import { Container } from "@mui/material";
 
 import CoursesTable from "./componentsCourses/CoursesTable";
 import FloatingActions from "./componentsCourses/FloatingActions";
-import AddCourseDialog from "../../features/addCourseFeature";
+import AddCourseDialog from "../../features/addCourse.jsx";
 import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
-import EditCourseDialog from "../../features/editCourseFeature";
-import ShowStudentsDialog from "../../features/showStudentsFeature";
-import AddStudentToCourseDialog from "../../features/addStudentToCourseFeature";
+import EditCourseDialog from "../../features/editCourse.jsx";
+import ShowStudentsDialog from "../../features/showStudents.jsx";
+import AddStudentToCourseDialog from "../../features/addStudentToCourse.jsx";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useCoursesPageController } from "./useCoursesPageController.js";
-
 
 const AllCoursePage = () => {
   const c = useCoursesPageController();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FloatingActions onAdd={c.onOpenAddCourseDialog} onRefresh={c.onRefresh} onSearch={c.onSearch} />
+      <FloatingActions
+        onAdd={c.onOpenAddCourseDialog}
+        onRefresh={c.onRefresh}
+        onSearch={c.onSearch}
+      />
 
-      <CoursesTable 
+      <CoursesTable
         courses={c.courses}
         users={c.users}
         onDelete={c.onOpenDeleteCourseDialog}
@@ -27,13 +30,17 @@ const AllCoursePage = () => {
         onAddStudentToCourse={c.onOpenAddStudentToCourseDialog}
       />
 
-      <AddCourseDialog isOpen={c.isAddCourseDialogOpen} onClose={c.onCloseAddCourseDialog} />
+      <AddCourseDialog
+        isOpen={c.isAddCourseDialogOpen}
+        onClose={c.onCloseAddCourseDialog}
+      />
 
       <DeleteConfirmDialog
-        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'course'}
+        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === "course"}
         onClose={c.onCloseDeleteCourseDialog}
         onConfirm={c.onConfirmDeleteCourse}
         title="Course Deletion"
+        // camelCase צריך לתקן את זה
         itemName={c.itemToDelete?.name_course}
       />
 
@@ -52,11 +59,12 @@ const AllCoursePage = () => {
       />
 
       <DeleteConfirmDialog
-        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'student'}
+        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === "student"}
         onClose={c.onCloseDeleteStudentDialog}
         onConfirm={c.onConfirmDeleteStudent}
         title="Student Removal"
         itemName={c.studentToDelete?.name}
+        // camelCase צריך לתקן את זה
         message={`Are you sure you want to remove "${c.studentToDelete?.name}" from the course "${c.courseForDeleteStudent?.name_course}"?`}
         confirmButtonText="Remove"
       />
@@ -67,7 +75,10 @@ const AllCoursePage = () => {
         course={c.courseForAddStudent}
       />
 
-      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
+      <NoDataDialog
+        isOpen={c.isNoDataDialogOpen}
+        onClose={c.onCloseNoDataDialog}
+      />
     </Container>
   );
 };

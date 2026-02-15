@@ -10,7 +10,6 @@ export const useFloatingOnScroll = () => {
   const triggerPointRef = useRef(0);
 
   useEffect(() => {
-    // Calculate trigger point once when component mounts or content changes
     const calculateTriggerPoint = () => {
       if (titleRef.current) {
         const rect = titleRef.current.getBoundingClientRect();
