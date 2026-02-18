@@ -52,19 +52,21 @@ const CoursesTable = ({
       <TableBody>
         {courses.length > 0 ? (
           courses.map((item, idx) => {
-            // צריך לתקן כאן את ה camelCase
-            const teacher = users.find((u) => u.id === item.teacher_id);
+            const {id, teacherId, courseName, detail } = item
+            const teacher = users.find((u) => u.id === teacherId);
             const teacherName = teacher
               ? teacher.name
-              : `ID: ${item.teacher_id}`;
+              : `ID: ${teacherId}`;
             return (
-              <TableRow key={item.id} sx={getTableRowSx(idx)}>
+              <TableRow key={id} sx={getTableRowSx(idx)}>
                 <TableCell component="th" scope="row" sx={tableFirstCellSx}>
                   {idx + 1}
                 </TableCell>
-                {/*// צריך לתקן כאן את ה camelCase */}
-                <TableCell sx={tableBodyCellSx}>{item.name_course}</TableCell>
-                <TableCell sx={tableWrapCellSx}>{item.detail}</TableCell>
+                {/* הקוד הזה של ה courseName  */}
+                <TableCell sx={tableBodyCellSx}>{courseName}</TableCell>
+                {/* 001 
+                לתקן את הנושא שהקוד החזרתי הזה של טבלה לא יהיה  */}
+                <TableCell sx={tableWrapCellSx}>{detail}</TableCell>
                 <TableCell sx={tableBodyCellSx}>{teacherName}</TableCell>
                 <TableCell sx={tableActionsCellSx}>
                   <Tooltip title="Delete Course">

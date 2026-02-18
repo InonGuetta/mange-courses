@@ -45,7 +45,7 @@ export const addStudentToCourse = createAsyncThunk(
             const res = await fetch(`/api/student-courses/add-student-to-course/${courseId}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ student_id: studentId }),
+                body: JSON.stringify({ studentId: studentId }),
             });
             const data = await res.json();
 
@@ -64,7 +64,7 @@ export const deleteStudentFromCourse = createAsyncThunk(
             const res = await fetch(`/api/student-courses/remove-student-from-course/${courseId}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ student_id: studentId }),
+                body: JSON.stringify({ studentId: studentId }),
             });
             const data = await res.json();
 

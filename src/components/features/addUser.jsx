@@ -19,9 +19,12 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { roles } from "../../utilities/constant.js";
 
-import { createUser, updateUser } from "../../store/slicesAndThunks/usersSlice";
-
+import {
+  createUser,
+  updateUser,
+} from "../../store/slicesAndThunks/usersSlice.js";
 
 const ORANGE_COLOR = "rgba(249, 115, 22, 0.9)";
 const ORANGE_HOVER = "#ea580c";
@@ -41,28 +44,20 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // דוגמה 
+  // קוד זה הוא קוד לדוגמה לאיך פותרים את זה שהוא לא יהיה עם if ו else מיותרים אלא הוא יתפוס את השגיאות באמצעות האופרטור ?.
   useEffect(() => {
     if (isOpen) {
-      if (user) {
-        setFormData({
-          name: user.name || "",
-          email: user.email || "",
-          passwordHash: "",
-          role: user.role || "",
-        });
-      } else {
-        setFormData({
-          name: "",
-          email: "",
-          passwordHash: "",
-          role: "",
-        });
-      }
+      setFormData({
+        name: user?.name || "",
+        email: user?.email || "",
+        passwordHash: "",
+        role: user?.role || "",
+      });
     }
   }, [user, isOpen]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -88,14 +83,18 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
       } else {
         await dispatch(createUser(formData)).unwrap();
       }
-      
+
       setIsSuccess(true);
       setTimeout(() => {
         setIsSuccess(false);
         handleCloseDialog();
       }, 1500);
     } catch (err) {
-      setErrorMessage(err?.message || err || `Failed to ${isEditMode ? 'update' : 'create'} user`);
+      setErrorMessage(
+        err?.message ||
+          err ||
+          `Failed to ${isEditMode ? "update" : "create"} user`,
+      );
     } finally {
       setIsLoading(false);
     }
@@ -113,6 +112,8 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
     onClose();
   };
 
+  // קוד 001
+  // לחלק את הקוד לקומפוננטות קטנות
   const isFormValid = isEditMode
     ? formData.name && formData.email && formData.role
     : formData.name && formData.email && formData.passwordHash && formData.role;
@@ -195,14 +196,22 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
             <TextField
               required={!isEditMode}
               fullWidth
-              label={isEditMode ? "Password (leave empty to keep current)" : "Password"}
+              label={
+                isEditMode
+                  ? "Password (leave empty to keep current)"
+                  : "Password"
+              }
               name="passwordHash"
               type="password"
               value={formData.passwordHash}
               onChange={handleInputChange}
               variant="outlined"
               disabled={isLoading}
-              helperText={isEditMode ? "Only fill this if you want to change the password" : undefined}
+              helperText={
+                isEditMode
+                  ? "Only fill this if you want to change the password"
+                  : undefined
+              }
             />
 
             <FormControl fullWidth required>
@@ -216,8 +225,8 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
                 onChange={handleInputChange}
                 disabled={isLoading}
               >
-                <MenuItem value="student">Student</MenuItem>
-                <MenuItem value="teacher">Teacher</MenuItem>
+                <MenuItem value={roles.student}>Student</MenuItem>
+                <MenuItem value={roles.teacher}>Teacher</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -254,9 +263,13 @@ const UserFormDialog = ({ isOpen, onClose, user = null }) => {
               },
             }}
           >
-            {isLoading 
-              ? (isEditMode ? "Updating..." : "Creating...") 
-              : (isEditMode ? "Update User" : "Create User")}
+            {isLoading
+              ? isEditMode
+                ? "Updating..."
+                : "Creating..."
+              : isEditMode
+                ? "Update User"
+                : "Create User"}
           </Button>
         </DialogActions>
       </form>

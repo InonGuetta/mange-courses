@@ -12,6 +12,6 @@ export const useIdMap = (items) => {
 
 export const useFilteredUsers = (users, role) => {
   return useMemo(() => {
-    return (users || []).filter(({role}) => role === role);
+    return (users || []).filter((user) => user.role === role);
   }, [users, role]);
 };

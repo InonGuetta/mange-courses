@@ -2,46 +2,45 @@ import { Container } from "@mui/material";
 
 import MyCoursesHeader from "./componentsMyCourses/MyCoursesHeader";
 import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
-import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
 const MyCoursesPage = () => {
-  const c = useMyCoursesPageController();
+  const controller = useMyCoursesPageController();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <MyCoursesHeader
-        onRefresh={c.onRefresh}
-        students={c.students}
-        selectedStudentId={c.selectedStudentId}
-        onStudentChange={c.onStudentChange}
+        onRefresh={controller.onRefresh}
+        students={controller.students}
+        selectedStudentId={controller.selectedStudentId}
+        onStudentChange={controller.onStudentChange}
       />
 
       <MyCoursesTable
-        myCourses={c.myCourses}
-        coursesById={c.coursesById}
-        usersById={c.usersById}
-        onAddFavorite={c.onAddFavorite}
-        onDeleteStudentFromCourse={c.onOpenDeleteStudentFromCourseDialog}
-        currentStudentId={c.currentStudentId}
+        myCourses={controller.myCourses}
+        coursesById={controller.coursesById}
+        usersById={controller.usersById}
+        onAddFavorite={controller.onAddFavorite}
+        onDeleteStudentFromCourse={controller.onOpenDeleteStudentFromCourseDialog}
+        currentStudentId={controller.currentStudentId}
       />
 
-      <DeleteConfirmDialog
-        isOpen={c.isDeleteStudentDialogOpen}
-        onClose={c.onCloseDeleteStudentFromCourseDialog}
-        onConfirm={c.onConfirmDeleteStudentFromCourse}
+      <ConfirmingDeletionDialog
+        isOpen={controller.isDeleteStudentDialogOpen}
+        onClose={controller.onCloseDeleteStudentFromCourseDialog}
+        onConfirm={controller.onConfirmDeleteStudentFromCourse}
         title="Remove Student from Course"
-        // צריך לתקן כאן את ה camelCase
         itemName={
-          c.coursesById?.get(String(c.courseToRemove?.course_id))?.name_course
+          controller.coursesById?.get(String(controller.courseToRemove?.courseId))?.courseName
         }
         confirmButtonText="Remove"
       />
 
       <NoDataDialog
-        isOpen={c.isNoDataDialogOpen}
-        onClose={c.onCloseNoDataDialog}
+        isOpen={controller.isNoDataDialogOpen}
+        onClose={controller.onCloseNoDataDialog}
       />
     </Container>
   );

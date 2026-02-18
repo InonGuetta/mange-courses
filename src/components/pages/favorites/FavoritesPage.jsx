@@ -2,36 +2,34 @@ import { Container } from "@mui/material";
 
 import FavoritesHeader from "./componentsFavorites/FavoritesHeader";
 import FavoritesTable from "./componentsFavorites/FavoritesTable";
-import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useFavoritesPageController } from "./useFavoritesPageController";
 
 
 const FavoritesPage = () => {
-  const c = useFavoritesPageController();
+  const controller = useFavoritesPageController();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FavoritesHeader onRefresh={c.onRefresh} />
-
+      <FavoritesHeader onRefresh={controller.onRefresh} />
       
       <FavoritesTable
-        favorites={c.favorites}
-        coursesById={c.coursesById}
-        usersById={c.usersById}
-        onDelete={c.onOpenDeleteFavoriteDialog} 
+        favorites={controller.favorites}
+        coursesById={controller.coursesById}
+        usersById={controller.usersById}
+        onDelete={controller.onOpenDeleteFavoriteDialog} 
       />
 
-      <DeleteConfirmDialog
-        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'favorite'}
-        onClose={c.onCloseDeleteFavoriteDialog}
-        onConfirm={c.onConfirmDeleteFavorite}
+      <ConfirmingDeletionDialog
+        isOpen={controller.isDeleteDialogOpen && controller.deleteDialogType === 'favorite'}
+        onClose={controller.onCloseDeleteFavoriteDialog}
+        onConfirm={controller.onConfirmDeleteFavorite}
         title="Favorite Deletion"
-        // צריך לתקן כאן את ה camelCase
-        itemName={c.itemToDelete ? c.coursesById.get(String(c.itemToDelete.course_id))?.name_course : null}
+        itemName={controller.itemToDelete ? controller.coursesById.get(String(controller.itemToDelete.courseId))?.courseName : null}
       />
 
-      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
+      <NoDataDialog isOpen={controller.isNoDataDialogOpen} onClose={controller.onCloseNoDataDialog} />
     </Container>
   );
 };

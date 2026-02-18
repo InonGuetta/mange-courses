@@ -1,13 +1,30 @@
-import { Box, Typography, IconButton, Paper, FormControl, Select, MenuItem } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Paper,
+  FormControl,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles.js";
+import {
+  floatingBarSx,
+  refreshButtonSx,
+  pageTitleSx,
+} from "../../../../styles/sharedGeneralStyles.js";
 import { selectFormControlSx } from "../../../../styles/myCoursesSpecificStyles.js";
 import { useFloatingOnScroll } from "../../../../hooks/useFloatingOnScroll.js";
 
-
-const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChange }) => {
-  const { floatingRef, titleRef, floatingContainerSx, placeholderSx } = useFloatingOnScroll();
+const MyCoursesHeader = ({
+  onRefresh,
+  students,
+  selectedStudentId,
+  onStudentChange,
+}) => {
+  const { floatingRef, titleRef, floatingContainerSx, placeholderSx } =
+    useFloatingOnScroll();
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -23,9 +40,13 @@ const MyCoursesHeader = ({ onRefresh, students, selectedStudentId, onStudentChan
               displayEmpty
               sx={{ borderRadius: "12px" }}
             >
-              <MenuItem value="" disabled>Select Student</MenuItem>
-              {students?.map((student) => (
-                <MenuItem key={student.id} value={student.id}>{student.name}</MenuItem>
+              <MenuItem value="" disabled>
+                Select Student
+              </MenuItem>
+              {students?.map(({ id, name }) => (
+                <MenuItem key={id} value={id}>
+                  {name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

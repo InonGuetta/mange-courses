@@ -30,7 +30,7 @@ const SearchBar = ({ onSearch, placeholder = "Search..." }) => {
     <Box sx={searchContainerSx}>
       <InputBase
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={({target : {value}}) => setSearchValue(value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         sx={searchInputSx}

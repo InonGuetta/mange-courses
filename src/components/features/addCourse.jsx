@@ -19,13 +19,15 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { roles } from "../../utilities/constant.js";
 
-import { createCourse } from "../../store/slicesAndThunks/coursesSlice";
-import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
+import { createCourse } from "../../store/slicesAndThunks/coursesSlice.js";
+import { selectVisibleUsers } from "../../store/selectors/usersSelectors.js";
+
 
 const AddCourseDialog = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
-  
+
   const users = useSelector(selectVisibleUsers);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -34,14 +36,15 @@ const AddCourseDialog = ({ isOpen, onClose }) => {
     nameCourse: "",
     detail: "",
     teacherId: "",
-  }); 
-
-  const handleInputChange = ({target : {name,value}}) => {
+  });
+ 
+  // דוגמה לאיך עושים decounstruction לאירוע האזנה
+  const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  }; 
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -70,13 +73,12 @@ const AddCourseDialog = ({ isOpen, onClose }) => {
     });
     setErrorMessage(null);
     onClose();
-  }; 
+  };
 
-  const teachers = users?.filter(({role}) => role === "teacher") || []; 
-  
-  // לחלק את הקומפוננטות כאן לנוספות כי הקוד כאן ארוך מידי מומלץ לחלק לכל אחד בנפרד היינו DialogTitle / DialogContent / DialogActions
-  // למחוק את המילה Feature מהשם של הרכיב
-  
+  const teachers = users?.filter(({ role }) => role === roles.teacher) || [];
+
+  // קוד 001
+  // להשתמש בקומפוננטות הגנריות של DialogTitle, DialogContent and DialogActions
   return (
     <Dialog
       open={isOpen}
@@ -155,7 +157,7 @@ const AddCourseDialog = ({ isOpen, onClose }) => {
                 id="teacher-select"
                 name="teacherId"
                 value={formData.teacherId}
-                label="Teacher"
+                label={roles.teacher}
                 onChange={handleInputChange}
                 disabled={isLoading}
               >
@@ -177,7 +179,7 @@ const AddCourseDialog = ({ isOpen, onClose }) => {
           <Button
             onClick={handleCloseDialog}
             variant="outlined"
-            disabled={isLoading} 
+            disabled={isLoading}
           >
             Cancel
           </Button>

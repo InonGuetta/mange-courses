@@ -45,40 +45,39 @@ const MyCoursesTable = ({
         </TableRow>
       </TableHead>
       <TableBody>
+        {/* אני לא משנה את כל השמות כאן כי יכול להיות התנגשות של שמות ב מילה detail */}
         {myCourses?.length > 0 ? (
           myCourses.map((item, idx) => {
-            // צריך לתקן כאן את ה camelCase
-            const course = coursesById?.get(String(item.course_id));
-            // צריך לתקן כאן את ה camelCase
-            const teacherId = course?.teacher_id;
+            const { id, courseId, detail } = item;
+            const course = coursesById?.get(String(courseId));
+            const teacherId = course?.teacherId;
             const teacher =
-            teacherId != null ? usersById?.get(String(teacherId)) : null;
+              teacherId != null ? usersById?.get(String(teacherId)) : null;
             const student =
-            currentStudentId != null
-            ? usersById?.get(String(currentStudentId))
-            : null;
+              currentStudentId != null
+                ? usersById?.get(String(currentStudentId))
+                : null;
             const teacherName =
-            teacher?.name ??
-            teacher?.teacherName ??
-            (teacherId != null
-              ? `ID: ${teacherId}`
-              // צריך לתקן כאן את ה camelCase
-                : `ID: ${item.course_id}`);
+              teacher?.name ??
+              teacher?.teacherName ??
+              (teacherId != null
+                ? `ID: ${teacherId}`
+                : 
+                  `ID: ${courseId}`);
             const studentName =
               student?.name ??
               student?.studentName ??
               `ID: ${currentStudentId}`;
             return (
-              <TableRow key={item.id} sx={getTableRowSx(idx)}>
+              <TableRow key={id} sx={getTableRowSx(idx)}>
                 <TableCell component="th" scope="row" sx={tableFirstCellSx}>
                   {idx + 1}
                 </TableCell>
                 <TableCell sx={tableBodyCellSx}>
-                {/*צריך לתקן כאן את ה camelCase */}
-                  {course?.name_course ?? item.course_id}
+                  {course?.courseName ?? courseId}
                 </TableCell>
                 <TableCell sx={tableBodyCellSx}>
-                  {course?.detail ?? item.detail ?? "-"}
+                  {course?.detail ?? detail ?? "-"}
                 </TableCell>
                 <TableCell sx={tableBodyCellSx}>{teacherName}</TableCell>
                 <TableCell sx={tableBodyCellSx}>{studentName}</TableCell>

@@ -52,14 +52,12 @@ export const useMyCoursesPageController = () => {
 
   const handleAddFavorite = useCallback(
     (row) => {
-      // צריך לתקן כאן את ה camelCase
-      if (!selectedStudentId || !row.course_id) {
+      if (!selectedStudentId || !row.courseId) {
         console.warn("Missing studentId or courseId for adding favorite");
         return;
       }
       dispatch(
-        // צריך לתקן כאן את ה camelCase
-        addFavorite({ courseId: row.course_id, userId: selectedStudentId }),
+          addFavorite({ courseId: row.courseId, userId: selectedStudentId }),
       );
     },
     [dispatch, selectedStudentId],
@@ -76,9 +74,8 @@ export const useMyCoursesPageController = () => {
   }, []);
 
   const confirmDeleteStudentFromCourse = useCallback(async () => {
-    // צריך לתקן כאן את ה camelCase
 
-    if (!selectedStudentId || !courseToRemove?.course_id) {
+    if (!selectedStudentId || !courseToRemove?.courseId) {
       console.warn(
         "Missing studentId or courseId for removing student from course",
       );
@@ -86,18 +83,15 @@ export const useMyCoursesPageController = () => {
     }
     await dispatch(
       deleteStudentFromCourse({
-        // צריך לתקן כאן את ה camelCase
-
-        courseId: courseToRemove.course_id,
+  
+        courseId: courseToRemove.courseId,
         studentId: selectedStudentId,
       }),
     );
     const favoriteToDelete = favorites.find(
       (fav) =>
-        // צריך לתקן כאן את ה camelCase
-        String(fav.course_id) === String(courseToRemove.course_id) &&
-        // צריך לתקן כאן את ה camelCase
-        String(fav.user_id) === String(selectedStudentId),
+          String(fav.courseId) === String(courseToRemove.courseId) &&
+          String(fav.userId) === String(selectedStudentId),
     );
     if (favoriteToDelete) {
       dispatch(deleteFavorite(favoriteToDelete.id));

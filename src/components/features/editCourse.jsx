@@ -1,4 +1,3 @@
-// אתה צריך לסגור את העניין הזה שיוצגו הנתונים של מה שכבר קיים לפני העריכה מחדש של זה
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -20,22 +19,24 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { roles } from "../../utilities/constant.js";
 
-import { updateCourse } from "../../store/slicesAndThunks/coursesSlice";
-import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
+import { updateCourse } from "../../store/slicesAndThunks/coursesSlice.js";
+import { selectVisibleUsers } from "../../store/selectors/usersSelectors.js";
+
 
 const EditCourseDialog = ({ isOpen, onClose, course }) => {
   const dispatch = useDispatch();
+
   const users = useSelector(selectVisibleUsers);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [formData, setFormData] = useState({
     nameCourse: "",
     detail: "",
     teacherId: "",
   });
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     if (course && isOpen) {
@@ -47,8 +48,7 @@ const EditCourseDialog = ({ isOpen, onClose, course }) => {
     }
   }, [course, isOpen]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = ({target:{name,value}}) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -85,9 +85,11 @@ const EditCourseDialog = ({ isOpen, onClose, course }) => {
     onClose();
   };
 
-  const teachers = users?.filter((user) => user.role === "teacher") || [];
+  const teachers = users?.filter(({ role }) => role === roles.teacher) || [];
 
   return (
+    // קוד 001
+    // לחלק לקומפוננטות קטנות יותר הכוונה היא לחלוקה ל שלושת הדיאולוגים
     <Dialog
       open={isOpen}
       onClose={handleCloseDialog}
@@ -165,14 +167,14 @@ const EditCourseDialog = ({ isOpen, onClose, course }) => {
                 id="teacher-select"
                 name="teacherId"
                 value={formData.teacherId}
-                label="Teacher"
+                label={roles.teacher}
                 onChange={handleInputChange}
                 disabled={isLoading}
               >
                 {teachers.length > 0 ? (
-                  teachers.map((teacher) => (
-                    <MenuItem key={teacher.id} value={teacher.id}>
-                      {teacher.name}
+                  teachers.map(({ id, name }) => (
+                    <MenuItem key={id} value={id}>
+                      {name}
                     </MenuItem>
                   ))
                 ) : (

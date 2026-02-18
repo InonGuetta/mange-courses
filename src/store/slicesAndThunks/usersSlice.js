@@ -16,7 +16,7 @@ export const fetchUsers = createAsyncThunk(
       return rejectWithValue(e?.message || "Network error");
     }
   },
-);
+); 
 
 export const createUser = createAsyncThunk(
   "users/createUser",

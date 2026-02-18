@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const DeleteConfirmDialog = ({
+const ConfirmingDeletionDialog = ({
   isOpen,
   onClose,
   onConfirm,
@@ -38,4 +38,4 @@ const DeleteConfirmDialog = ({
   );
 };
 
-export default DeleteConfirmDialog;
+export default ConfirmingDeletionDialog;

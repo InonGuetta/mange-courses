@@ -1,83 +1,88 @@
 import { Container } from "@mui/material";
 
+import { roles, definition } from "../../../utilities/constant.js";
 import CoursesTable from "./componentsCourses/CoursesTable";
 import FloatingActions from "./componentsCourses/FloatingActions";
-import AddCourseDialog from "../../features/addCourse.jsx";
-import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import AddCourseDialog from "../../features/AddCourse.jsx";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
 import EditCourseDialog from "../../features/editCourse.jsx";
-import ShowStudentsDialog from "../../features/showStudents.jsx";
-import AddStudentToCourseDialog from "../../features/addStudentToCourse.jsx";
+import ShowStudentsDialog from "../../features/ShowStudents.jsx";
+import AddStudentToCourseDialog from "../../features/AddStudentToCourse.jsx";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
 const AllCoursePage = () => {
-  const c = useCoursesPageController();
+  const controller = useCoursesPageController();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <FloatingActions
-        onAdd={c.onOpenAddCourseDialog}
-        onRefresh={c.onRefresh}
-        onSearch={c.onSearch}
+        onAdd={controller.onOpenAddCourseDialog}
+        onRefresh={controller.onRefresh}
+        onSearch={controller.onSearch}
       />
 
       <CoursesTable
-        courses={c.courses}
-        users={c.users}
-        onDelete={c.onOpenDeleteCourseDialog}
-        onEdit={c.onOpenEditCourseDialog}
-        onShowStudents={c.onOpenShowStudentsDialog}
-        onAddStudentToCourse={c.onOpenAddStudentToCourseDialog}
+        courses={controller.courses}
+        users={controller.users}
+        onDelete={controller.onOpenDeleteCourseDialog}
+        onEdit={controller.onOpenEditCourseDialog}
+        onShowStudents={controller.onOpenShowStudentsDialog}
+        onAddStudentToCourse={controller.onOpenAddStudentToCourseDialog}
       />
 
       <AddCourseDialog
-        isOpen={c.isAddCourseDialogOpen}
-        onClose={c.onCloseAddCourseDialog}
+        isOpen={controller.isAddCourseDialogOpen}
+        onClose={controller.onCloseAddCourseDialog}
       />
 
-      <DeleteConfirmDialog
-        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === "course"}
-        onClose={c.onCloseDeleteCourseDialog}
-        onConfirm={c.onConfirmDeleteCourse}
+      <ConfirmingDeletionDialog
+        isOpen={
+          controller.isDeleteDialogOpen &&
+          controller.deleteDialogType === definition.course
+        }
+        onClose={controller.onCloseDeleteCourseDialog}
+        onConfirm={controller.onConfirmDeleteCourse}
         title="Course Deletion"
-        // camelCase צריך לתקן את זה
-        itemName={c.itemToDelete?.name_course}
+        itemName={controller.itemToDelete?.courseName}
       />
 
       <EditCourseDialog
-        isOpen={c.isEditCourseDialogOpen}
-        onClose={c.onCloseEditCourseDialog}
-        course={c.courseToEdit}
+        isOpen={controller.isEditCourseDialogOpen}
+        onClose={controller.onCloseEditCourseDialog}
+        course={controller.courseToEdit}
       />
 
       <ShowStudentsDialog
-        isOpen={c.isShowStudentsDialogOpen}
-        onClose={c.onCloseShowStudentsDialog}
-        course={c.courseForStudents}
-        onDelete={c.onOpenDeleteStudentDialog}
-        refreshKey={c.studentsRefreshKey}
+        isOpen={controller.isShowStudentsDialogOpen}
+        onClose={controller.onCloseShowStudentsDialog}
+        course={controller.courseForStudents}
+        onDelete={controller.onOpenDeleteStudentDialog}
+        refreshKey={controller.studentsRefreshKey}
       />
 
-      <DeleteConfirmDialog
-        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === "student"}
-        onClose={c.onCloseDeleteStudentDialog}
-        onConfirm={c.onConfirmDeleteStudent}
+      <ConfirmingDeletionDialog
+        isOpen={
+          controller.isDeleteDialogOpen &&
+          controller.deleteDialogType === roles.student
+        }
+        onClose={controller.onCloseDeleteStudentDialog}
+        onConfirm={controller.onConfirmDeleteStudent}
         title="Student Removal"
-        itemName={c.studentToDelete?.name}
-        // camelCase צריך לתקן את זה
-        message={`Are you sure you want to remove "${c.studentToDelete?.name}" from the course "${c.courseForDeleteStudent?.name_course}"?`}
+        itemName={controller.studentToDelete?.name}
+        message={`Are you sure you want to remove "${controller.studentToDelete?.name}" from the course "${controller.courseForDeleteStudent?.courseName}"?`}
         confirmButtonText="Remove"
       />
 
       <AddStudentToCourseDialog
-        isOpen={c.isAddStudentDialogOpen}
-        onClose={c.onCloseAddStudentToCourseDialog}
-        course={c.courseForAddStudent}
+        isOpen={controller.isAddStudentDialogOpen}
+        onClose={controller.onCloseAddStudentToCourseDialog}
+        course={controller.courseForAddStudent}
       />
 
       <NoDataDialog
-        isOpen={c.isNoDataDialogOpen}
-        onClose={c.onCloseNoDataDialog}
+        isOpen={controller.isNoDataDialogOpen}
+        onClose={controller.onCloseNoDataDialog}
       />
     </Container>
   );

@@ -1,7 +1,12 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchCourses, deleteCourse, searchCourses } from "../../../store/slicesAndThunks/coursesSlice";
+import { roles, definition } from "../../../utilities/constant.js";
+import {
+  fetchCourses,
+  deleteCourse,
+  searchCourses,
+} from "../../../store/slicesAndThunks/coursesSlice";
 import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
 import { deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
@@ -13,7 +18,7 @@ import {
   closeDeleteDialog as closeDeleteDialogAction,
   openEditCourseDialog as openEditCourseDialogAction,
   closeEditCourseDialog as closeEditCourseDialogAction,
-  openShowStudentsDialog as openShowStudentsDialogAction, 
+  openShowStudentsDialog as openShowStudentsDialogAction,
   closeShowStudentsDialog as closeShowStudentsDialogAction,
   openAddStudentDialog as openAddStudentDialogAction,
   closeAddStudentDialog as closeAddStudentDialogAction,
@@ -24,127 +29,166 @@ import {
   closeNoDataDialog as closeNoDataDialogAction,
 } from "../../../store/slicesAndThunks/uiSlice";
 
-
 export const useCoursesPageController = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const courses = useSelector(selectVisibleCourses);
-    const users = useSelector(selectVisibleUsers);
+  const courses = useSelector(selectVisibleCourses);
+  const users = useSelector(selectVisibleUsers);
+  const isAddCourseDialogOpen = useSelector((selector) => selector.ui.isAddCourseDialogOpen);
+  const isDeleteDialogOpen = useSelector((selector) => selector.ui.isDeleteDialogOpen);
+  const deleteDialogType = useSelector((selector) => selector.ui.deleteDialogType);
+  const itemToDelete = useSelector((selector) => selector.ui.itemToDelete);
+  const isEditCourseDialogOpen = useSelector(
+    (selector) => selector.ui.isEditCourseDialogOpen,
+  );
+  const courseToEdit = useSelector((selector) => selector.ui.courseToEdit);
+  const isShowStudentsDialogOpen = useSelector(
+    (selector) => selector.ui.isShowStudentsDialogOpen,
+  );
+  const courseForStudents = useSelector((selector) => selector.ui.courseForStudents);
+  const isAddStudentDialogOpen = useSelector(
+    (selector) => selector.ui.isAddStudentDialogOpen,
+  );
+  const courseForAddStudent = useSelector((selector) => selector.ui.courseForAddStudent);
+  const studentToDelete = useSelector((selector) => selector.ui.studentToDelete);
+  const courseForDeleteStudent = useSelector(
+    (selector) => selector.ui.courseForDeleteStudent,
+  );
+  const studentsRefreshKey = useSelector((selector) => selector.ui.studentsRefreshKey);
+  const isNoDataDialogOpen = useSelector((selector) => selector.ui.isNoDataDialogOpen);
 
-    const isAddCourseDialogOpen = useSelector((s) => s.ui.isAddCourseDialogOpen);
-    const isDeleteDialogOpen = useSelector((s) => s.ui.isDeleteDialogOpen);
-    const deleteDialogType = useSelector((s) => s.ui.deleteDialogType);
-    const itemToDelete = useSelector((s) => s.ui.itemToDelete);
-    const isEditCourseDialogOpen = useSelector((s) => s.ui.isEditCourseDialogOpen);
-    const courseToEdit = useSelector((s) => s.ui.courseToEdit);
-    const isShowStudentsDialogOpen = useSelector((s) => s.ui.isShowStudentsDialogOpen);
-    const courseForStudents = useSelector((s) => s.ui.courseForStudents);
-    const isAddStudentDialogOpen = useSelector((s) => s.ui.isAddStudentDialogOpen);
-    const courseForAddStudent = useSelector((s) => s.ui.courseForAddStudent);
-    const studentToDelete = useSelector((s) => s.ui.studentToDelete);
-    const courseForDeleteStudent = useSelector((s) => s.ui.courseForDeleteStudent);
-    const studentsRefreshKey = useSelector((s) => s.ui.studentsRefreshKey);
-    const isNoDataDialogOpen = useSelector((s) => s.ui.isNoDataDialogOpen);
+  const refreshData = useCallback(() => {
+    dispatch(fetchCourses());
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
-    const refreshData = useCallback(() => {
-        dispatch(fetchCourses());
-        dispatch(fetchUsers());
-    }, [dispatch]);
+  useEffect(() => {
+    refreshData();
+  }, [refreshData]);
 
-    useEffect(() => {
-        refreshData();
-    }, [refreshData]);
+  const openAddCourseDialog = () => dispatch(openAddCourseDialogAction());
+  const closeAddCourseDialog = () => {
+    dispatch(closeAddCourseDialogAction());
+    refreshData();
+  };
 
-    const openAddCourseDialog = () => dispatch(openAddCourseDialogAction());
-    const closeAddCourseDialog = () => {
-        dispatch(closeAddCourseDialogAction());
-        refreshData();
-    };
+  const openDeleteCourseDialog = (course) =>
+    dispatch(openDeleteDialogAction({ type: definition.course, item: course }));
+  const closeDeleteCourseDialog = () => dispatch(closeDeleteDialogAction());
 
-    const openDeleteCourseDialog = (course) => dispatch(openDeleteDialogAction({ type: 'course', item: course }));
-    const closeDeleteCourseDialog = () => dispatch(closeDeleteDialogAction());
+  // הקוד הישן לפני  התיקון לאבחון סוג הבעיה
+  //   const confirmDeleteCourse = async () => {
+  //     if (!itemToDelete || deleteDialogType !== 'course') return;
+  //     await dispatch(deleteCourse(itemToDelete.id));
+  //     closeDeleteCourseDialog();
+  //     refreshData();
+  // };
 
-    const confirmDeleteCourse = async () => {
-        if (!itemToDelete || deleteDialogType !== 'course') return;
-        await dispatch(deleteCourse(itemToDelete.id));
-        closeDeleteCourseDialog();
-        refreshData();
-    };
 
-    const openEditCourseDialog = (course) => dispatch(openEditCourseDialogAction(course));
-    const closeEditCourseDialog = () => {
-        dispatch(closeEditCourseDialogAction());
-        refreshData();
-    };
+  // הקוד החדש דוגמה לאיך לתקן שלא יהיה return באמצע הפונקציה
+  const confirmDeleteCourse = async () => {
+    if (itemToDelete && deleteDialogType === definition.course) {
+      await dispatch(deleteCourse(itemToDelete.id));
+      closeDeleteCourseDialog();
+      refreshData();
+    }
+  };
 
-    const openShowStudentsDialog = (course) => dispatch(openShowStudentsDialogAction(course));
-    const closeShowStudentsDialog = () => dispatch(closeShowStudentsDialogAction());
+  const openEditCourseDialog = (course) =>
+    dispatch(openEditCourseDialogAction(course));
+  const closeEditCourseDialog = () => {
+    dispatch(closeEditCourseDialogAction());
+    refreshData();
+  };
 
-    const openAddStudentToCourseDialog = (course) => dispatch(openAddStudentDialogAction(course));
-    const closeAddStudentToCourseDialog = () => {
-        dispatch(closeAddStudentDialogAction());
-        refreshData();
-    };
+  const openShowStudentsDialog = (course) =>
+    dispatch(openShowStudentsDialogAction(course));
+  const closeShowStudentsDialog = () =>
+    dispatch(closeShowStudentsDialogAction());
 
-    const openDeleteStudentDialog = (student) => {
-        dispatch(openDeleteStudentDialogAction({ student, course: courseForStudents }));
-    };
-    const closeDeleteStudentDialog = () => dispatch(closeDeleteStudentDialogAction());
+  const openAddStudentToCourseDialog = (course) =>
+    dispatch(openAddStudentDialogAction(course));
+  const closeAddStudentToCourseDialog = () => {
+    dispatch(closeAddStudentDialogAction());
+    refreshData();
+  };
 
-    const confirmDeleteStudent = async () => {
-        if (!studentToDelete || !courseForDeleteStudent || deleteDialogType !== 'student') return;
-        // צריך לתקן כאן את ה camelCase
-        const studentId = studentToDelete.student_id || studentToDelete.id;
-        await dispatch(deleteStudentFromCourse({ 
-            courseId: courseForDeleteStudent.id, 
-            studentId: studentId 
-        }));
-        dispatch(incrementStudentsRefreshKeyAction());
-        closeDeleteStudentDialog();
-    };
+  const openDeleteStudentDialog = (student) => {
+    dispatch(
+      openDeleteStudentDialogAction({ student, course: courseForStudents }),
+    );
+  };
+  const closeDeleteStudentDialog = () =>
+    dispatch(closeDeleteStudentDialogAction());
 
-    const handleSearch = useCallback(async (nameCourse) => {
-        const result = await dispatch(searchCourses(nameCourse));
-        if (result.payload && Array.isArray(result.payload) && result.payload.length === 0) {
-            dispatch(openNoDataDialogAction());
-        }
-    }, [dispatch]);
+  const confirmDeleteStudent = async () => {
+    if (
+      studentToDelete &&
+      courseForDeleteStudent &&
+      deleteDialogType === roles.student
+    ){
 
-    const closeNoDataDialog = () => dispatch(closeNoDataDialogAction());
+      const studentId = studentToDelete.studentId || studentToDelete.id;
+      await dispatch(
+        deleteStudentFromCourse({
+          courseId: courseForDeleteStudent.id,
+          studentId: studentId,
+        }),
+      );
+      dispatch(incrementStudentsRefreshKeyAction());
+      closeDeleteStudentDialog();
+    }
+  };
+  
+  const handleSearch = useCallback(
+    async (nameCourse) => {
+      const result = await dispatch(searchCourses(nameCourse));
+      if (
+        result.payload &&
+        Array.isArray(result.payload) &&
+        result.payload.length === 0
+      ) {
+        dispatch(openNoDataDialogAction());
+      }
+    },
+    [dispatch],
+  );
 
-    return {
-        courses,
-        users,
-        onRefresh: refreshData,
-        onOpenAddCourseDialog: openAddCourseDialog,
-        onCloseAddCourseDialog: closeAddCourseDialog,
-        onOpenDeleteCourseDialog: openDeleteCourseDialog,
-        onCloseDeleteCourseDialog: closeDeleteCourseDialog,
-        onConfirmDeleteCourse: confirmDeleteCourse,
-        onOpenEditCourseDialog: openEditCourseDialog,
-        onCloseEditCourseDialog: closeEditCourseDialog,
-        isAddCourseDialogOpen,
-        isDeleteDialogOpen,
-        deleteDialogType,
-        itemToDelete,
-        isEditCourseDialogOpen,
-        courseToEdit,
-        isShowStudentsDialogOpen,
-        courseForStudents,
-        onOpenShowStudentsDialog: openShowStudentsDialog,
-        onCloseShowStudentsDialog: closeShowStudentsDialog,
-        isAddStudentDialogOpen,
-        courseForAddStudent,
-        onOpenAddStudentToCourseDialog: openAddStudentToCourseDialog,
-        onCloseAddStudentToCourseDialog: closeAddStudentToCourseDialog,
-        studentToDelete,
-        courseForDeleteStudent,
-        onOpenDeleteStudentDialog: openDeleteStudentDialog,
-        onCloseDeleteStudentDialog: closeDeleteStudentDialog,
-        onConfirmDeleteStudent: confirmDeleteStudent,
-        studentsRefreshKey,
-        onSearch: handleSearch,
-        isNoDataDialogOpen,
-        onCloseNoDataDialog: closeNoDataDialog,
-    };
+  const closeNoDataDialog = () => dispatch(closeNoDataDialogAction());
+
+  return {
+    courses,
+    users,
+    onRefresh: refreshData,
+    onOpenAddCourseDialog: openAddCourseDialog,
+    onCloseAddCourseDialog: closeAddCourseDialog,
+    onOpenDeleteCourseDialog: openDeleteCourseDialog,
+    onCloseDeleteCourseDialog: closeDeleteCourseDialog,
+    onConfirmDeleteCourse: confirmDeleteCourse,
+    onOpenEditCourseDialog: openEditCourseDialog,
+    onCloseEditCourseDialog: closeEditCourseDialog,
+    isAddCourseDialogOpen,
+    isDeleteDialogOpen,
+    deleteDialogType,
+    itemToDelete,
+    isEditCourseDialogOpen,
+    courseToEdit,
+    isShowStudentsDialogOpen,
+    courseForStudents,
+    onOpenShowStudentsDialog: openShowStudentsDialog,
+    onCloseShowStudentsDialog: closeShowStudentsDialog,
+    isAddStudentDialogOpen,
+    courseForAddStudent,
+    onOpenAddStudentToCourseDialog: openAddStudentToCourseDialog,
+    onCloseAddStudentToCourseDialog: closeAddStudentToCourseDialog,
+    studentToDelete,
+    courseForDeleteStudent,
+    onOpenDeleteStudentDialog: openDeleteStudentDialog,
+    onCloseDeleteStudentDialog: closeDeleteStudentDialog,
+    onConfirmDeleteStudent: confirmDeleteStudent,
+    studentsRefreshKey,
+    onSearch: handleSearch,
+    isNoDataDialogOpen,
+    onCloseNoDataDialog: closeNoDataDialog,
+  };
 };

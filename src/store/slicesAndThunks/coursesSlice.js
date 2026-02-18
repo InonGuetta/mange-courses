@@ -93,7 +93,7 @@ export const searchCourses = createAsyncThunk(
     "courses/searchCourses",
     async (nameCourse, { rejectWithValue }) => {
         try {
-            const res = await fetch(`/api/courses/search-course?name_course=${encodeURIComponent(nameCourse)}`);
+            const res = await fetch(`/api/courses/search-course?course-name=${encodeURIComponent(nameCourse)}`);
             const data = await res.json();
             if (!res.ok) return rejectWithValue(data?.message || "Search courses failed");
             return data.courses || data;
@@ -181,6 +181,7 @@ const coursesSlice = createSlice({
                 state.status = "succeeded";
                 const id = action.payload;
                 state.coursesList = state.coursesList.filter((course) => course.id !== id);
+
                 if (state.selectedCourseId === id) state.selectedCourseId = null;
             })
             .addCase(deleteCourse.rejected, (state, action) => {

@@ -9,11 +9,13 @@ import { authContainerSx, authPaperSx, authLinkSx } from "../../../styles/authSp
 
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const { status, error } = useSelector((state) => state.auth);
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLoginSubmit = () => {
     dispatch(login({ email, password }));
@@ -23,8 +25,8 @@ const SignIn = () => {
     <Box sx={authContainerSx}>
       <Paper elevation={3} sx={authPaperSx}>
         <Typography variant="h4" gutterBottom>Sign In</Typography>
-        <TextField label="Email" variant="outlined" fullWidth margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <TextField label="Password" type="password" variant="outlined" fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <TextField label="Email" variant="outlined" fullWidth margin="normal" value={email} onChange={({target : {value}}) => setEmail(value)} />
+        <TextField label="Password" type="password" variant="outlined" fullWidth margin="normal" value={password} onChange={({target : {value}}) => setPassword(value)} />
         <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleLoginSubmit}>Login</Button>
         {status === "loading" && <CircularProgress sx={{ mt: 2 }} />}
         {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}

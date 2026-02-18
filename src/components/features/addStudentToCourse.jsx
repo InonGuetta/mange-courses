@@ -18,11 +18,11 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { roles } from "../../utilities/constant.js";
 
-import { addStudentToCourse } from "../../store/slicesAndThunks/myCoursesSlice";
-import { selectVisibleUsers } from "../../store/selectors/usersSelectors";
-import { useFilteredUsers } from "../../hooks/useDataHelpers";
-
+import { addStudentToCourse } from "../../store/slicesAndThunks/myCoursesSlice.js";
+import { selectVisibleUsers } from "../../store/selectors/usersSelectors.js";
+import { useFilteredUsers } from "../../hooks/useDataHelpers.js";
 
 const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
   const dispatch = useDispatch();
@@ -32,27 +32,31 @@ const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const students = useFilteredUsers(users, "student");
+  const students = useFilteredUsers(users, roles.student);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!selectedStudentId || !course?.id) {
       setErrorMessage("Please select a student");
-      return;
-    }
+    } else {
+      setErrorMessage(null);
+      setIsLoading(true);
 
-    setErrorMessage(null);
-    setIsLoading(true);
-
-    try {
-      await dispatch(
-        addStudentToCourse({ courseId: course.id, studentId: selectedStudentId })
-      ).unwrap();
-      handleCloseDialog();
-    } catch (err) {
-      setErrorMessage(err?.message || err || "Failed to add student to course");
-    } finally {
-      setIsLoading(false);
+      try {
+        await dispatch(
+          addStudentToCourse({
+            courseId: course.id,
+            studentId: selectedStudentId,
+          }),
+        ).unwrap();
+        handleCloseDialog();
+      } catch (err) {
+        setErrorMessage(
+          err?.message || err || "Failed to add student to course",
+        );
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -62,6 +66,8 @@ const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
     onClose();
   };
 
+  // קוד 001
+  // ולממש את שלושת הדיאלוגים הגנריים
   return (
     <Dialog
       open={isOpen}
@@ -110,6 +116,7 @@ const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <Typography variant="body1" sx={{ color: "#475569" }}>
+              {/* nameCourse לא מיוצג ב ui */}
               Course: <strong>{course?.nameCourse || "N/A"}</strong>
             </Typography>
 
@@ -119,14 +126,16 @@ const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
                 labelId="student-select-label"
                 id="student-select"
                 value={selectedStudentId}
-                label="Student"
-                onChange={({ target: { value } }) => setSelectedStudentId(value)}
+                label={roles.student}
+                onChange={({ target: { value } }) =>
+                  setSelectedStudentId(value)
+                }
                 disabled={isLoading}
               >
                 {students.length > 0 ? (
-                  students.map((student) => (
-                    <MenuItem key={student.id} value={student.id}>
-                      {student.name}
+                  students.map(({ id, name }) => (
+                    <MenuItem key={id} value={id}>
+                      {name}
                     </MenuItem>
                   ))
                 ) : (
@@ -151,7 +160,9 @@ const AddStudentToCourseDialog = ({ isOpen, onClose, course }) => {
             variant="contained"
             color="success"
             disabled={isLoading || !selectedStudentId}
-            startIcon={isLoading && <CircularProgress size={20} color="inherit" />}
+            startIcon={
+              isLoading && <CircularProgress size={20} color="inherit" />
+            }
           >
             {isLoading ? "Adding..." : "Add Student"}
           </Button>

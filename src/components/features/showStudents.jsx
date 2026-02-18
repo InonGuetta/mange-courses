@@ -1,4 +1,3 @@
-// יש לך עוד תיקון לעשות כאן בנושא של camelCase
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -32,7 +31,9 @@ const ShowStudentsDialog = ({
   onDelete,
   refreshKey,
 }) => {
+  
   const dispatch = useDispatch();
+
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -73,8 +74,7 @@ const ShowStudentsDialog = ({
           fontWeight: 700,
         }}
       >
-      {/* הבעיה של ה camelCase נמצאת כאן  */}
-        Students in Course: {course?.name_course || ""}
+        Students in Course: {course?.courseName || ""}
       </DialogTitle>
       <DialogContent sx={{ mt: 2 }}>
         {isLoading ? (
@@ -91,6 +91,8 @@ const ShowStudentsDialog = ({
             elevation={3}
             sx={{ borderRadius: 2 }}
           >
+            {/* קוד 001
+            הוא מעונין להפריד לקומפוננטות נפרדות תשאל בדיוק את משה איך ולמה הוא מתכוון בדיוק */}
             <Table>
               <TableHead>
                 <TableRow
@@ -114,42 +116,46 @@ const ShowStudentsDialog = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {students.map((student, idx) => (
-                  <TableRow
-                    key={student.id || idx}
-                    sx={{
-                      backgroundColor: idx % 2 === 0 ? "#FFFFFF" : "#F3F6FB",
-                      "&:hover": { backgroundColor: "#E8F0FF" },
-                    }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
+                {students.map((student, idx) => {
+                  const { id, name, email } = student;
+
+                  return (
+                    <TableRow
+                      key={id || idx}
                       sx={{
-                        py: 2,
-                        fontWeight: 600,
-                        color: "#1F2937",
-                        fontSize: 16,
-                        border: "none",
+                        backgroundColor: idx % 2 === 0 ? "#FFFFFF" : "#F3F6FB",
+                        "&:hover": { backgroundColor: "#E8F0FF" },
                       }}
                     >
-                      {idx + 1}
-                    </TableCell>
-                    <TableCell>{student.name}</TableCell>
-                    <TableCell>{student.email}</TableCell>
-                    <TableCell>
-                      <Tooltip>
-                        <IconButton
-                          size="small"
-                          color="error"
-                          onClick={() => onDelete(student)}
-                        >
-                          <DeleteOutlineIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        sx={{
+                          py: 2,
+                          fontWeight: 600,
+                          color: "#1F2937",
+                          fontSize: 16,
+                          border: "none",
+                        }}
+                      >
+                        {idx + 1}
+                      </TableCell>
+                      <TableCell>{name}</TableCell>
+                      <TableCell>{email}</TableCell>
+                      <TableCell>
+                        <Tooltip>
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => onDelete(student)}
+                          >
+                            <DeleteOutlineIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>

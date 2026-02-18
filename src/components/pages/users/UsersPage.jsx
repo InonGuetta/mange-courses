@@ -3,44 +3,44 @@ import { Container } from "@mui/material";
 import UsersHeader from "./componentsUsers/UsersHeader";
 import UsersTable from "./componentsUsers/UsersTable";
 import UserFormDialog from "../../features/addUser";
-import DeleteConfirmDialog from "../../features/DeleteConfirmDialog";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
 import NoDataDialog from "../../features/NoDataDialog";
 import { useUsersPageController } from "./useUsersPageController";
 
 
 const UsersPage = () => {
-  const c = useUsersPageController();
+  const controller = useUsersPageController();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <UsersHeader onRefresh={c.onRefresh} onAddUser={c.onOpenAddUserDialog} onSearch={c.onSearch} />
+      <UsersHeader onRefresh={controller.onRefresh} onAddUser={controller.onOpenAddUserDialog} onSearch={controller.onSearch} />
 
       <UsersTable 
-        users={c.users} 
-        onDeleteUser={c.onOpenDeleteUserDialog} 
-        onEditUser={c.onOpenEditUserDialog}
+        users={controller.users} 
+        onDeleteUser={controller.onOpenDeleteUserDialog} 
+        onEditUser={controller.onOpenEditUserDialog}
       />
 
       <UserFormDialog 
-        isOpen={c.isAddUserDialogOpen} 
-        onClose={c.onCloseAddUserDialog} 
+        isOpen={controller.isAddUserDialogOpen} 
+        onClose={controller.onCloseAddUserDialog} 
       />
 
       <UserFormDialog 
-        isOpen={c.isEditUserDialogOpen} 
-        onClose={c.onCloseEditUserDialog} 
-        user={c.userToEdit}
+        isOpen={controller.isEditUserDialogOpen} 
+        onClose={controller.onCloseEditUserDialog} 
+        user={controller.userToEdit}
       />
 
-      <DeleteConfirmDialog
-        isOpen={c.isDeleteDialogOpen && c.deleteDialogType === 'user'}
-        onClose={c.onCloseDeleteUserDialog}
-        onConfirm={c.onConfirmDeleteUser}
+      <ConfirmingDeletionDialog
+        isOpen={controller.isDeleteDialogOpen && controller.deleteDialogType === 'user'}
+        onClose={controller.onCloseDeleteUserDialog}
+        onConfirm={controller.onConfirmDeleteUser}
         title="User Deletion"
-        itemName={c.itemToDelete?.name}
+        itemName={controller.itemToDelete?.name}
       />
 
-      <NoDataDialog isOpen={c.isNoDataDialogOpen} onClose={c.onCloseNoDataDialog} />
+      <NoDataDialog isOpen={controller.isNoDataDialogOpen} onClose={controller.onCloseNoDataDialog} />
     </Container>
   );
 };

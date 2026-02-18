@@ -1,25 +1,36 @@
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Tabs,
+  Tab,
+  Box,
+  Button,
+} from "@mui/material";
 
-import { logout, selectCurrentUser } from "../../../store/slicesAndThunks/authSlice";
+import {
+  logout,
+  selectCurrentUser,
+} from "../../../store/slicesAndThunks/authSlice";
 
-
-const NAVBAR_BG = "linear-gradient(135deg, #549df0, #438dd7, #3e84cb, #2664ab, #164983)";
+const NAVBAR_BG =
+  "linear-gradient(135deg, #549df0, #438dd7, #3e84cb, #2664ab, #164983)";
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  
   const currentUser = useSelector(selectCurrentUser);
 
-  const pathToTab = { "/courses": 0, "/favorites": 1, "/my-courses": 2, "/users": 3 };
+  const pathToTab = {
+    "/courses": 0,
+    "/favorites": 1,
+    "/my-courses": 2,
+    "/users": 3,
+  };
   const value = pathToTab[pathname] ?? false;
 
   const handleLogout = () => {
@@ -28,11 +39,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar
-        position="sticky"
-        elevation={2}
-        sx={{ background: NAVBAR_BG }}
-      >
+      <AppBar position="sticky" elevation={2} sx={{ background: NAVBAR_BG }}>
         <Toolbar sx={{ gap: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: 800 }}>
             MANAGE COURSES
@@ -52,7 +59,10 @@ const Navbar = () => {
           </Tabs>
 
           {currentUser && (
-            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.85)", mx: 1 }}>
+            <Typography
+              variant="body2"
+              sx={{ color: "rgba(255,255,255,0.85)", mx: 1 }}
+            >
               {currentUser.name}
             </Typography>
           )}
