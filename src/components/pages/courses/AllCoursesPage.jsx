@@ -1,14 +1,14 @@
 import { Container } from "@mui/material";
 
-import { roles, definition } from "../../../utilities/constant.js";
+import { roles, course } from "../../../utilities/constant.js";
 import CoursesTable from "./componentsCourses/CoursesTable";
 import FloatingActions from "./componentsCourses/FloatingActions";
-import AddCourseDialog from "../../features/AddCourse.jsx";
-import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
-import EditCourseDialog from "../../features/editCourse.jsx";
-import ShowStudentsDialog from "../../features/ShowStudents.jsx";
-import AddStudentToCourseDialog from "../../features/AddStudentToCourse.jsx";
-import NoDataDialog from "../../features/NoDataDialog";
+import AddCourseDialog from "../../features/AddCourses/AddCourse.jsx";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog/ConfirmingDeletionDialog.jsx";
+import EditCourseDialog from "../../features/EditCourses/EditCourse.jsx";
+import ShowStudentsDialog from "../../features/ShowStudents/ShowStudents.jsx";
+import AddStudentToCourseDialog from "../../features/AddStudentToCourses/AddStudentToCourse.jsx";
+import NoDataDialog from "../../features/NoDataDialog/NoDataDialog.jsx";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
 const AllCoursePage = () => {
@@ -39,7 +39,7 @@ const AllCoursePage = () => {
       <ConfirmingDeletionDialog
         isOpen={
           controller.isDeleteDialogOpen &&
-          controller.deleteDialogType === definition.course
+          controller.deleteDialogType === course
         }
         onClose={controller.onCloseDeleteCourseDialog}
         onConfirm={controller.onConfirmDeleteCourse}

@@ -2,9 +2,9 @@ import { Container } from "@mui/material";
 
 import UsersHeader from "./componentsUsers/UsersHeader";
 import UsersTable from "./componentsUsers/UsersTable";
-import UserFormDialog from "../../features/addUser";
-import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
-import NoDataDialog from "../../features/NoDataDialog";
+import UserFormDialog from "../../features/AddUsers/AddUser.jsx";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog/ConfirmingDeletionDialog.jsx";
+import NoDataDialog from "../../features/NoDataDialog/NoDataDialog.jsx";
 import { useUsersPageController } from "./useUsersPageController";
 
 

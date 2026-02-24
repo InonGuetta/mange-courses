@@ -5,18 +5,26 @@ const initialState = {
   isAddCourseDialogOpen: false,
   isEditCourseDialogOpen: false,
   courseToEdit: null,
+
+
+
   isShowStudentsDialogOpen: false,
   courseForStudents: null,
   isAddStudentDialogOpen: false,
+
+
   courseForAddStudent: null,
+
   isAddUserDialogOpen: false,
   isEditUserDialogOpen: false,
   userToEdit: null,
+  
   isDeleteDialogOpen: false,
   deleteDialogType: null, 
   itemToDelete: null,
   studentToDelete: null,
   courseForDeleteStudent: null,
+
   studentsRefreshKey: 0,
   isNoDataDialogOpen: false,
 };

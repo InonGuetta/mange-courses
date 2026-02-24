@@ -1,14 +1,14 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { roles, definition } from "../../../utilities/constant.js";
+import { roles, course, definition } from "../../../utilities/constant.js";
 import {
   fetchCourses,
   deleteCourse,
   searchCourses,
-} from "../../../store/slicesAndThunks/coursesSlice";
-import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
-import { deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice";
+} from "../../../store/slicesAndThunks/courseSlice/coursesSlice.js";
+import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice/usersSlice.js";
+import { deleteStudentFromCourse } from "../../../store/slicesAndThunks/myCoursesSlice/myCoursesSlice.js";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import {
@@ -34,9 +34,15 @@ export const useCoursesPageController = () => {
 
   const courses = useSelector(selectVisibleCourses);
   const users = useSelector(selectVisibleUsers);
-  const isAddCourseDialogOpen = useSelector((selector) => selector.ui.isAddCourseDialogOpen);
-  const isDeleteDialogOpen = useSelector((selector) => selector.ui.isDeleteDialogOpen);
-  const deleteDialogType = useSelector((selector) => selector.ui.deleteDialogType);
+  const isAddCourseDialogOpen = useSelector(
+    (selector) => selector.ui.isAddCourseDialogOpen,
+  );
+  const isDeleteDialogOpen = useSelector(
+    (selector) => selector.ui.isDeleteDialogOpen,
+  );
+  const deleteDialogType = useSelector(
+    (selector) => selector.ui.deleteDialogType,
+  );
   const itemToDelete = useSelector((selector) => selector.ui.itemToDelete);
   const isEditCourseDialogOpen = useSelector(
     (selector) => selector.ui.isEditCourseDialogOpen,
@@ -45,17 +51,27 @@ export const useCoursesPageController = () => {
   const isShowStudentsDialogOpen = useSelector(
     (selector) => selector.ui.isShowStudentsDialogOpen,
   );
-  const courseForStudents = useSelector((selector) => selector.ui.courseForStudents);
+  const courseForStudents = useSelector(
+    (selector) => selector.ui.courseForStudents,
+  );
   const isAddStudentDialogOpen = useSelector(
     (selector) => selector.ui.isAddStudentDialogOpen,
   );
-  const courseForAddStudent = useSelector((selector) => selector.ui.courseForAddStudent);
-  const studentToDelete = useSelector((selector) => selector.ui.studentToDelete);
+  const courseForAddStudent = useSelector(
+    (selector) => selector.ui.courseForAddStudent,
+  );
+  const studentToDelete = useSelector(
+    (selector) => selector.ui.studentToDelete,
+  );
   const courseForDeleteStudent = useSelector(
     (selector) => selector.ui.courseForDeleteStudent,
   );
-  const studentsRefreshKey = useSelector((selector) => selector.ui.studentsRefreshKey);
-  const isNoDataDialogOpen = useSelector((selector) => selector.ui.isNoDataDialogOpen);
+  const studentsRefreshKey = useSelector(
+    (selector) => selector.ui.studentsRefreshKey,
+  );
+  const isNoDataDialogOpen = useSelector(
+    (selector) => selector.ui.isNoDataDialogOpen,
+  );
 
   const refreshData = useCallback(() => {
     dispatch(fetchCourses());
@@ -73,21 +89,13 @@ export const useCoursesPageController = () => {
   };
 
   const openDeleteCourseDialog = (course) =>
+    // אני לא משנה את זה  בגלל שזה אותו השם באופן כפול
+    // אז במקום זה השתמשתי ב definition אובייקט במקום במשתנה course
     dispatch(openDeleteDialogAction({ type: definition.course, item: course }));
   const closeDeleteCourseDialog = () => dispatch(closeDeleteDialogAction());
 
-  // הקוד הישן לפני  התיקון לאבחון סוג הבעיה
-  //   const confirmDeleteCourse = async () => {
-  //     if (!itemToDelete || deleteDialogType !== 'course') return;
-  //     await dispatch(deleteCourse(itemToDelete.id));
-  //     closeDeleteCourseDialog();
-  //     refreshData();
-  // };
-
-
-  // הקוד החדש דוגמה לאיך לתקן שלא יהיה return באמצע הפונקציה
   const confirmDeleteCourse = async () => {
-    if (itemToDelete && deleteDialogType === definition.course) {
+    if (itemToDelete && deleteDialogType === course) {
       await dispatch(deleteCourse(itemToDelete.id));
       closeDeleteCourseDialog();
       refreshData();
@@ -126,8 +134,7 @@ export const useCoursesPageController = () => {
       studentToDelete &&
       courseForDeleteStudent &&
       deleteDialogType === roles.student
-    ){
-
+    ) {
       const studentId = studentToDelete.studentId || studentToDelete.id;
       await dispatch(
         deleteStudentFromCourse({
@@ -139,7 +146,7 @@ export const useCoursesPageController = () => {
       closeDeleteStudentDialog();
     }
   };
-  
+
   const handleSearch = useCallback(
     async (nameCourse) => {
       const result = await dispatch(searchCourses(nameCourse));

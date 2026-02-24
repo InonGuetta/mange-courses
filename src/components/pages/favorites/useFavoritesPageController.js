@@ -1,9 +1,9 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchFavorites, deleteFavorite } from "../../../store/slicesAndThunks/favoritesSlice";
-import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
-import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
+import { fetchFavorites, deleteFavorite } from "../../../store/slicesAndThunks/favoriteSlice/favoritesSlice.js";
+import { fetchCourses } from "../../../store/slicesAndThunks/courseSlice/coursesSlice.js";
+import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice/usersSlice.js";
 import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelector";
 import { selectVisibleCourses } from "../../../store/selectors/coursesSelectors";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";

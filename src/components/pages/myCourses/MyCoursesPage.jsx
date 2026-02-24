@@ -2,8 +2,8 @@ import { Container } from "@mui/material";
 
 import MyCoursesHeader from "./componentsMyCourses/MyCoursesHeader";
 import MyCoursesTable from "./componentsMyCourses/MyCoursesTable";
-import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
-import NoDataDialog from "../../features/NoDataDialog";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog/ConfirmingDeletionDialog.jsx";
+import NoDataDialog from "../../features/NoDataDialog/NoDataDialog.jsx";
 import { useMyCoursesPageController } from "./useMyCoursesPageController";
 
 const MyCoursesPage = () => {

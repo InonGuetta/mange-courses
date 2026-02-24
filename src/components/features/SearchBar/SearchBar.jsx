@@ -6,7 +6,7 @@ import {
   searchContainerSx,
   searchInputSx,
   searchButtonSx,
-} from "../../styles/sharedGeneralStyles";
+} from "../../../styles/sharedGeneralStyles";
 
 const SearchBar = ({ onSearch, placeholder = "Search..." }) => {
   const [searchValue, setSearchValue] = useState("");

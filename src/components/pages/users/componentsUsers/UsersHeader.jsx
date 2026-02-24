@@ -5,7 +5,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { floatingBarSx, refreshButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles";
 import { addUserButtonSx } from "../../../../styles/usersSpecificStyles";
 import { useFloatingOnScroll } from "../../../../hooks/useFloatingOnScroll";
-import SearchBar from "../../../features/SearchBar";
+import SearchBar from "../../../features/SearchBar/SearchBar.jsx";
 
 
 const UsersHeader = ({ onRefresh, onAddUser, onSearch }) => {

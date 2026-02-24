@@ -1,8 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from "@mui/material";
 
-import { dialogPaperSx, dialogTitleSx } from "../../styles/sharedGeneralStyles";
-
-
+import { dialogPaperSx, dialogTitleSx } from "../../../styles/sharedGeneralStyles";
 const NoDataDialog = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen} onClose={onClose} PaperProps={{ sx: dialogPaperSx }}>

@@ -14,7 +14,7 @@ import {
 import {
   logout,
   selectCurrentUser,
-} from "../../../store/slicesAndThunks/authSlice";
+} from "../../../store/slicesAndThunks/authSlices/authSlice.js";
 
 const NAVBAR_BG =
   "linear-gradient(135deg, #549df0, #438dd7, #3e84cb, #2664ab, #164983)";

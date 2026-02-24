@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchUsers, deleteUser, searchUsers } from "../../../store/slicesAndThunks/usersSlice";
+import { fetchUsers, deleteUser, searchUsers } from "../../../store/slicesAndThunks/usersSlice/usersSlice.js";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";
 import {
   openAddUserDialog as openAddUserDialogAction,

@@ -12,8 +12,8 @@ import {
   Paper,
 } from "@mui/material";
 
-import { roles } from "../../../utilities/constant.js";
-import { register } from "../../../store/slicesAndThunks/authSlice";
+import { roles, statuses } from "../../../utilities/constant.js";
+import { register } from "../../../store/slicesAndThunks/authSlices/authSlice.js";
 import {
   authContainerSx,
   authPaperSx,
@@ -97,7 +97,7 @@ const SignUp = () => {
           Register
         </Button>
 
-        {status === "loading" && <CircularProgress sx={{ mt: 2 }} />}
+        {status === statuses.loading && <CircularProgress sx={{ mt: 2 }} />}
         {error && (
           <Alert severity="error" sx={{ mt: 2 }}>
             {error}

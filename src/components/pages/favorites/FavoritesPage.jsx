@@ -2,8 +2,8 @@ import { Container } from "@mui/material";
 
 import FavoritesHeader from "./componentsFavorites/FavoritesHeader";
 import FavoritesTable from "./componentsFavorites/FavoritesTable";
-import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog";
-import NoDataDialog from "../../features/NoDataDialog";
+import ConfirmingDeletionDialog from "../../features/ConfirmingDeletionDialog/ConfirmingDeletionDialog.jsx";
+import NoDataDialog from "../../features/NoDataDialog/NoDataDialog.jsx";
 import { useFavoritesPageController } from "./useFavoritesPageController";
 
 

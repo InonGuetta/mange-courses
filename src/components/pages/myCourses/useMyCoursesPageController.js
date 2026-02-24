@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchMyCourses,
   deleteStudentFromCourse,
-} from "../../../store/slicesAndThunks/myCoursesSlice";
-import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice";
-import { fetchCourses } from "../../../store/slicesAndThunks/coursesSlice";
+} from "../../../store/slicesAndThunks/myCoursesSlice/myCoursesSlice.js";
+import { fetchUsers } from "../../../store/slicesAndThunks/usersSlice/usersSlice.js";
+import { fetchCourses } from "../../../store/slicesAndThunks/courseSlice/coursesSlice.js";
 import {
   addFavorite,
   deleteFavorite,
   fetchFavorites,
-} from "../../../store/slicesAndThunks/favoritesSlice";
+} from "../../../store/slicesAndThunks/favoriteSlice/favoritesSlice.js";
 import { selectVisibleMyCourses } from "../../../store/selectors/myCoursesSelector";
 import { selectVisibleFavorites } from "../../../store/selectors/favoritesSelector";
 import { selectVisibleUsers } from "../../../store/selectors/usersSelectors";

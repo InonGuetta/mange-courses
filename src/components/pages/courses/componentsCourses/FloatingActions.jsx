@@ -4,7 +4,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { floatingBarSx, refreshButtonSx, addButtonSx, pageTitleSx } from "../../../../styles/sharedGeneralStyles";
 import { useFloatingOnScroll } from "../../../../hooks/useFloatingOnScroll";
-import SearchBar from "../../../features/SearchBar";
+import SearchBar from "../../../features/SearchBar/SearchBar.jsx";
 
 
 const FloatingActions = ({ onAdd, onRefresh, onSearch }) => {
