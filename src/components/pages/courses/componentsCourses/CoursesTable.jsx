@@ -7,26 +7,18 @@ import {
   TableRow,
   Paper,
   Typography,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
-import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
+
+import CoursesTableContent from "./CourseTableContent";
 
 import {
   tableContainerSx,
   tableSx,
   tableHeaderRowSx,
   tableHeaderCellSx,
-  tableBodyCellSx,
-  tableFirstCellSx,
-  tableWrapCellSx,
-  tableActionsCellSx,
-  getTableRowSx,
   emptyRowCellSx,
 } from "../../../../styles/sharedGeneralStyles";
+const tableTitle = ["No .", "Course Name", "Details", "Teacher", "Actions"];
 
 const CoursesTable = ({
   courses = [],
@@ -40,73 +32,34 @@ const CoursesTable = ({
     <Table sx={tableSx}>
       <TableHead>
         <TableRow sx={tableHeaderRowSx}>
-          <TableCell sx={tableHeaderCellSx}>No.</TableCell>
-          <TableCell sx={tableHeaderCellSx}>Course Name</TableCell>
-          <TableCell sx={{ ...tableHeaderCellSx, width: "30%" }}>
-            Details
-          </TableCell>
-          <TableCell sx={tableHeaderCellSx}>Teacher</TableCell>
-          <TableCell sx={tableHeaderCellSx}>Actions</TableCell>
+          {tableTitle.map((title, index) => (
+            <TableCell key={index} sx={tableHeaderCellSx}>
+              {title}
+            </TableCell>
+          ))}
         </TableRow>
       </TableHead>
+
       <TableBody>
         {courses.length > 0 ? (
           courses.map((item, idx) => {
-            const {id, teacherId, courseName, detail } = item
+            const { id, teacherId, courseName, detail } = item;
             const teacher = users.find((u) => u.id === teacherId);
-            const teacherName = teacher
-              ? teacher.name
-              : `ID: ${teacherId}`;
+            const teacherName = teacher ? teacher.name : `ID: ${teacherId}`;
+
             return (
-              <TableRow key={id} sx={getTableRowSx(idx)}>
-                <TableCell component="th" scope="row" sx={tableFirstCellSx}>
-                  {idx + 1}
-                </TableCell>
-                {/* הקוד הזה של ה courseName  */}
-                <TableCell sx={tableBodyCellSx}>{courseName}</TableCell>
-                {/* 001 
-                לתקן את הנושא שהקוד החזרתי הזה של טבלה לא יהיה  */}
-                <TableCell sx={tableWrapCellSx}>{detail}</TableCell>
-                <TableCell sx={tableBodyCellSx}>{teacherName}</TableCell>
-                <TableCell sx={tableActionsCellSx}>
-                  <Tooltip title="Delete Course">
-                    <IconButton
-                      size="small"
-                      color="error"
-                      onClick={() => onDelete(item)}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Edit Course">
-                    <IconButton
-                      size="small"
-                      color="info"
-                      onClick={() => onEdit(item)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Show Students of course">
-                    <IconButton
-                      size="small"
-                      color="warning"
-                      onClick={() => onShowStudents(item)}
-                    >
-                      <SpeakerNotesIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Add Student to Course">
-                    <IconButton
-                      size="small"
-                      color="success"
-                      onClick={() => onAddStudentToCourse(item)}
-                    >
-                      <GroupAddIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
+              <CoursesTableContent
+                courseName={courseName}
+                detail={detail}
+                teacherName={teacherName}
+                idx={idx}
+                id={id}
+                item={item}
+                onDelete={onDelete}
+                onEdit={onEdit}
+                onShowStudents={onShowStudents}
+                onAddStudentToCourse={onAddStudentToCourse}
+              ></CoursesTableContent>
             );
           })
         ) : (

@@ -19,3 +19,4 @@ export const statuses = {
 export const auth = {
   TOKEN_KEY: "token",
 };
+

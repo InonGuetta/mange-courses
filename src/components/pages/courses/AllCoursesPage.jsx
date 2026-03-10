@@ -11,9 +11,9 @@ import AddStudentToCourseDialog from "../../features/AddStudentToCourses/AddStud
 import NoDataDialog from "../../features/NoDataDialog/NoDataDialog.jsx";
 import { useCoursesPageController } from "./useCoursesPageController.js";
 
-const AllCoursePage = () => {
+const AllCoursePage = () => { 
   const controller = useCoursesPageController();
-
+ 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <FloatingActions

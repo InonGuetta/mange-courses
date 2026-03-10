@@ -12,11 +12,11 @@ const FavoritesPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <FavoritesHeader onRefresh={controller.onRefresh} />
+      <FavoritesHeader onRefresh={controller.onRefresh} /> 
       
       <FavoritesTable
         favorites={controller.favorites}
-        coursesById={controller.coursesById}
+        coursesById={controller.coursesById} 
         usersById={controller.usersById}
         onDelete={controller.onOpenDeleteFavoriteDialog} 
       />

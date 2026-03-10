@@ -7,22 +7,26 @@ import {
   TableRow,
   Paper,
   Typography,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ClearIcon from "@mui/icons-material/Clear";
 
 import {
   tableContainerSx,
   tableSx,
   tableHeaderRowSx,
   tableHeaderCellSx,
-  tableBodyCellSx,
-  tableFirstCellSx,
-  getTableRowSx,
   emptyRowCellSx,
 } from "../../../../styles/sharedGeneralStyles";
+
+import MyCoursesTableContent from "./MyCoursesTableContent";
+
+const tableTitle = [
+  "No .",
+  "courses name",
+  "course detail",
+  "teacher name",
+  "student name",
+  "actions",
+];
 
 const MyCoursesTable = ({
   myCourses = [],
@@ -36,16 +40,14 @@ const MyCoursesTable = ({
     <Table sx={tableSx}>
       <TableHead>
         <TableRow sx={tableHeaderRowSx}>
-          <TableCell sx={tableHeaderCellSx}>No.</TableCell>
-          <TableCell sx={tableHeaderCellSx}>courses name</TableCell>
-          <TableCell sx={tableHeaderCellSx}>course detail</TableCell>
-          <TableCell sx={tableHeaderCellSx}>teacher name</TableCell>
-          <TableCell sx={tableHeaderCellSx}>student name</TableCell>
-          <TableCell sx={tableHeaderCellSx}>actions</TableCell>
+          {tableTitle.map((title, index) => (
+            <TableCell key={title} sx={tableHeaderCellSx}>
+              {title}
+            </TableCell>
+          ))}
         </TableRow>
       </TableHead>
       <TableBody>
-        {/* אני לא משנה את כל השמות כאן כי יכול להיות התנגשות של שמות ב מילה detail */}
         {myCourses?.length > 0 ? (
           myCourses.map((item, idx) => {
             const { id, courseId, detail } = item;
@@ -60,47 +62,24 @@ const MyCoursesTable = ({
             const teacherName =
               teacher?.name ??
               teacher?.teacherName ??
-              (teacherId != null
-                ? `ID: ${teacherId}`
-                : 
-                  `ID: ${courseId}`);
+              (teacherId != null ? `ID: ${teacherId}` : `ID: ${courseId}`);
             const studentName =
               student?.name ??
               student?.studentName ??
               `ID: ${currentStudentId}`;
             return (
-              <TableRow key={id} sx={getTableRowSx(idx)}>
-                <TableCell component="th" scope="row" sx={tableFirstCellSx}>
-                  {idx + 1}
-                </TableCell>
-                <TableCell sx={tableBodyCellSx}>
-                  {course?.courseName ?? courseId}
-                </TableCell>
-                <TableCell sx={tableBodyCellSx}>
-                  {course?.detail ?? detail ?? "-"}
-                </TableCell>
-                <TableCell sx={tableBodyCellSx}>{teacherName}</TableCell>
-                <TableCell sx={tableBodyCellSx}>{studentName}</TableCell>
-                <TableCell
-                  sx={{ ...tableBodyCellSx, color: "#4d2af9" }}
-                  align="center"
-                >
-                  <Tooltip title="Add to favorites">
-                    <IconButton
-                      onClick={() => onDeleteStudentFromCourse(item)}
-                      sx={{ color: "red" }}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => onAddFavorite(item)}
-                      sx={{ color: "#4d2af9" }}
-                    >
-                      <ThumbUpOffAltIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
+              <MyCoursesTableContent
+                key={id ?? `${courseId}-${idx}`}
+                item={item}
+                course={course}
+                courseId={courseId}
+                idx={idx}
+                detail={detail}
+                teacherName={teacherName}
+                studentName={studentName}
+                onAddFavorite={onAddFavorite}
+                onDeleteStudentFromCourse={onDeleteStudentFromCourse}
+              ></MyCoursesTableContent>
             );
           })
         ) : (

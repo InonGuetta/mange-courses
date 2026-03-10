@@ -1,3 +1,6 @@
+// דרוש refactoring כאן לטבלה 
+
+
 import {
   Table,
   TableBody,
@@ -7,37 +10,46 @@ import {
   TableRow,
   Paper,
   Typography,
-  Chip,
-  IconButton,
+  // Chip,
+  // IconButton,
 } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
+
+// import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+// import EditIcon from "@mui/icons-material/Edit";
 
 import {
   tableContainerSx,
-  tableSx,
+  tableSx, 
   tableHeaderRowSx,
   tableHeaderCellSx,
-  tableBodyCellSx,
-  tableFirstCellSx,
-  getTableRowSx,
+  // tableBodyCellSx, 
+  // tableFirstCellSx,
+  // getTableRowSx,
   emptyRowCellSx,
 } from "../../../../styles/sharedGeneralStyles";
-import { roles } from "../../../../utilities/constant.js";
-import { getRoleChipSx } from "../../../../styles/usersSpecificStyles";
 
-const UsersTable = ({ users = [], onDeleteUser, onEditUser }) => (
+// import { roles } from "../../../../utilities/constant.js";
+// import { getRoleChipSx } from "../../../../styles/usersSpecificStyles";
+
+import UsersTableContent from "./UsersTableContent";
+
+const tableTitle = ["No .","Name","Email","Role","Actions"];
+
+
+const UsersTable = ({ 
+  users = [],
+   onDeleteUser, 
+   onEditUser
+   }) => (
   <TableContainer component={Paper} elevation={6} sx={tableContainerSx}>
     <Table sx={tableSx}>
       <TableHead>
         <TableRow sx={tableHeaderRowSx}>
-          <TableCell sx={tableHeaderCellSx}>No.</TableCell>
-          <TableCell sx={tableHeaderCellSx}>Name</TableCell>
-          <TableCell sx={{ ...tableHeaderCellSx, width: "30%" }}>
-            Email
-          </TableCell>
-          <TableCell sx={tableHeaderCellSx}>Role</TableCell>
-          <TableCell sx={tableHeaderCellSx}>Actions</TableCell>
+          {tableTitle.map((title,index)=>( 
+            <TableCell key={index} sx={tableHeaderCellSx}>
+              {title }
+            </TableCell>
+          ))}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -45,28 +57,41 @@ const UsersTable = ({ users = [], onDeleteUser, onEditUser }) => (
           users.map((user, idx) => {
             const { id, name, email, role } = user;
             return (
-              <TableRow key={id} sx={getTableRowSx(idx)}>
-                <TableCell component="th" scope="row" sx={tableFirstCellSx}>
-                  {idx + 1}
-                </TableCell>
-                <TableCell sx={tableBodyCellSx}>{name}</TableCell>
-                <TableCell sx={tableBodyCellSx}>{email}</TableCell>
-                <TableCell sx={{ py: 2, border: "none" }}>
-                  <Chip
-                    label={role}
-                    size="small"
-                    sx={getRoleChipSx(role === roles.teacher)}
-                  />
-                </TableCell>
-                <TableCell sx={tableBodyCellSx}>
-                  <IconButton color="error" onClick={() => onDeleteUser(user)}>
-                    <DeleteOutlineIcon />
-                  </IconButton>
-                  <IconButton color="info" onClick={() => onEditUser(user)}>
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+              // <TableRow key={id} sx={getTableRowSx(idx)}>
+              //   <TableCell component="th" scope="row" sx={tableFirstCellSx}>
+              //     {idx + 1}
+              //   </TableCell>
+              //   <TableCell sx={tableBodyCellSx}>{name}</TableCell>
+              //   <TableCell sx={tableBodyCellSx}>{email}</TableCell>
+              //   <TableCell sx={{ py: 2, border: "none" }}>
+              //     <Chip
+              //       label={role}
+              //       size="small"
+              //       sx={getRoleChipSx(role === roles.teacher)}
+              //     />
+              //   </TableCell>
+              //   <TableCell sx={tableBodyCellSx}>
+              //     <IconButton color="error" onClick={() => onDeleteUser(user)}>
+              //       <DeleteOutlineIcon />
+              //     </IconButton>
+              //     <IconButton color="info" onClick={() => onEditUser(user)}>
+              //       <EditIcon />
+              //     </IconButton>
+              //   </TableCell>
+              // </TableRow>
+
+
+              <UsersTableContent
+                  onDeleteUser={onDeleteUser}
+                  onEditUser={onEditUser}
+                  id={id}
+                  user={user}
+                  idx={idx}
+                  name={name}
+                  email={email}
+                  role={role}
+              >
+              </UsersTableContent>
             );
           })
         ) : (

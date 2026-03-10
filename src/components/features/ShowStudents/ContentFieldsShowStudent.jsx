@@ -1,3 +1,5 @@
+// דרוש refactoring כאן לטבלה
+
 import {
   Typography,
   Table,
@@ -9,12 +11,11 @@ import {
   Paper,
   CircularProgress,
   Box,
-  Tooltip,
-  IconButton,
 } from "@mui/material";
 
 import DialogContent from "../Dialogs/DialogContent.jsx";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ContentFieldsShowStudentRefactoring from "./ContentFieldsShowStudentRefactoring.jsx";
+const tableTitles = ["No .", "Name", "Email", "Action"];
 
 export const ContentFieldsShowStudent = ({
   errorMessage,
@@ -42,59 +43,23 @@ export const ContentFieldsShowStudent = ({
                     "linear-gradient(90deg, #e3eaf6 0%, #b6c7e3 100%)",
                 }}
               >
-                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>
-                  No .
-                </TableCell>
-                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>
-                  Name
-                </TableCell>
-                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>
-                  Email
-                </TableCell>
-                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>
-                  Action
-                </TableCell>
+                {tableTitles.map((title, index) => (
+                  <TableCell key={index} sx={{ fontWeight: 700, fontSize: 16 }}>
+                    {title}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {students.map((student, idx) => {
                 const { id, name, email } = student;
-
-                return (
-                  <TableRow
-                    key={id || idx}
-                    sx={{
-                      backgroundColor: idx % 2 === 0 ? "#FFFFFF" : "#F3F6FB",
-                      "&:hover": { backgroundColor: "#E8F0FF" },
-                    }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{
-                        py: 2,
-                        fontWeight: 600,
-                        color: "#1F2937",
-                        fontSize: 16,
-                        border: "none",
-                      }}
-                    >
-                      {idx + 1}
-                    </TableCell>
-                    <TableCell>{name}</TableCell>
-                    <TableCell>{email}</TableCell>
-                    <TableCell>
-                      <Tooltip title="Delete student">
-                        <IconButton
-                          size="small"
-                          color="error"
-                          onClick={() => onDelete(student)}
-                        >
-                          <DeleteOutlineIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
+                return (                  
+                  <ContentFieldsShowStudentRefactoring
+                    id={id}
+                    name={name}
+                    email={email}
+                    onDelete={onDelete}
+                  ></ContentFieldsShowStudentRefactoring>
                 );
               })}
             </TableBody>

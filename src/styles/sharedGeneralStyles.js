@@ -1,4 +1,3 @@
-// Shared table styles for consistent UI
 export const tableContainerSx = {
   borderRadius: 4,
   boxShadow: '0 8px 32px 0 rgba(30,90,168,0.15)',
@@ -16,7 +15,7 @@ export const tableHeaderCellSx = {
   fontWeight: 900,
   fontSize: 20,
   py: 2,
-  letterSpacing: 1.5,
+  letterSpacing: 1.5, 
   textTransform: 'uppercase',
   border: 'none',
 };

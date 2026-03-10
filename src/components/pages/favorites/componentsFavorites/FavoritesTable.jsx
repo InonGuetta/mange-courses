@@ -7,25 +7,20 @@ import {
   TableRow,
   Paper,
   Typography,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import {
   tableContainerSx,
   tableSx,
   tableHeaderRowSx,
   tableHeaderCellSx,
-  tableBodyCellSx,
-  tableFirstCellSx,
-  tableWrapCellSx,
-  getTableRowSx,
   emptyRowCellSx,
 } from "../../../../styles/sharedGeneralStyles";
 
+import FavoriteTableContent from "./FavoriteTableContent";
+
 const headerCellCentered = { ...tableHeaderCellSx, textAlign: "center" };
-const bodyCellCentered = { ...tableBodyCellSx, textAlign: "center" };
+const tableTitles = ["No .", "User", "Course Name", "Details", "Action"];
 
 const FavoritesTable = ({
   favorites = [],
@@ -37,13 +32,11 @@ const FavoritesTable = ({
     <Table sx={tableSx}>
       <TableHead>
         <TableRow sx={tableHeaderRowSx}>
-          <TableCell sx={headerCellCentered}>No.</TableCell>
-          <TableCell sx={headerCellCentered}>User</TableCell>
-          <TableCell sx={headerCellCentered}>Course Name</TableCell>
-          <TableCell sx={{ ...headerCellCentered, width: "30%" }}>
-            Details
-          </TableCell>
-          <TableCell sx={headerCellCentered}>Actions</TableCell>
+          {tableTitles.map((title, index) => (
+            <TableCell key={index} sx={headerCellCentered}>
+              {title}
+            </TableCell>
+          ))}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -54,39 +47,15 @@ const FavoritesTable = ({
 
             const user = usersById?.get(String(userId));
             return (
-              <TableRow key={item.id} sx={getTableRowSx(idx)}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{ ...tableFirstCellSx, textAlign: "center" }}
-                >
-                  {idx + 1}
-                </TableCell>
-                <TableCell sx={bodyCellCentered}>
-                  {user?.name ?? userId}
-                </TableCell>
-                <TableCell sx={bodyCellCentered}>
-                  {course?.courseName ?? courseId}
-                </TableCell>
-                <TableCell sx={{ ...tableWrapCellSx, textAlign: "center" }}>
-                  {course?.detail ?? "-"}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    ...tableBodyCellSx,
-                    display: "flex",
-                    gap: 2,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Tooltip title="Remove from favorites">
-                    <IconButton color="error" onClick={() => onDelete(item)}>
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
+              <FavoriteTableContent
+              onDelete={onDelete}
+              course={course} 
+              courseId={courseId}
+              item={item}
+              userId={userId}
+              user={user}
+              idx={idx}
+              ></FavoriteTableContent>
             );
           })
         ) : (

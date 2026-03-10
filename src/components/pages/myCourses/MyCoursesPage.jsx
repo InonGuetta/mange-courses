@@ -12,11 +12,11 @@ const MyCoursesPage = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <MyCoursesHeader
-        onRefresh={controller.onRefresh}
+        onRefresh={controller.onRefresh} 
         students={controller.students}
         selectedStudentId={controller.selectedStudentId}
         onStudentChange={controller.onStudentChange}
-      />
+      /> 
 
       <MyCoursesTable
         myCourses={controller.myCourses}
